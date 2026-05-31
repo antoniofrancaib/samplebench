@@ -478,3 +478,406 @@ button { cursor: pointer; }
   .samplePane p { font-size: 16px; line-height: 1.65; }
   .footer { align-items: flex-start; flex-direction: column; padding: 24px 0; }
 }
+
+/* Arena-inspired visual system */
+:root {
+  color: #2e2b29;
+  background: #fcfaf8;
+  --border: #e7e1dc;
+  --muted: #746d67;
+  --ink: #2e2b29;
+  --paper: #fcfaf8;
+  --panel: #fffefd;
+  --selected: #f1ede8;
+  --green: #31a348;
+}
+
+body { background: var(--paper); color: var(--ink); }
+.appShell { min-height: 100vh; background: var(--paper); }
+.mainPane { margin-left: 240px; }
+.container { width: min(1136px, calc(100vw - 48px)); }
+
+.sideRail {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 240px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 16px 8px;
+  background: #f7f4f0;
+  border-right: 1px solid var(--border);
+}
+.sideLogo {
+  display: block;
+  padding: 0 10px 10px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  line-height: 1;
+  color: #1f1d1b;
+}
+.sideRail nav { display: grid; gap: 2px; }
+.sideRail nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 38px;
+  padding: 0 10px;
+  border-radius: 5px;
+  color: #2e2b29;
+  font-size: 16px;
+}
+.sideRail nav a.active,
+.sideRail nav a:hover {
+  background: #eee9e3;
+}
+.railCard {
+  margin-top: auto;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: #fffdfa;
+}
+.railCard strong { display: block; font-family: Georgia, "Times New Roman", serif; font-size: 18px; font-weight: 500; }
+.railCard p {
+  color: #625c56;
+  font-size: 12px;
+  line-height: 1.35;
+  word-break: break-word;
+}
+.railCard a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 34px;
+  border-radius: 4px;
+  background: #262421;
+  color: white;
+  font-size: 13px;
+}
+
+.topbar {
+  left: 240px;
+  width: calc(100% - 240px);
+  height: 49px;
+  padding: 0 32px;
+  border-bottom-color: var(--border);
+  background: rgba(252, 250, 248, .96);
+  box-shadow: none;
+}
+.brand { display: none; }
+.nav { justify-content: center; gap: 26px; }
+.nav a {
+  color: #2e2b29;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 400;
+}
+.nav a.active,
+.nav a:hover {
+  background: #eee9e3;
+}
+.topActions { margin-left: auto; }
+.primaryButton,
+.ghostButton,
+.iconButton {
+  border-radius: 4px;
+  font-weight: 400;
+  box-shadow: none;
+}
+.primaryButton {
+  background: #262421;
+  border-color: #262421;
+}
+.primaryButton:hover { background: #111; transform: none; }
+.ghostButton {
+  background: transparent;
+  border-color: var(--border);
+  color: #2e2b29;
+}
+.large { min-height: 42px; }
+
+.heroBand {
+  min-height: calc(100vh - 49px);
+  border-bottom-color: var(--border);
+  background: var(--paper);
+}
+.heroGrid {
+  min-height: calc(100vh - 49px);
+  grid-template-columns: minmax(0, .86fr) minmax(460px, 1fr);
+  padding: 54px 0;
+}
+.heroCopy { align-self: center; }
+.heroCopy h1,
+.pageTitle h1,
+.voteHeader h1,
+.modelHero h1,
+.sectionTitle,
+.panelHeader h2,
+.sidePanel h3,
+.textPanel h2,
+.detailTable h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  color: #2e2b29;
+}
+.heroCopy h1 {
+  font-size: clamp(44px, 5vw, 68px);
+  line-height: 1.04;
+}
+.heroCopy p,
+.pageTitle p,
+.voteHeader p,
+.modelHero p,
+.modelCard p,
+.sectionText {
+  color: #58524d;
+}
+.eyebrow {
+  color: #2e2b29;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.heroPanel,
+.tablePanel,
+.sidePanel,
+.metricCard,
+.workflowCard,
+.samplePane,
+.voteDock,
+.submitForm,
+.textPanel,
+.modelHero,
+.scoreCard,
+.infoTile,
+.modelCard {
+  background: #fffdfa;
+  border-color: var(--border);
+  border-radius: 7px;
+  box-shadow: none;
+}
+.panelHeader {
+  padding: 18px 24px;
+  background: #fffdfa;
+  border-bottom-color: var(--border);
+}
+.mutedLabel {
+  color: #746d67;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 13px;
+}
+.livePill,
+.statusPill,
+.sampleTag,
+.methodPill {
+  border-color: var(--border);
+  background: #fffdfa;
+  color: #2e2b29;
+  border-radius: 4px;
+  font-weight: 400;
+}
+
+.sectionGrid { margin-top: 0; padding-top: 24px; }
+.metricIcon {
+  background: #f1ede8;
+  border-radius: 5px;
+}
+.metricCard strong { font-family: Georgia, "Times New Roman", serif; font-weight: 500; }
+
+.leaderboardTable { min-width: 660px; }
+.leaderboardTable th {
+  background: #fffdfa;
+  color: #746d67;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 13px;
+  font-weight: 400;
+}
+.leaderboardTable th,
+.leaderboardTable td {
+  padding: 12px 24px;
+  border-bottom-color: var(--border);
+}
+.leaderboardTable tbody tr:hover { background: #f7f4f0; }
+.rankCell {
+  gap: 8px;
+  font-weight: 400;
+  color: #2e2b29;
+}
+.rankCell svg { width: 13px; }
+.modelLink {
+  font-weight: 400;
+  font-size: 16px;
+}
+.modelLink small {
+  max-width: 360px;
+  overflow: hidden;
+  color: #746d67;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.scoreVisual {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+}
+.scoreVisual span {
+  display: block;
+  height: 31px;
+  background: var(--green);
+}
+.scoreVisual strong {
+  min-width: 42px;
+  font-weight: 400;
+}
+.scoreVisual small {
+  color: #2e2b29;
+  line-height: 1.05;
+}
+
+.tabs {
+  gap: 0;
+  padding: 4px;
+  background: #fffdfa;
+  border-color: var(--border);
+}
+.tabs button {
+  border-radius: 4px;
+  color: #2e2b29;
+  font-weight: 400;
+}
+.tabs button.active {
+  background: #eee9e3;
+  color: #2e2b29;
+}
+.noteBox {
+  border-color: var(--border);
+  background: #f7f4f0;
+  color: #2e2b29;
+}
+.barTrack { background: #eee9e3; }
+.barTrack .flow,
+.barTrack .diffusion,
+.barTrack .masked,
+.barTrack .ar,
+.barTrack .reference,
+.barTrack .green,
+.barTrack .blue,
+.barTrack .violet,
+.barTrack .amber {
+  background: var(--green);
+}
+
+.voteShell { padding-top: 52px; }
+.voteHeader {
+  max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.sampleGrid {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+.samplePane {
+  min-height: 520px;
+  max-height: 760px;
+  overflow: auto;
+  background: #fffdfa;
+}
+.samplePane p {
+  color: #2e2b29;
+  font-size: 16px;
+  line-height: 1.72;
+}
+.voteDock {
+  position: static;
+  max-width: 1040px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #fffdfa;
+}
+.voteButton {
+  border-color: var(--border);
+  border-radius: 4px;
+  background: #fffdfa;
+  font-weight: 400;
+}
+.voteButton.selected {
+  background: #eee9e3;
+  border-color: #d8d0c8;
+  color: #2e2b29;
+}
+.rubricStrip span {
+  border-color: var(--border);
+  background: #fffdfa;
+  color: #625c56;
+  border-radius: 4px;
+}
+
+.modelCard h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 500; }
+.modelMeta span {
+  background: #f7f4f0;
+  border-color: var(--border);
+  color: #625c56;
+  border-radius: 4px;
+}
+.rankBadge {
+  background: #262421;
+  border-radius: 4px;
+  font-weight: 400;
+}
+.submitForm input,
+.submitForm textarea,
+.submitForm select {
+  border-color: var(--border);
+  border-radius: 4px;
+  background: #fffdfa;
+}
+.pathPanel p {
+  margin-bottom: 10px;
+  word-break: break-word;
+}
+.footer {
+  margin-left: 240px;
+  border-top-color: var(--border);
+}
+
+@media (max-width: 980px) {
+  .mainPane,
+  .footer { margin-left: 0; }
+  .sideRail { display: none; }
+  .topbar {
+    left: 0;
+    width: 100%;
+    height: 62px;
+  }
+  .brand { display: flex; }
+  .nav { justify-content: flex-start; gap: 4px; }
+  .heroBand,
+  .heroGrid { min-height: unset; }
+  .heroGrid,
+  .twoColumnSection,
+  .leaderboardLayout,
+  .modelHero {
+    grid-template-columns: 1fr;
+  }
+  .heroPanel { min-width: 0; }
+}
+
+@media (max-width: 720px) {
+  .topbar { background: rgba(252, 250, 248, .98); }
+  .brandMark { border-radius: 4px; background: #262421; }
+  .nav {
+    background: #fffdfa;
+    border-color: var(--border);
+    top: 62px;
+  }
+  .heroCopy h1 { font-size: 38px; }
+  .leaderboardTable { min-width: 760px; }
+  .scoreVisual { grid-template-columns: 160px auto auto; }
+}

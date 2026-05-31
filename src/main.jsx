@@ -19,117 +19,8 @@ import {
   Users,
   X,
 } from 'lucide-react';
+import { battles, checkpointFamilies, checkpointRoot, methodStats, models, sampleRoot } from './data.js';
 import './styles.css';
-
-const models = [
-  {
-    id: 'fluxlm-base',
-    rank: 1,
-    name: 'FluxLM Base',
-    lab: 'Latent Transport Lab',
-    method: 'Flow matching',
-    size: '410M',
-    score: 1267,
-    ci: '+/- 22',
-    votes: 18420,
-    winRate: 64,
-    status: 'Public',
-    color: 'green',
-    blurb: 'A compact flow matching language model tuned for stable unconditional prose.',
-  },
-  {
-    id: 'd3pm-large',
-    rank: 2,
-    name: 'D3PM Large',
-    lab: 'Open Diffusion NLP',
-    method: 'Discrete diffusion',
-    size: '760M',
-    score: 1238,
-    ci: '+/- 24',
-    votes: 17105,
-    winRate: 61,
-    status: 'Public',
-    color: 'blue',
-    blurb: 'A denoising diffusion baseline with strong paragraph-level fluency.',
-  },
-  {
-    id: 'ar-control-350m',
-    rank: 3,
-    name: 'AR Control 350M',
-    lab: 'Reference Baselines',
-    method: 'Autoregressive',
-    size: '350M',
-    score: 1196,
-    ci: '+/- 19',
-    votes: 20991,
-    winRate: 58,
-    status: 'Public',
-    color: 'amber',
-    blurb: 'A likelihood-trained reference model included to calibrate human judgments.',
-  },
-  {
-    id: 'maskgen-xl',
-    rank: 4,
-    name: 'MaskGen XL',
-    lab: 'Sequence Modeling Group',
-    method: 'Masked generation',
-    size: '1.1B',
-    score: 1154,
-    ci: '+/- 31',
-    votes: 9340,
-    winRate: 54,
-    status: 'Public',
-    color: 'violet',
-    blurb: 'A masked iterative generator with good local grammar and mixed global structure.',
-  },
-  {
-    id: 'simplex-flow',
-    rank: 5,
-    name: 'Simplex Flow',
-    lab: 'Submission Queue',
-    method: 'Flow matching',
-    size: '220M',
-    score: 1109,
-    ci: '+/- 36',
-    votes: 6012,
-    winRate: 51,
-    status: 'Quota pending',
-    color: 'slate',
-    blurb: 'A new flow model awaiting researcher evaluation quota completion.',
-  },
-];
-
-const battles = [
-  {
-    id: 'battle-1',
-    leftModel: 'FluxLM Base',
-    rightModel: 'D3PM Large',
-    length: '256 tokens',
-    domain: 'Open web mixture',
-    left:
-      'The cabinet of instruments stood beside the window, each drawer labeled in a handwriting that became smaller as the labels descended. Mara opened the third one and found not a tool but a set of instructions for listening: wait for the pipe to cool, count the interval between drops, then write down what the building refuses to say. At first she thought it was a joke left by the previous tenant. By midnight, when the radiator began answering in groups of five, she had filled three pages and stopped laughing.',
-    right:
-      'A map can be folded until the country is hidden, but the creases remember the roads. That was what Eli told the students before the storm took the power and the projector went dark. He continued anyway, drawing coastlines in chalk and asking them to imagine cities as agreements rather than places. Outside, the rain struck the roof with the bored patience of a clerk. Inside, nobody checked their phones for almost nine minutes.',
-  },
-  {
-    id: 'battle-2',
-    leftModel: 'MaskGen XL',
-    rightModel: 'AR Control 350M',
-    length: '192 tokens',
-    domain: 'Fiction and essays',
-    left:
-      'The committee met every Tuesday to decide which sounds belonged in the archive. Bells were easy, as were engines, doors, applause, and the brittle scrape of winter branches. The trouble began with silence. Some members argued that silence was only the absence of eligible material. Others insisted it had dialects. By spring they had catalogued elevator pauses, hospital waiting rooms, and the hush after a name is said incorrectly.',
-    right:
-      'During the first week, the garden seemed to resist all interpretation. The tomatoes grew in spirals, the beans climbed downward, and the parsley appeared only in the path where everyone walked. Neighbors offered theories with the confidence of people who did not have to water it. Lena kept notes, then diagrams, then a calendar of improbable events. The garden, for its part, continued producing more cucumbers than any household could justify.',
-  },
-];
-
-const methodStats = [
-  { label: 'Flow', value: 42, color: 'green' },
-  { label: 'Diffusion', value: 31, color: 'blue' },
-  { label: 'Masked', value: 17, color: 'violet' },
-  { label: 'AR baselines', value: 10, color: 'amber' },
-];
 
 function getRoute() {
   return window.location.hash.replace(/^#\/?/, '') || 'home';
@@ -160,11 +51,41 @@ function App() {
   }, [route]);
 
   return (
-    <>
+    <div className="appShell">
+      <SideRail route={route} />
       <Header route={route} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-      <main>{page}</main>
+      <main className="mainPane">{page}</main>
       <Footer />
-    </>
+    </div>
+  );
+}
+
+function SideRail({ route }) {
+  const links = [
+    ['home', 'Overview', <BarChart3 size={18} />],
+    ['vote', 'New Battle', <GitCompareArrows size={18} />],
+    ['leaderboard', 'Leaderboard', <Trophy size={18} />],
+    ['models', 'Models', <FlaskConical size={18} />],
+    ['submit', 'Submit', <Send size={18} />],
+  ];
+
+  return (
+    <aside className="sideRail">
+      <a className="sideLogo" href="#/home">SampleBench</a>
+      <nav>
+        {links.map(([href, label, icon]) => (
+          <a key={href} className={route === href ? 'active' : ''} href={`#/${href}`}>
+            {icon}
+            <span>{label}</span>
+          </a>
+        ))}
+      </nav>
+      <div className="railCard">
+        <strong>OWT evaluation</strong>
+        <p>{models.length} sample sets from `lm-bench/results/samples/owt`.</p>
+        <a href="#/vote">Start Voting</a>
+      </div>
+    </aside>
   );
 }
 
@@ -214,12 +135,12 @@ function HomePage() {
         <div className="heroGrid container">
           <div className="heroCopy">
             <div className="eyebrow">
-              <FlaskConical size={15} /> Human preference benchmark
+              <FlaskConical size={15} /> OWT human preference benchmark
             </div>
-            <h1>Rank likelihood-free language models by unconditional sample quality.</h1>
+            <h1>Experience the frontier of likelihood-free language model evaluation.</h1>
             <p>
-              SampleBench turns blind pairwise human judgments into a public leaderboard for diffusion, flow
-              matching, masked, and autoregressive language models.
+              SampleBench compares real unconditional samples from the OWT checkpoints and sample suites in
+              lm-bench, using blind human preference instead of generative perplexity alone.
             </p>
             <div className="heroActions">
               <a className="primaryButton large" href="#/vote">
@@ -233,18 +154,18 @@ function HomePage() {
           <div className="heroPanel" aria-label="Live leaderboard preview">
             <div className="panelHeader">
               <div>
-                <span className="mutedLabel">Live ranking</span>
-                <h2>Overall leaderboard</h2>
+                <span className="mutedLabel">Leaderboard</span>
+                <h2>OWT Overview</h2>
               </div>
-              <span className="livePill">Mock data</span>
+              <span className="livePill">Real samples</span>
             </div>
             <LeaderboardTable compact />
           </div>
         </div>
       </section>
       <section className="container sectionGrid">
-        <MetricCard icon={<Users />} label="Human votes" value="71,868" detail="Blind comparisons across public and pending models" />
-        <MetricCard icon={<Trophy />} label="Active models" value="24" detail="Diffusion, flow, masked, and AR references" />
+        <MetricCard icon={<Users />} label="OWT sample sets" value={String(models.length)} detail={`Loaded from ${sampleRoot}`} />
+        <MetricCard icon={<Trophy />} label="Checkpoint families" value={String(checkpointFamilies.length)} detail={`Discovered under ${checkpointRoot}`} />
         <MetricCard icon={<ClipboardList />} label="Submission rule" value="Give to enter" detail="Researchers evaluate samples before their models rank" />
       </section>
       <section className="container twoColumnSection">
@@ -313,7 +234,7 @@ function VotePage() {
             <GitCompareArrows size={15} /> Blind battle
           </div>
           <h1>Which sample is better?</h1>
-          <p>{battle.domain} | {battle.length} | model names hidden until vote</p>
+          <p>{battle.domain} | {battle.length} | samples from lm-bench/results/samples/owt</p>
         </div>
         <a className="ghostButton" href="#/leaderboard">
           <BarChart3 size={16} /> View rankings
@@ -369,10 +290,10 @@ function LeaderboardPage() {
       <PageTitle
         icon={<Trophy size={18} />}
         label="Leaderboard"
-        title="Human preference rankings"
-        text="Scores are derived from blind pairwise comparisons of unconditional generations. Confidence intervals and vote counts are shown beside every model."
+        title="OWT leaderboard overview"
+        text="The rows use the actual OWT checkpoint labels and sample files. Preference scores are placeholders until collected human votes replace the frontend prototype data."
       />
-      <Tabs items={['Overall', 'Flow', 'Diffusion', 'Masked', 'AR baselines']} />
+      <Tabs items={['Overall', 'Flow', 'Diffusion', 'Masked', 'AR baselines', 'Reference']} />
       <div className="leaderboardLayout">
         <section className="tablePanel">
           <LeaderboardTable />
@@ -381,7 +302,7 @@ function LeaderboardPage() {
           <h3>Method mix</h3>
           {methodStats.map((stat) => <StatBar key={stat.label} {...stat} />)}
           <div className="noteBox">
-            <Info size={17} /> Rankings hide pending submissions until quota and minimum votes are met.
+            <Info size={17} /> Sample text is loaded from the OWT JSONL files; checkpoint paths come from the matching manifests.
           </div>
         </aside>
       </div>
@@ -395,8 +316,8 @@ function ModelsPage() {
       <PageTitle
         icon={<FlaskConical size={18} />}
         label="Models"
-        title="Submitted generators"
-        text="Browse model metadata, evaluation status, and public sample records."
+        title="OWT checkpoints and sample sets"
+        text="Browse the checkpoint-backed generators and their real OWT sample records."
       />
       <div className="modelGrid">
         {models.map((model) => <ModelCard key={model.id} model={model} />)}
@@ -424,10 +345,15 @@ function ModelDetail({ id }) {
       </section>
       <div className="detailGrid">
         <InfoTile label="Method" value={model.method} />
-        <InfoTile label="Size" value={model.size} />
-        <InfoTile label="Win rate" value={`${model.winRate}%`} />
+        <InfoTile label="Sample length" value={model.size} />
+        <InfoTile label="Gen PPL" value={model.genPpl} />
         <InfoTile label="Status" value={model.status} />
       </div>
+      <section className="textPanel pathPanel">
+        <h2>Source paths</h2>
+        <p><strong>Checkpoint:</strong> {model.checkpoint}</p>
+        <p><strong>Sample suite:</strong> {sampleRoot}/owt_L1024_paper/{model.id}/samples.jsonl</p>
+      </section>
       <section className="tablePanel detailTable">
         <h2>Head-to-head snapshot</h2>
         <LeaderboardTable compact />
@@ -511,22 +437,31 @@ function LeaderboardTable({ compact = false }) {
     <div className="tableWrap">
       <table className="leaderboardTable">
         <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Model</th>
-            <th>Method</th>
-            <th>Score</th>
-            {!compact && <th>Votes</th>}
-            <th>Status</th>
+            <tr>
+              <th>Rank</th>
+              <th>Model</th>
+              <th>Score</th>
+              {!compact && <th>Votes</th>}
+              <th>Status</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((model) => (
             <tr key={model.id}>
               <td><span className="rankCell"><Medal size={15} /> {model.rank}</span></td>
-              <td><a href={`#/models/${model.id}`} className="modelLink">{model.name}<small>{model.lab}</small></a></td>
-              <td><span className={`methodPill ${model.color}`}>{model.method}</span></td>
-              <td><strong>{model.score}</strong><small>{model.ci}</small></td>
+              <td>
+                <a href={`#/models/${model.id}`} className="modelLink">
+                  {model.name}
+                  <small>{model.method} · {model.checkpoint}</small>
+                </a>
+              </td>
+              <td>
+                <div className="scoreVisual">
+                  <span style={{ width: `${Math.max(18, Math.min(100, (model.score - 1300) / 2.2))}%` }} />
+                  <strong>{model.score}</strong>
+                  <small>{model.ci}</small>
+                </div>
+              </td>
               {!compact && <td>{model.votes.toLocaleString()}</td>}
               <td><span className="statusPill">{model.status}</span></td>
             </tr>
@@ -549,7 +484,7 @@ function ModelCard({ model }) {
       <div className="modelMeta">
         <span>{model.method}</span>
         <span>{model.size}</span>
-        <span>{model.votes.toLocaleString()} votes</span>
+        <span>{model.genPpl} gen-ppl</span>
       </div>
     </a>
   );
