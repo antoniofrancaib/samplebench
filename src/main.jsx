@@ -151,15 +151,27 @@ function HomePage() {
               </a>
             </div>
           </div>
-          <div className="heroPanel" aria-label="Live leaderboard preview">
+          <div className="heroPanel narrativePanel" aria-label="SampleBench narrative">
             <div className="panelHeader">
               <div>
-                <span className="mutedLabel">Leaderboard</span>
-                <h2>OWT Overview</h2>
+                <span className="mutedLabel">Why SampleBench exists</span>
+                <h2>A measurement gap is opening.</h2>
               </div>
-              <span className="livePill">Real samples</span>
             </div>
-            <LeaderboardTable compact />
+            <div className="storyList">
+              <p>
+                Continuous-time flow and diffusion language models are becoming credible generators, but many do
+                not expose tractable likelihoods, so validation perplexity no longer gives the field a shared yardstick.
+              </p>
+              <p>
+                Generative perplexity has become the default fallback for unconditional generation, but it is a fragile
+                proxy for what people actually see in samples.
+              </p>
+              <p>
+                SampleBench makes blind human comparison scalable, so progress can be tracked by preference over real
+                generated text rather than by a single flawed proxy metric.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -173,10 +185,11 @@ function HomePage() {
           <div className="eyebrow">
             <BookOpen size={15} /> Built for unconditional generation
           </div>
-          <h2 className="sectionTitle">No prompts, no chat transcript, no perplexity proxy.</h2>
+          <h2 className="sectionTitle">The target is unconditional sample quality, judged directly.</h2>
           <p className="sectionText">
-            Evaluators compare two anonymous samples generated under the same length and corpus setting. The
-            interface rewards careful reading while preserving the throughput needed for a credible leaderboard.
+            Evaluators compare two anonymous samples generated under matched OWT settings. Aggregated choices become
+            a leaderboard that can include flow, diffusion, and masked generators without forcing them through
+            likelihood-based evaluation.
           </p>
         </div>
         <WorkflowCard />
@@ -201,7 +214,7 @@ function WorkflowCard() {
     'Blind pair generated',
     'Human chooses A, B, tie, or both bad',
     'Preference update with uncertainty',
-    'Leaderboard and model page refresh',
+    'Model ranking updates',
   ];
   return (
     <div className="workflowCard">
@@ -291,9 +304,9 @@ function LeaderboardPage() {
         icon={<Trophy size={18} />}
         label="Leaderboard"
         title="OWT leaderboard overview"
-        text="The rows use the actual OWT checkpoint labels and sample files. Preference scores are placeholders until collected human votes replace the frontend prototype data."
+        text="The rows use OWT checkpoint labels and sample files from the current lm-bench tree. The displayed preference scores are placeholders until collected human votes replace the frontend prototype data."
       />
-      <Tabs items={['Overall', 'Flow', 'Diffusion', 'Masked', 'AR baselines', 'Reference']} />
+      <Tabs items={['Overall', 'Flow', 'Diffusion']} />
       <div className="leaderboardLayout">
         <section className="tablePanel">
           <LeaderboardTable />
@@ -316,8 +329,8 @@ function ModelsPage() {
       <PageTitle
         icon={<FlaskConical size={18} />}
         label="Models"
-        title="OWT checkpoints and sample sets"
-        text="Browse the checkpoint-backed generators and their real OWT sample records."
+        title="Continuous-generation papers"
+        text="Each card links to the corresponding arXiv PDF for the model family represented by the OWT samples."
       />
       <div className="modelGrid">
         {models.map((model) => <ModelCard key={model.id} model={model} />)}
@@ -403,15 +416,17 @@ function AboutPage() {
         icon={<Info size={18} />}
         label="Methodology"
         title="Why human preference, and why unconditional samples?"
-        text="Generative perplexity can fail to reflect sample quality for models that do not expose tractable likelihoods. SampleBench instead asks humans to judge the text users actually read."
+        text="The site is a frontend prototype for replacing proxy-only evaluation with scalable blind human preference over unconditional samples."
       />
       <div className="textPanel">
-        <h2>Evaluation protocol</h2>
-        <p>Each comparison displays two anonymous samples generated under matched settings. Evaluators choose the better sample, a tie, both bad, or skip. Aggregation can use Bradley-Terry or Elo-style updates with uncertainty intervals.</p>
-        <h2>Researcher incentive</h2>
-        <p>Groups that submit models complete evaluation quotas for the shared pool. This turns evaluation labor into the currency for appearing on the leaderboard.</p>
-        <h2>Frontend scope</h2>
-        <p>This prototype defines the public product surface: leaderboard, voting, model pages, submission, and methodology copy. It uses mock data until the backend schema is finalized.</p>
+        <h2>The evaluation problem</h2>
+        <p>A new wave of continuous-based flow and diffusion language models is changing what language modeling looks like. These models can generate text without exposing the same tractable likelihood interface as classic autoregressive models, so validation perplexity cannot remain the universal scoreboard.</p>
+        <h2>Why generative perplexity is not enough</h2>
+        <p>Generative perplexity became the de facto metric for unconditional generation quality because it is easy to compute after samples exist. But it compresses a complicated human judgment into a brittle proxy: coherence, repetition, local fluency, topic drift, and factual shape can move in ways the metric does not faithfully capture.</p>
+        <h2>The SampleBench bet</h2>
+        <p>SampleBench treats the generated text itself as the object of evaluation. Humans compare anonymous samples produced under matched settings, and the aggregate preference signal becomes the public ranking. The goal is not to replace careful papers; it is to give the field a scalable, shared view of whether samples are actually getting better.</p>
+        <h2>Incentive design</h2>
+        <p>Researchers who want their models represented contribute evaluations to the shared pool. That keeps the leaderboard alive, makes evaluation labor visible, and aligns participation with improving the benchmark rather than only appearing on it.</p>
       </div>
     </div>
   );
@@ -432,7 +447,8 @@ function Tabs({ items }) {
 }
 
 function LeaderboardTable({ compact = false }) {
-  const rows = compact ? models.slice(0, 4) : models;
+  const leaderboardModels = models.filter((model) => ['flow', 'diffusion'].includes(model.family));
+  const rows = compact ? leaderboardModels.slice(0, 4) : leaderboardModels;
   return (
     <div className="tableWrap">
       <table className="leaderboardTable">
@@ -450,7 +466,7 @@ function LeaderboardTable({ compact = false }) {
             <tr key={model.id}>
               <td><span className="rankCell"><Medal size={15} /> {model.rank}</span></td>
               <td>
-                <a href={`#/models/${model.id}`} className="modelLink">
+                <a href={model.paperUrl} className="modelLink" target="_blank" rel="noreferrer">
                   {model.name}
                   <small>{model.method} · {model.checkpoint}</small>
                 </a>
@@ -474,7 +490,7 @@ function LeaderboardTable({ compact = false }) {
 
 function ModelCard({ model }) {
   return (
-    <a className="modelCard" href={`#/models/${model.id}`}>
+    <a className="modelCard" href={model.paperUrl} target="_blank" rel="noreferrer">
       <div className="modelCardTop">
         <span className="rankBadge">#{model.rank}</span>
         <span className="statusPill">{model.status}</span>

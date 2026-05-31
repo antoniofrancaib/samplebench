@@ -14,84 +14,6 @@ export const checkpointFamilies = [
 ];
 export const models = [
   {
-    "id": "owt_data_train",
-    "name": "OWT train data",
-    "lab": "OpenWebText reference",
-    "method": "Reference data",
-    "family": "reference",
-    "size": "1024 tokens",
-    "checkpoint": "dataset reference",
-    "checkpointAvailable": true,
-    "source": "",
-    "score": 1510,
-    "ci": "+/- 5",
-    "votes": 24000,
-    "winRate": 50,
-    "status": "Reference",
-    "algo": "data",
-    "nfe": 1,
-    "genPpl": "n/a",
-    "entropy": "n/a",
-    "samples": [
-      {
-        "id": "owt-owt_data_train-000000",
-        "text": "Ready to fight back? Sign up for Take Action Now and get three actions in your inbox every week. You will receive occasional promotional offers for programs that support The Nation’s journalism. You can read our Privacy Policy here. Sign up for Take Action Now and get three actions in your inbox every week. Thank you for signing up. For more from The Nation, check out our latest issue Subscribe now for as little as $2 a month! Support Progressive Journalism The Nation is reader supported: Chip in $10 or more to help us continue to write about the issues that matter. The Nation is reader supported: Chip in $10 or more to help us continue to write about the issues that matter. Fight Back! Sign up for Take Action Now and we’ll send you three meaningful actions you can take each week. You will receive occasional promotional offers for programs that support The Nation’s journalism. You can read our Privacy Policy here. Sign up for Take Action Now and we’ll send you three meaningful actions you can take each week. Thank you for signing up. For more from The Nation, check out our latest issue Travel With The Nation Be the first to hear about Nation Travels destinations, and explore the world with kindred spirits. Be the first to hear about Nation Travels destinations, and explore the world with kindred spirits. Sign up for our Wine Club today. Did you know you can support The Nation by drinking wine? A memorial is seen at the scene where Australian college student Christopher Lane, 23, of Melbourne, was found dead of a gunshot wound on Friday in Duncan, Oklahoma, August 21, 2013. (REUTERS/Bill Waugh) Ad Policy As the nation takes stock of the fiftieth anniversary of the March on Washington, I’m listening to a news program playing a recording of Dr. Martin Luther King Jr. speak"
-      },
-      {
-        "id": "owt-owt_data_train-000001",
-        "text": "ette Tuff talked a disturbed young white man into putting down his AK-47 after he walked into an elementary school full of minority kids threatening a massacre. She did so by speaking to him in human, not bestial, terms. “I tried to commit suicide last year,” she said. “We all go through something in life.” America is also where there are more mass murders like Newtown and Aurora than anyplace on the planet other than war zones—and where, every day, more than 100 people of every stripe kill themselves, half by gunfire. Eighty-four percent of white murder victims are killed by other whites; 93 percent of black victims are killed by other blacks. This violence is a national disgrace, a problem that knows no racial boundaries. We are a shoot-‘em-up nation. How, then, does the small fraction of interracial killings end up as the dominant narrative, cast in terms that play out fantasies of a race war? Trayvon Martin is not the same person as the troubled teenagers who allegedly shot Christopher Lane, yet he is endlessly figured as though he were. Questions like “Why doesn’t Obama admit that these guys look like his son?” and “Where’s the outcry from the NAACP now?” ricochet around the media. But seriously, who on the planet would protest the arrest and prosecution of the young men who committed this crime? What exactly is being imagined here? That members of the civil rights movement would actually defend murder? Or write it off when committed by black people? We can argue all day about what causes people to take potshots in Oklahoma or gang-rape women in India or slash schoolchildren in China or traffic sex slaves in Belgium. Yes, yes, personal responsibility—but not racialized responsibility. Perhaps it helps to put the question of violent crime in a global context, for th"
-      },
-      {
-        "id": "owt-owt_data_train-000002",
-        "text": "in theaters. Studios like Universal Pictures and Warner Bros. were said to be in talks with partners, including Apple, to offer movies in iTunes as early as 17 days after their theatrical debut for about $50, or four to six weeks from release for $30. A massive explosion at a fertilizer plant near Waco, Texas, killed as many as 15 people and injured 160 others late Wednesday. Here are some relevant emergency resources: -to check on injured residents admitted to Hillcrest Baptist Medical Center, call (254) 202-1100 -for family inquiries about patients at Scott & White, call (888) 394-4947 -family inquiries about patients at Providence Health Center should call (254) 761-7200 -Carter Blood Care Center will accept donations beginning at 9 a.m. Thursday in Waco. Find more locations here. -First Baptist Church of Lott ((254) 829-2321) has room for anyone needing a place to stay -American Red Cross crews from across Texas were sent to the site of an explosion at a fertilizer plant near Waco where multiple injuries have been reported; To donate blood – find a location near you. Both Peas & Tots and Smarty Pants consignment stores in Waco are accepting clothing donations in all sizes for those in West Evacuation Locations - Valley Mills Nursing Home has rooms available for nursing home residents if placement is needed for any of the West Nursing home residents. Call (254) 932-6288. - Nativity of the Blessed Virgin Mary Parish at 219 W. Magnolia Street, Penelope, TX 76676 can handle 100 families. - Ben's Boat Repair in Elm Mott has space avaliable for pets and a few people, 435 S. McLennan Loop, (254) 716-9593 - First Baptist Church of Lott has room for anyone needing a place to stay. Call (254) 829-2321. (KWTX News 10) - Blair's Cove Apts in Waco is offering housing to any resi"
-      }
-    ],
-    "blurb": "OWT train data generated on OWT with the packed_real_data_baseline protocol.",
-    "rank": 1
-  },
-  {
-    "id": "owt_ar_base",
-    "name": "AR OWT",
-    "lab": "OWT checkpoint",
-    "method": "Autoregressive",
-    "family": "ar",
-    "size": "1024 tokens",
-    "checkpoint": "checkpoints/owt/ar/base/model.ckpt",
-    "checkpointAvailable": true,
-    "source": "https://github.com/s-sahoo/duo",
-    "score": 1495,
-    "ci": "+/- 18",
-    "votes": 6200,
-    "winRate": 45,
-    "status": "Public",
-    "algo": "ar",
-    "nfe": 1,
-    "genPpl": "n/a",
-    "entropy": "n/a",
-    "samples": [
-      {
-        "id": "owt-owt_ar_base-000000",
-        "text": "from occupied DAESH-occupied territories etc.he also emphasized that he not only acted alone and without authorization as he had expected, but also that he acted ruthless. The reports, however, revealed a broader pattern: 5 individuals documented as perpetrators, 5 sources, actual and rumors, 6 off limits civilian organizations (true economic sources were never investigated yet) and 2 Task Force members chosen with particular knowledge of their whereabouts and release. These individuals are: Liz Brandenburg-Kaufmann, Head of DAESH Staff Prestige Non-Member:Lt. Col. Zakiur Rahman Summarizing these seven juvenile charges, DAESH Information Service’s Song said, “They can be given additional law and order”. According to Song, EDCESH classified its own offshoot DAESH as a terror organization from the nose of the law, and it committed atrocities and atrocities among other crimes. Case Study So far we’ve established the following: The extreme situation in northeastern Syria is creating a domestic, regional and international network almost completely indiscriminately Jabhat al-Nusra, hoping it will slip a finger in Syria’s doorstep. The narrative facing Turkey especially is that the US and EU countries are investigating and warning about Jihadi groups in Syria and are continuously discussing this in advance. Due to this marginalization of the possible (aloninate) role of JTA in the crisis situation, Turkey does not act aggressively against alleged Syrian terror organizations. In fact, Turkey is actively encouraging and financing these non-state ETA entities. This is most probably why Turkey is uniquely unique in the region to not only deliberately target certain countries with its airstrikes, but also greatly exaggerates its intelligence capabilities. Legal Target Since the sum",
-        "genPpl": 0,
-        "entropy": 0
-      },
-      {
-        "id": "owt-owt_ar_base-000001",
-        "text": "Iraqi Civil War, T.V. Jacobs of New York City suggested adapting JP Johnson’s successful memoir about the life and career of one of its founding members into a documentary. A deal was reached for the streaming rights. While I will gladly concede the accuracy of many of the assessments I have written on Qatari TV over the past two years, I believe that the JFC is entirely unqualified to judge the subsequent nuttiness related to it in context. Its host is easily bought, and its lineup includes Alanis Morissette, Rashida Jones, Jadakiss, Ryan Leslie, Adult Swim’s audience is not as subservient to the values of Qatari society. A date and pilot for the new version of the show has not been announced for Qais Raq Madet yet, but it is questionable whether JFC will regularly air on terrestrial or cable networks like MTV, as Lebanese network Anny is understood to have thought. At Seattle’s A Unitarian Universalist Church, Tina Nguyen of the Mormon congregation of the Legion exposed QIs growing intolerance against non-Mormons on Facebook. (Credit: Commedia Gregory Wong). In letters, various QAs threw forth the following evidence of QIs increasingly being less tolerant of non-Mormons, something the public often ignores: 1. An individual told QA’s training panel that according to QI, the church cannot be intolerant. 2. A Church official said that the church wouldn’t do a Q&A at a QI event if emails were involved. 3. I not only noticed an episode receiving input from QIs, but one also redirected it to an episode of America’s Next Top Model. 4. Jason Nicholas, executive director of the Mormon LGBT Relationships Club, was at a club in Manchester, Tennessee one night and said: “When he told me about that, I was confused as to why that was even an option.” Advertisement The reader might ",
-        "genPpl": 0,
-        "entropy": 0
-      },
-      {
-        "id": "owt-owt_ar_base-000002",
-        "text": "two days.'\" The ISPs don't view YouTube like such retailers would, saying the videos serve other purposes. That's known as BitTorrent. The site stores download files alongside audio and pictures for storage at a central location on a network, and the pictures are then synced across lines. YouTube shut down BitTorrent early in the year after getting hacked by hackers but has since credited the sites host millions of illegal downloads of pirated content. \"We have worked over the past two to three days with out much concern for our advertisers,\" wrote the ISPs. \"These are hardcore torrent sites and we will be working to communicate with them in due time.\" Getting over the fact that he lost the division probably didn't do him any good in Toronto. Off the field, things sure did. Rookie forward Dwight King indicated this month he'll still play in 2017-18, which is to say if the Jays trade Marco Estrada and/or Brian McCann, he'll start. The Raptors will also add a second baseman (second player they can get pretty low on in 2017-18 their class), including a 2015 first-round pick and the rights to become the 10th overall pick in this year's draft. \"I like my chances, but I know you look at it and you look at it and you see this is a championship team that's going to win three or four games a night,\" King said of the Raptors over his best two years in Toronto. \"I think we were just kind of underdogs for Vancouver and we gave them 50 bucks in huge games the other night. \"We're a huge physical team, but we're also a nimble team, which is something we should be.\" League head coach Dwane Casey said ends that was key for the Raptors when they came into the 2016-17 season under its former coach Rick Adelman (2011-12 to 2013-14). The Raptors were coming off a seven-game home winning str",
-        "genPpl": 0,
-        "entropy": 0
-      }
-    ],
-    "blurb": "AR OWT generated on OWT with the paper_gen_ppl protocol.",
-    "rank": 2
-  },
-  {
     "id": "owt_duo_base_1024_nfe",
     "name": "Duo OWT 1024-NFE",
     "lab": "OWT checkpoint",
@@ -131,7 +53,8 @@ export const models = [
       }
     ],
     "blurb": "Duo OWT 1024-NFE generated on OWT with the paper_gen_ppl protocol.",
-    "rank": 3
+    "rank": 1,
+    "paperUrl": "https://arxiv.org/pdf/2506.10892"
   },
   {
     "id": "owt_mdlm_1024_nfe",
@@ -173,7 +96,8 @@ export const models = [
       }
     ],
     "blurb": "MDLM OWT 1024-NFE generated on OWT with the paper_gen_ppl protocol.",
-    "rank": 4
+    "rank": 2,
+    "paperUrl": "https://arxiv.org/pdf/2406.07524"
   },
   {
     "id": "owt_sedd_1024_nfe",
@@ -215,7 +139,8 @@ export const models = [
       }
     ],
     "blurb": "SEDD OWT 1024-NFE generated on OWT with the paper_gen_ppl protocol.",
-    "rank": 5
+    "rank": 3,
+    "paperUrl": "https://arxiv.org/pdf/2310.16834"
   },
   {
     "id": "owt_fmlm_32_nfe",
@@ -257,7 +182,8 @@ export const models = [
       }
     ],
     "blurb": "FMLM 32-NFE generated on OWT with the paper_gen_ppl protocol.",
-    "rank": 6
+    "rank": 4,
+    "paperUrl": "https://arxiv.org/pdf/2602.16813"
   },
   {
     "id": "owt_flm_1024_nfe",
@@ -299,7 +225,8 @@ export const models = [
       }
     ],
     "blurb": "FLM 1024-NFE generated on OWT with the paper_gen_ppl protocol.",
-    "rank": 7
+    "rank": 5,
+    "paperUrl": "https://arxiv.org/pdf/2602.16813"
   },
   {
     "id": "owt_fmlm_4_nfe",
@@ -341,7 +268,8 @@ export const models = [
       }
     ],
     "blurb": "FMLM 4-NFE generated on OWT with the paper_gen_ppl protocol.",
-    "rank": 8
+    "rank": 6,
+    "paperUrl": "https://arxiv.org/pdf/2602.16813"
   },
   {
     "id": "owt_fmlm_1_nfe",
@@ -383,7 +311,8 @@ export const models = [
       }
     ],
     "blurb": "FMLM 1-NFE generated on OWT with the paper_gen_ppl protocol.",
-    "rank": 9
+    "rank": 7,
+    "paperUrl": "https://arxiv.org/pdf/2602.16813"
   }
 ];
 export const battles = [
@@ -400,17 +329,6 @@ export const battles = [
   },
   {
     "id": "owt-battle-2",
-    "leftModel": "FMLM 4-NFE",
-    "rightModel": "AR OWT",
-    "leftId": "owt_fmlm_4_nfe",
-    "rightId": "owt_ar_base",
-    "length": "1024 tokens",
-    "domain": "OpenWebText",
-    "left": "Imagine: If a 9/11 terrorist found and easilyCC’d, and take advantage of many hours of other movies and role shows in movies and elsewhere, they might have preempted that because folks, you can beat her. They invented a very called hit/liberation. So now every Black person, group, group, lost, or other, and be counted. Perfectly count on this left-based planet to take for granted. That principle becomes exists in Article 2 today. Put a vote, therefore, this, and a revolution in the public square. Yes. Those are the job and/or legalization-- Here are the ones left standing. And the reason wave of winning -- seems to be out in at least three weeks. Legal Democrats are waiting in the ball Party on y’ite it. (Then they can pass Texas and continue it like a mob.) Everyone on board is bound to change their state-issued.) rules in Democratic ballots in an invalid election, take photo-tw votes on immigration, get in without a little kite back to the state and become the fucking right for the voters, the reek. But Dems, according to federal law, could also lose Gov. Donald Trump Jr�™s group better or worse like President Trump. Q. DACA has been really good for in the right. To That I mention, its a tudge to the attorney general to restore Muslims in the United States, our and family, and television shows and movies. Tearing the laws of these protections is the way to repeal all the Democrats: have the power to affect the Southern first and all the states and thewhere and the courts. But it's perhaps one bit bigger than me agree. After immigration Scalia, the loss of our voters on this matter was simplyrative of what Trump really put right. One of the bad parts is part of what is pre-sh turned out to be the top inside. About laws and the history that I grew up studying: their uni",
-    "right": "Iraqi Civil War, T.V. Jacobs of New York City suggested adapting JP Johnson’s successful memoir about the life and career of one of its founding members into a documentary. A deal was reached for the streaming rights. While I will gladly concede the accuracy of many of the assessments I have written on Qatari TV over the past two years, I believe that the JFC is entirely unqualified to judge the subsequent nuttiness related to it in context. Its host is easily bought, and its lineup includes Alanis Morissette, Rashida Jones, Jadakiss, Ryan Leslie, Adult Swim’s audience is not as subservient to the values of Qatari society. A date and pilot for the new version of the show has not been announced for Qais Raq Madet yet, but it is questionable whether JFC will regularly air on terrestrial or cable networks like MTV, as Lebanese network Anny is understood to have thought. At Seattle’s A Unitarian Universalist Church, Tina Nguyen of the Mormon congregation of the Legion exposed QIs growing intolerance against non-Mormons on Facebook. (Credit: Commedia Gregory Wong). In letters, various QAs threw forth the following evidence of QIs increasingly being less tolerant of non-Mormons, something the public often ignores: 1. An individual told QA’s training panel that according to QI, the church cannot be intolerant. 2. A Church official said that the church wouldn’t do a Q&A at a QI event if emails were involved. 3. I not only noticed an episode receiving input from QIs, but one also redirected it to an episode of America’s Next Top Model. 4. Jason Nicholas, executive director of the Mormon LGBT Relationships Club, was at a club in Manchester, Tennessee one night and said: “When he told me about that, I was confused as to why that was even an option.” Advertisement The reader might "
-  },
-  {
-    "id": "owt-battle-3",
     "leftModel": "Duo OWT 1024-NFE",
     "rightModel": "SEDD OWT 1024-NFE",
     "leftId": "owt_duo_base_1024_nfe",
@@ -423,28 +341,13 @@ export const battles = [
 ];
 export const methodStats = [
   {
-    "label": "Reference",
-    "value": 11,
-    "color": "reference"
-  },
-  {
-    "label": "AR baselines",
-    "value": 11,
-    "color": "ar"
-  },
-  {
     "label": "Diffusion",
-    "value": 22,
+    "value": 29,
     "color": "diffusion"
   },
   {
-    "label": "Masked",
-    "value": 11,
-    "color": "masked"
-  },
-  {
     "label": "Flow",
-    "value": 44,
+    "value": 57,
     "color": "flow"
   }
 ];

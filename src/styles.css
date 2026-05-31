@@ -664,6 +664,20 @@ body { background: var(--paper); color: var(--ink); }
   background: #fffdfa;
   border-bottom-color: var(--border);
 }
+.narrativePanel { align-self: center; }
+.storyList {
+  display: grid;
+  gap: 0;
+}
+.storyList p {
+  margin: 0;
+  padding: 22px 24px;
+  color: #3f3a35;
+  font-size: 18px;
+  line-height: 1.55;
+  border-bottom: 1px solid var(--border);
+}
+.storyList p:last-child { border-bottom: 0; }
 .mutedLabel {
   color: #746d67;
   letter-spacing: 0;
