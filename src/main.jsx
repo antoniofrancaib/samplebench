@@ -1,530 +1,353 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import {
-  ArrowRight,
-  BarChart3,
-  BookOpen,
-  Check,
-  ChevronRight,
-  CircleHelp,
-  ClipboardList,
-  FlaskConical,
-  GitCompareArrows,
-  Info,
-  Medal,
-  Menu,
-  Send,
-  Sparkles,
-  Trophy,
-  Users,
-  X,
-} from 'lucide-react';
-import { battles, checkpointFamilies, checkpointRoot, methodStats, models, sampleRoot } from './data.js';
+import { models } from './data.js';
 import './styles.css';
 
-function getRoute() {
-  return window.location.hash.replace(/^#\/?/, '') || 'home';
+const STORAGE_KEYS = {
+  voterId: 'samplebench:voter_id',
+  queuedVotes: 'samplebench:queued_votes',
+  voteCount: 'samplebench:vote_count',
+};
+
+const APP_VERSION = 'samplebench-web/vote-only-2026-06-11';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL?.replace(/\/$/, '');
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const SUPABASE_TABLE = import.meta.env.VITE_SUPABASE_TABLE || 'sample_votes';
+
+const samplePool = models.flatMap((model) =>
+  (model.samples || []).map((sample, sampleIndex) => ({
+    modelId: model.id,
+    modelName: model.name,
+    method: model.method,
+    family: model.family,
+    nfe: model.nfe,
+    sampleId: sample.id,
+    sampleIndex,
+    text: sample.text,
+    genPpl: sample.genPpl,
+    entropy: sample.entropy,
+  })),
+).filter((sample) => sample.text);
+
+function getRandomIndex(max) {
+  if (max <= 1) return 0;
+
+  if (globalThis.crypto?.getRandomValues) {
+    const values = new Uint32Array(1);
+    globalThis.crypto.getRandomValues(values);
+    return values[0] % max;
+  }
+
+  return Math.floor(Math.random() * max);
+}
+
+function createPair(previousPairId) {
+  if (samplePool.length < 2) return null;
+
+  let left = samplePool[getRandomIndex(samplePool.length)];
+  let right = samplePool[getRandomIndex(samplePool.length)];
+
+  for (let attempt = 0; attempt < 80; attempt += 1) {
+    const candidateLeft = samplePool[getRandomIndex(samplePool.length)];
+    const candidateRight = samplePool[getRandomIndex(samplePool.length)];
+    const pairId = `${candidateLeft.sampleId}__${candidateRight.sampleId}`;
+
+    if (candidateLeft.modelId !== candidateRight.modelId && pairId !== previousPairId) {
+      left = candidateLeft;
+      right = candidateRight;
+      break;
+    }
+  }
+
+  return {
+    id: `${left.sampleId}__${right.sampleId}`,
+    left,
+    right,
+  };
+}
+
+function safeReadJson(key, fallback) {
+  try {
+    const raw = window.localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function safeWriteJson(key, value) {
+  try {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // localStorage can be unavailable in restrictive browser contexts.
+  }
+}
+
+function createId() {
+  if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+  return `vote-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function getVoterId() {
+  try {
+    const existing = window.localStorage.getItem(STORAGE_KEYS.voterId);
+    if (existing) return existing;
+
+    const voterId = createId();
+    window.localStorage.setItem(STORAGE_KEYS.voterId, voterId);
+    return voterId;
+  } catch {
+    return createId();
+  }
+}
+
+function getVoteCount() {
+  try {
+    return Number(window.localStorage.getItem(STORAGE_KEYS.voteCount) || 0);
+  } catch {
+    return 0;
+  }
+}
+
+function setStoredVoteCount(count) {
+  try {
+    window.localStorage.setItem(STORAGE_KEYS.voteCount, String(count));
+  } catch {
+    // Best effort only.
+  }
+}
+
+function hasSupabaseConfig() {
+  return Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+}
+
+async function insertVote(row) {
+  if (!hasSupabaseConfig()) return { queued: true };
+
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`, {
+    method: 'POST',
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify(row),
+  });
+
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(detail || `Supabase insert failed with ${response.status}`);
+  }
+
+  return { queued: false };
+}
+
+function readQueuedVotes() {
+  return safeReadJson(STORAGE_KEYS.queuedVotes, []);
+}
+
+function writeQueuedVotes(votes) {
+  safeWriteJson(STORAGE_KEYS.queuedVotes, votes.slice(-200));
+}
+
+function queueVote(row) {
+  writeQueuedVotes([...readQueuedVotes(), row]);
+}
+
+async function flushQueuedVotes() {
+  if (!hasSupabaseConfig()) return;
+
+  const queuedVotes = readQueuedVotes();
+  if (!queuedVotes.length) return;
+
+  const remaining = [];
+
+  for (const vote of queuedVotes) {
+    try {
+      await insertVote(vote);
+    } catch (error) {
+      console.error('Could not flush queued SampleBench vote', error);
+      remaining.push(vote);
+    }
+  }
+
+  writeQueuedVotes(remaining);
+}
+
+function buildVoteRow({ pair, choice, voterId, responseTimeMs, voteNumber }) {
+  const winner = choice === 'left' ? pair.left : pair.right;
+  const loser = choice === 'left' ? pair.right : pair.left;
+
+  return {
+    session_id: voterId,
+    battle_id: pair.id,
+    choice,
+    winner_model_id: winner.modelId,
+    loser_model_id: loser.modelId,
+    left_model_id: pair.left.modelId,
+    right_model_id: pair.right.modelId,
+    left_sample_id: pair.left.sampleId,
+    right_sample_id: pair.right.sampleId,
+    response_time_ms: responseTimeMs,
+    app_version: APP_VERSION,
+    payload: {
+      vote_number: voteNumber,
+      client_time: new Date().toISOString(),
+      page_url: window.location.href,
+      viewport: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      },
+      left: {
+        model_name: pair.left.modelName,
+        method: pair.left.method,
+        family: pair.left.family,
+        nfe: pair.left.nfe,
+        sample_index: pair.left.sampleIndex,
+        gen_ppl: pair.left.genPpl,
+        entropy: pair.left.entropy,
+      },
+      right: {
+        model_name: pair.right.modelName,
+        method: pair.right.method,
+        family: pair.right.family,
+        nfe: pair.right.nfe,
+        sample_index: pair.right.sampleIndex,
+        gen_ppl: pair.right.genPpl,
+        entropy: pair.right.entropy,
+      },
+      winner: {
+        model_id: winner.modelId,
+        model_name: winner.modelName,
+        sample_id: winner.sampleId,
+      },
+      loser: {
+        model_id: loser.modelId,
+        model_name: loser.modelName,
+        sample_id: loser.sampleId,
+      },
+    },
+  };
 }
 
 function App() {
-  const [route, setRoute] = useState(getRoute());
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const onHash = () => {
-      setRoute(getRoute());
-      setMenuOpen(false);
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    };
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
-  }, []);
-
-  const page = useMemo(() => {
-    if (route.startsWith('models/')) return <ModelDetail id={route.split('/')[1]} />;
-    if (route === 'vote') return <VotePage />;
-    if (route === 'leaderboard') return <LeaderboardPage />;
-    if (route === 'models') return <ModelsPage />;
-    if (route === 'submit') return <SubmitPage />;
-    if (route === 'about') return <AboutPage />;
-    return <HomePage />;
-  }, [route]);
-
-  return (
-    <div className="appShell">
-      <SideRail route={route} />
-      <Header route={route} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-      <main className="mainPane">{page}</main>
-      <Footer />
-    </div>
-  );
-}
-
-function SideRail({ route }) {
-  const links = [
-    ['home', 'Overview', <BarChart3 size={18} />],
-    ['vote', 'New Battle', <GitCompareArrows size={18} />],
-    ['leaderboard', 'Leaderboard', <Trophy size={18} />],
-    ['models', 'Models', <FlaskConical size={18} />],
-    ['submit', 'Submit', <Send size={18} />],
-  ];
-
-  return (
-    <aside className="sideRail">
-      <a className="sideLogo" href="#/home">SampleBench</a>
-      <nav>
-        {links.map(([href, label, icon]) => (
-          <a key={href} className={route === href ? 'active' : ''} href={`#/${href}`}>
-            {icon}
-            <span>{label}</span>
-          </a>
-        ))}
-      </nav>
-      <div className="railCard">
-        <strong>OWT evaluation</strong>
-        <p>{models.length} sample sets from `lm-bench/results/samples/owt`.</p>
-        <a href="#/vote">Start Voting</a>
-      </div>
-    </aside>
-  );
-}
-
-function Header({ route, menuOpen, setMenuOpen }) {
-  const links = [
-    ['vote', 'Vote'],
-    ['leaderboard', 'Leaderboard'],
-    ['models', 'Models'],
-    ['submit', 'Submit'],
-    ['about', 'About'],
-  ];
-
-  return (
-    <header className="topbar">
-      <a className="brand" href="#/home" aria-label="SampleBench home">
-        <span className="brandMark">
-          <GitCompareArrows size={18} />
-        </span>
-        <span>SampleBench</span>
-      </a>
-      <nav className={menuOpen ? 'nav open' : 'nav'}>
-        {links.map(([href, label]) => (
-          <a key={href} className={route === href ? 'active' : ''} href={`#/${href}`}>
-            {label}
-          </a>
-        ))}
-      </nav>
-      <div className="topActions">
-        <a className="ghostButton hideSmall" href="#/leaderboard">
-          <BarChart3 size={16} /> Rankings
-        </a>
-        <a className="primaryButton hideSmall" href="#/vote">
-          <Sparkles size={16} /> Start Voting
-        </a>
-        <button className="iconButton menuButton" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
-          {menuOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </div>
-    </header>
-  );
-}
-
-function HomePage() {
-  return (
-    <div>
-      <section className="heroBand">
-        <div className="heroGrid container">
-          <div className="heroCopy">
-            <div className="eyebrow">
-              <FlaskConical size={15} /> OWT human preference benchmark
-            </div>
-            <h1>Experience the frontier of likelihood-free language model evaluation.</h1>
-            <p>
-              SampleBench compares real unconditional samples from the OWT checkpoints and sample suites in
-              lm-bench, using blind human preference instead of generative perplexity alone.
-            </p>
-            <div className="heroActions">
-              <a className="primaryButton large" href="#/vote">
-                Start Voting <ArrowRight size={18} />
-              </a>
-              <a className="ghostButton large" href="#/submit">
-                Submit Model <Send size={18} />
-              </a>
-            </div>
-          </div>
-          <div className="heroPanel narrativePanel" aria-label="SampleBench narrative">
-            <div className="panelHeader">
-              <div>
-                <span className="mutedLabel">Why SampleBench exists</span>
-                <h2>A measurement gap is opening.</h2>
-              </div>
-            </div>
-            <div className="storyList">
-              <p>
-                Continuous-time flow and diffusion language models are becoming credible generators, but many do
-                not expose tractable likelihoods, so validation perplexity no longer gives the field a shared yardstick.
-              </p>
-              <p>
-                Generative perplexity has become the default fallback for unconditional generation, but it is a fragile
-                proxy for what people actually see in samples.
-              </p>
-              <p>
-                SampleBench makes blind human comparison scalable, so progress can be tracked by preference over real
-                generated text rather than by a single flawed proxy metric.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="container sectionGrid">
-        <MetricCard icon={<Users />} label="OWT sample sets" value={String(models.length)} detail={`Loaded from ${sampleRoot}`} />
-        <MetricCard icon={<Trophy />} label="Checkpoint families" value={String(checkpointFamilies.length)} detail={`Discovered under ${checkpointRoot}`} />
-        <MetricCard icon={<ClipboardList />} label="Submission rule" value="Give to enter" detail="Researchers evaluate samples before their models rank" />
-      </section>
-      <section className="container twoColumnSection">
-        <div>
-          <div className="eyebrow">
-            <BookOpen size={15} /> Built for unconditional generation
-          </div>
-          <h2 className="sectionTitle">The target is unconditional sample quality, judged directly.</h2>
-          <p className="sectionText">
-            Evaluators compare two anonymous samples generated under matched OWT settings. Aggregated choices become
-            a leaderboard that can include flow, diffusion, and masked generators without forcing them through
-            likelihood-based evaluation.
-          </p>
-        </div>
-        <WorkflowCard />
-      </section>
-    </div>
-  );
-}
-
-function MetricCard({ icon, label, value, detail }) {
-  return (
-    <article className="metricCard">
-      <div className="metricIcon">{React.cloneElement(icon, { size: 19 })}</div>
-      <span>{label}</span>
-      <strong>{value}</strong>
-      <p>{detail}</p>
-    </article>
-  );
-}
-
-function WorkflowCard() {
-  const steps = [
-    'Blind pair generated',
-    'Human chooses A, B, tie, or both bad',
-    'Preference update with uncertainty',
-    'Model ranking updates',
-  ];
-  return (
-    <div className="workflowCard">
-      {steps.map((step, index) => (
-        <div className="workflowStep" key={step}>
-          <span>{index + 1}</span>
-          <p>{step}</p>
-        </div>
-      ))}
-    </div>
-  );
+  return <VotePage />;
 }
 
 function VotePage() {
-  const [index, setIndex] = useState(0);
-  const [selected, setSelected] = useState(null);
-  const battle = battles[index % battles.length];
-  const choices = [
-    ['left', 'A is better'],
-    ['tie', 'Tie'],
-    ['right', 'B is better'],
-    ['bad', 'Both bad'],
-  ];
+  const [voterId] = useState(getVoterId);
+  const [pair, setPair] = useState(() => createPair());
+  const [voteCount, setVoteCount] = useState(getVoteCount);
+  const [status, setStatus] = useState('');
+  const [pendingChoice, setPendingChoice] = useState(null);
+  const [queuedCount, setQueuedCount] = useState(() => readQueuedVotes().length);
+  const startedAt = useRef(performance.now());
+
+  useEffect(() => {
+    flushQueuedVotes().catch((error) => {
+      console.error('Could not flush queued SampleBench votes', error);
+    }).finally(() => {
+      setQueuedCount(readQueuedVotes().length);
+    });
+  }, []);
+
+  const advancePair = useCallback((currentPairId) => {
+    setPair(createPair(currentPairId));
+    startedAt.current = performance.now();
+  }, []);
+
+  const submitVote = useCallback(async (choice) => {
+    if (!pair || pendingChoice) return;
+
+    setPendingChoice(choice);
+    setStatus(choice === 'left' ? 'Saving Sample A' : 'Saving Sample B');
+
+    const nextVoteCount = voteCount + 1;
+    const row = buildVoteRow({
+      pair,
+      choice,
+      voterId,
+      voteNumber: nextVoteCount,
+      responseTimeMs: Math.max(0, Math.round(performance.now() - startedAt.current)),
+    });
+
+    try {
+      const result = await insertVote(row);
+
+      if (result.queued) {
+        queueVote(row);
+        setQueuedCount(readQueuedVotes().length);
+        setStatus('Preference queued');
+      } else {
+        setQueuedCount(readQueuedVotes().length);
+        setStatus('Preference recorded');
+      }
+    } catch (error) {
+      queueVote(row);
+      setQueuedCount(readQueuedVotes().length);
+      setStatus('Preference queued');
+      console.error('Could not record SampleBench vote', error);
+    } finally {
+      setStoredVoteCount(nextVoteCount);
+      setVoteCount(nextVoteCount);
+      setPendingChoice(null);
+      advancePair(pair.id);
+    }
+  }, [advancePair, pair, pendingChoice, voteCount, voterId]);
+
+  if (!pair) {
+    return (
+      <main className="votePage emptyState">
+        <h1>Which sample is better?</h1>
+        <p>No sample pairs are available.</p>
+      </main>
+    );
+  }
 
   return (
-    <div className="voteShell container">
-      <div className="voteHeader">
-        <div>
-          <div className="eyebrow">
-            <GitCompareArrows size={15} /> Blind battle
-          </div>
-          <h1>Which sample is better?</h1>
-          <p>{battle.domain} | {battle.length} | samples from lm-bench/results/samples/owt</p>
-        </div>
-        <a className="ghostButton" href="#/leaderboard">
-          <BarChart3 size={16} /> View rankings
-        </a>
-      </div>
-      <div className="sampleGrid">
-        <SamplePane label="Sample A" text={battle.left} revealed={selected} model={battle.leftModel} />
-        <SamplePane label="Sample B" text={battle.right} revealed={selected} model={battle.rightModel} />
-      </div>
-      <div className="voteDock" aria-label="Voting controls">
-        <div className="rubricStrip">
-          <span>Coherence</span>
-          <span>Fluency</span>
-          <span>Originality</span>
-          <span>Low repetition</span>
-        </div>
-        <div className="voteButtons">
-          {choices.map(([key, label]) => (
-            <button key={key} className={selected === key ? 'voteButton selected' : 'voteButton'} onClick={() => setSelected(key)}>
-              {selected === key && <Check size={16} />}
-              {label}
-            </button>
-          ))}
-          <button className="primaryButton" onClick={() => { setSelected(null); setIndex(index + 1); }}>
-            Next Pair <ChevronRight size={17} />
-          </button>
-        </div>
-      </div>
-    </div>
+    <main className="votePage">
+      <section className="questionBlock" aria-labelledby="vote-question">
+        <h1 id="vote-question">Which sample is better?</h1>
+      </section>
+
+      <section className="sampleGrid" aria-label="Sample preference options">
+        <SampleOption
+          label="Sample A"
+          sample={pair.left}
+          pending={pendingChoice === 'left'}
+          disabled={Boolean(pendingChoice)}
+          onClick={() => submitVote('left')}
+        />
+        <SampleOption
+          label="Sample B"
+          sample={pair.right}
+          pending={pendingChoice === 'right'}
+          disabled={Boolean(pendingChoice)}
+          onClick={() => submitVote('right')}
+        />
+      </section>
+
+      <section className="statusRow" aria-live="polite">
+        <span>{status || ' '}</span>
+        {queuedCount > 0 && <span>{queuedCount} queued</span>}
+      </section>
+    </main>
   );
 }
 
-function SamplePane({ label, text, revealed, model }) {
+function SampleOption({ label, sample, pending, disabled, onClick }) {
   return (
-    <article className="samplePane">
-      <div className="sampleTop">
-        <span>{label}</span>
-        <span className="sampleTag">Anonymous</span>
-      </div>
-      <p>{text}</p>
-      {revealed && (
-        <div className="revealBox">
-          Model: <strong>{model}</strong>
-        </div>
-      )}
+    <article className="sampleOption">
+      <span className="sampleTopline">
+        <strong>{label}</strong>
+        <span>{sample.text.split(/\s+/).length.toLocaleString()} words</span>
+      </span>
+      <span className="sampleText">{sample.text}</span>
+      <button className="sampleAction" type="button" disabled={disabled} onClick={onClick}>
+        {pending ? 'Saving...' : `Choose ${label}`}
+      </button>
     </article>
-  );
-}
-
-function LeaderboardPage() {
-  return (
-    <div className="container pageStack">
-      <PageTitle
-        icon={<Trophy size={18} />}
-        label="Leaderboard"
-        title="OWT leaderboard overview"
-        text="The rows use OWT checkpoint labels and sample files from the current lm-bench tree. The displayed preference scores are placeholders until collected human votes replace the frontend prototype data."
-      />
-      <Tabs items={['Overall', 'Flow', 'Diffusion']} />
-      <div className="leaderboardLayout">
-        <section className="tablePanel">
-          <LeaderboardTable />
-        </section>
-        <aside className="sidePanel">
-          <h3>Method mix</h3>
-          {methodStats.map((stat) => <StatBar key={stat.label} {...stat} />)}
-          <div className="noteBox">
-            <Info size={17} /> Sample text is loaded from the OWT JSONL files; checkpoint paths come from the matching manifests.
-          </div>
-        </aside>
-      </div>
-    </div>
-  );
-}
-
-function ModelsPage() {
-  return (
-    <div className="container pageStack">
-      <PageTitle
-        icon={<FlaskConical size={18} />}
-        label="Models"
-        title="Continuous-generation papers"
-        text="Each card links to the corresponding arXiv PDF for the model family represented by the OWT samples."
-      />
-      <div className="modelGrid">
-        {models.map((model) => <ModelCard key={model.id} model={model} />)}
-      </div>
-    </div>
-  );
-}
-
-function ModelDetail({ id }) {
-  const model = models.find((m) => m.id === id) || models[0];
-  return (
-    <div className="container pageStack">
-      <a className="backLink" href="#/models">Back to models</a>
-      <section className="modelHero">
-        <div>
-          <div className="rankBadge">#{model.rank}</div>
-          <h1>{model.name}</h1>
-          <p>{model.blurb}</p>
-        </div>
-        <div className="scoreCard">
-          <span>Preference score</span>
-          <strong>{model.score}</strong>
-          <small>{model.ci} across {model.votes.toLocaleString()} votes</small>
-        </div>
-      </section>
-      <div className="detailGrid">
-        <InfoTile label="Method" value={model.method} />
-        <InfoTile label="Sample length" value={model.size} />
-        <InfoTile label="Gen PPL" value={model.genPpl} />
-        <InfoTile label="Status" value={model.status} />
-      </div>
-      <section className="textPanel pathPanel">
-        <h2>Source paths</h2>
-        <p><strong>Checkpoint:</strong> {model.checkpoint}</p>
-        <p><strong>Sample suite:</strong> {sampleRoot}/owt_L1024_paper/{model.id}/samples.jsonl</p>
-      </section>
-      <section className="tablePanel detailTable">
-        <h2>Head-to-head snapshot</h2>
-        <LeaderboardTable compact />
-      </section>
-    </div>
-  );
-}
-
-function SubmitPage() {
-  return (
-    <div className="container pageStack narrow">
-      <PageTitle
-        icon={<Send size={18} />}
-        label="Submit"
-        title="Bring a model, contribute evaluations"
-        text="SampleBench uses a give-to-enter incentive: every submitting group must complete blinded evaluations before their model becomes public."
-      />
-      <form className="submitForm">
-        <label>Model name<input placeholder="e.g. FluxLM Base" /></label>
-        <label>Research group<input placeholder="Lab, institute, or team" /></label>
-        <label>
-          Generation method
-          <select defaultValue="Flow matching">
-            <option>Flow matching</option>
-            <option>Discrete diffusion</option>
-            <option>Masked generation</option>
-            <option>Autoregressive baseline</option>
-          </select>
-        </label>
-        <label>Public paper or report<input placeholder="URL or arXiv id" /></label>
-        <label>Sample policy<textarea placeholder="Describe sampling temperature, steps, length, and filtering." /></label>
-        <button type="button" className="primaryButton large">
-          Request Review <ArrowRight size={18} />
-        </button>
-      </form>
-      <div className="noteBox">
-        <CircleHelp size={17} /> Prototype form only. Backend submission and identity checks would be added after the frontend contract is approved.
-      </div>
-    </div>
-  );
-}
-
-function AboutPage() {
-  return (
-    <div className="container pageStack narrow">
-      <PageTitle
-        icon={<Info size={18} />}
-        label="Methodology"
-        title="Why human preference, and why unconditional samples?"
-        text="The site is a frontend prototype for replacing proxy-only evaluation with scalable blind human preference over unconditional samples."
-      />
-      <div className="textPanel">
-        <h2>The evaluation problem</h2>
-        <p>A new wave of continuous-based flow and diffusion language models is changing what language modeling looks like. These models can generate text without exposing the same tractable likelihood interface as classic autoregressive models, so validation perplexity cannot remain the universal scoreboard.</p>
-        <h2>Why generative perplexity is not enough</h2>
-        <p>Generative perplexity became the de facto metric for unconditional generation quality because it is easy to compute after samples exist. But it compresses a complicated human judgment into a brittle proxy: coherence, repetition, local fluency, topic drift, and factual shape can move in ways the metric does not faithfully capture.</p>
-        <h2>The SampleBench bet</h2>
-        <p>SampleBench treats the generated text itself as the object of evaluation. Humans compare anonymous samples produced under matched settings, and the aggregate preference signal becomes the public ranking. The goal is not to replace careful papers; it is to give the field a scalable, shared view of whether samples are actually getting better.</p>
-        <h2>Incentive design</h2>
-        <p>Researchers who want their models represented contribute evaluations to the shared pool. That keeps the leaderboard alive, makes evaluation labor visible, and aligns participation with improving the benchmark rather than only appearing on it.</p>
-      </div>
-    </div>
-  );
-}
-
-function PageTitle({ icon, label, title, text }) {
-  return (
-    <section className="pageTitle">
-      <div className="eyebrow">{icon}{label}</div>
-      <h1>{title}</h1>
-      <p>{text}</p>
-    </section>
-  );
-}
-
-function Tabs({ items }) {
-  return <div className="tabs">{items.map((item, index) => <button className={index === 0 ? 'active' : ''} key={item}>{item}</button>)}</div>;
-}
-
-function LeaderboardTable({ compact = false }) {
-  const leaderboardModels = models.filter((model) => ['flow', 'diffusion'].includes(model.family));
-  const rows = compact ? leaderboardModels.slice(0, 4) : leaderboardModels;
-  return (
-    <div className="tableWrap">
-      <table className="leaderboardTable">
-        <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Model</th>
-              <th>Score</th>
-              {!compact && <th>Votes</th>}
-              <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((model) => (
-            <tr key={model.id}>
-              <td><span className="rankCell"><Medal size={15} /> {model.rank}</span></td>
-              <td>
-                <a href={model.paperUrl} className="modelLink" target="_blank" rel="noreferrer">
-                  {model.name}
-                  <small>{model.method} · {model.checkpoint}</small>
-                </a>
-              </td>
-              <td>
-                <div className="scoreVisual">
-                  <span style={{ width: `${Math.max(18, Math.min(100, (model.score - 1300) / 2.2))}%` }} />
-                  <strong>{model.score}</strong>
-                  <small>{model.ci}</small>
-                </div>
-              </td>
-              {!compact && <td>{model.votes.toLocaleString()}</td>}
-              <td><span className="statusPill">{model.status}</span></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-function ModelCard({ model }) {
-  return (
-    <a className="modelCard" href={model.paperUrl} target="_blank" rel="noreferrer">
-      <div className="modelCardTop">
-        <span className="rankBadge">#{model.rank}</span>
-        <span className="statusPill">{model.status}</span>
-      </div>
-      <h2>{model.name}</h2>
-      <p>{model.blurb}</p>
-      <div className="modelMeta">
-        <span>{model.method}</span>
-        <span>{model.size}</span>
-        <span>{model.genPpl} gen-ppl</span>
-      </div>
-    </a>
-  );
-}
-
-function StatBar({ label, value, color }) {
-  return (
-    <div className="statBar">
-      <div><span>{label}</span><strong>{value}%</strong></div>
-      <div className="barTrack"><span className={color} style={{ width: `${value}%` }} /></div>
-    </div>
-  );
-}
-
-function InfoTile({ label, value }) {
-  return <div className="infoTile"><span>{label}</span><strong>{value}</strong></div>;
-}
-
-function Footer() {
-  return (
-    <footer className="footer container">
-      <span>SampleBench</span>
-      <span>Human preference evaluation for unconditional language generation.</span>
-    </footer>
   );
 }
 
