@@ -9,10 +9,62 @@ const STORAGE_KEYS = {
   voteCount: 'samplebench:vote_count',
 };
 
-const APP_VERSION = 'samplebench-web/vote-only-2026-06-11';
+const APP_VERSION = 'samplebench-web/feedback-v2-2026-06-11';
+const RUBRIC_VERSION = 'preference-rubric-v1';
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL?.replace(/\/$/, '');
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const SUPABASE_TABLE = import.meta.env.VITE_SUPABASE_TABLE || 'sample_votes';
+
+const CHOICE_OPTIONS = [
+  { value: 'left', label: 'Sample A' },
+  { value: 'right', label: 'Sample B' },
+  { value: 'tie', label: 'Tie' },
+  { value: 'both_bad', label: 'Both bad' },
+  { value: 'skip', label: 'Skip' },
+];
+
+const STRENGTH_OPTIONS = [
+  { value: 1, label: 'Barely' },
+  { value: 2, label: 'Slightly' },
+  { value: 3, label: 'Clearly' },
+  { value: 4, label: 'Much' },
+  { value: 5, label: 'Overwhelmingly' },
+];
+
+const REASON_OPTIONS = [
+  { value: 'more_coherent', label: 'Coherence' },
+  { value: 'more_fluent_grammar', label: 'Grammar' },
+  { value: 'less_repetitive', label: 'Less repetition' },
+  { value: 'better_vocabulary_naturalness', label: 'Vocabulary' },
+  { value: 'better_topic_flow', label: 'Topic flow' },
+  { value: 'fewer_artifacts', label: 'Fewer artifacts' },
+  { value: 'more_human_like', label: 'Human-like' },
+];
+
+const AXES = [
+  { id: 'overall_quality', label: 'Overall quality' },
+  { id: 'coherence', label: 'Coherence' },
+  { id: 'fluency_grammar', label: 'Grammar / fluency' },
+  { id: 'repetition', label: 'Low repetition' },
+  { id: 'vocabulary_naturalness', label: 'Vocabulary / naturalness' },
+  { id: 'artifacts', label: 'Fewer artifacts' },
+];
+
+const AXIS_CHOICES = [
+  { value: 'left', label: 'A' },
+  { value: 'same', label: 'Same' },
+  { value: 'right', label: 'B' },
+  { value: 'not_sure', label: '?' },
+];
+
+const RATING_DIMENSIONS = [
+  { id: 'overall', label: 'Overall' },
+  { id: 'coherence', label: 'Coherence' },
+  { id: 'fluency_grammar', label: 'Grammar' },
+  { id: 'low_repetition', label: 'Low repetition' },
+  { id: 'naturalness', label: 'Naturalness' },
+  { id: 'artifact_free', label: 'Artifact-free' },
+];
 
 const samplePool = models.flatMap((model) =>
   (model.samples || []).map((sample, sampleIndex) => ({
@@ -63,6 +115,23 @@ function createPair(previousPairId) {
     id: `${left.sampleId}__${right.sampleId}`,
     left,
     right,
+  };
+}
+
+function makeEmptyRatings() {
+  return Object.fromEntries(RATING_DIMENSIONS.map((dimension) => [dimension.id, null]));
+}
+
+function makeInitialFeedback() {
+  return {
+    choice: null,
+    preferenceStrength: 3,
+    reasons: [],
+    axisVotes: Object.fromEntries(AXES.map((axis) => [axis.id, 'not_sure'])),
+    ratings: {
+      left: makeEmptyRatings(),
+      right: makeEmptyRatings(),
+    },
   };
 }
 
@@ -175,16 +244,26 @@ async function flushQueuedVotes() {
   writeQueuedVotes(remaining);
 }
 
-function buildVoteRow({ pair, choice, voterId, responseTimeMs, voteNumber }) {
-  const winner = choice === 'left' ? pair.left : pair.right;
-  const loser = choice === 'left' ? pair.right : pair.left;
+function isBinaryChoice(choice) {
+  return choice === 'left' || choice === 'right';
+}
+
+function buildVoteRow({ pair, feedback, voterId, responseTimeMs, voteNumber }) {
+  const winner = feedback.choice === 'left' ? pair.left : feedback.choice === 'right' ? pair.right : null;
+  const loser = feedback.choice === 'left' ? pair.right : feedback.choice === 'right' ? pair.left : null;
+  const preferenceStrength = isBinaryChoice(feedback.choice) ? feedback.preferenceStrength : null;
 
   return {
     session_id: voterId,
     battle_id: pair.id,
-    choice,
-    winner_model_id: winner.modelId,
-    loser_model_id: loser.modelId,
+    choice: feedback.choice,
+    preference_strength: preferenceStrength,
+    reasons: feedback.reasons,
+    axis_votes: feedback.axisVotes,
+    ratings: feedback.ratings,
+    rubric_version: RUBRIC_VERSION,
+    winner_model_id: winner?.modelId ?? null,
+    loser_model_id: loser?.modelId ?? null,
     left_model_id: pair.left.modelId,
     right_model_id: pair.right.modelId,
     left_sample_id: pair.left.sampleId,
@@ -217,12 +296,12 @@ function buildVoteRow({ pair, choice, voterId, responseTimeMs, voteNumber }) {
         gen_ppl: pair.right.genPpl,
         entropy: pair.right.entropy,
       },
-      winner: {
+      winner: winner && {
         model_id: winner.modelId,
         model_name: winner.modelName,
         sample_id: winner.sampleId,
       },
-      loser: {
+      loser: loser && {
         model_id: loser.modelId,
         model_name: loser.modelName,
         sample_id: loser.sampleId,
@@ -239,8 +318,9 @@ function VotePage() {
   const [voterId] = useState(getVoterId);
   const [pair, setPair] = useState(() => createPair());
   const [voteCount, setVoteCount] = useState(getVoteCount);
+  const [feedback, setFeedback] = useState(makeInitialFeedback);
   const [status, setStatus] = useState('');
-  const [pendingChoice, setPendingChoice] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [queuedCount, setQueuedCount] = useState(() => readQueuedVotes().length);
   const startedAt = useRef(performance.now());
 
@@ -254,19 +334,20 @@ function VotePage() {
 
   const advancePair = useCallback((currentPairId) => {
     setPair(createPair(currentPairId));
+    setFeedback(makeInitialFeedback());
     startedAt.current = performance.now();
   }, []);
 
-  const submitVote = useCallback(async (choice) => {
-    if (!pair || pendingChoice) return;
+  const submitFeedback = useCallback(async () => {
+    if (!pair || isSubmitting || !feedback.choice) return;
 
-    setPendingChoice(choice);
-    setStatus(choice === 'left' ? 'Saving Sample A' : 'Saving Sample B');
+    setIsSubmitting(true);
+    setStatus('Saving feedback');
 
     const nextVoteCount = voteCount + 1;
     const row = buildVoteRow({
       pair,
-      choice,
+      feedback,
       voterId,
       voteNumber: nextVoteCount,
       responseTimeMs: Math.max(0, Math.round(performance.now() - startedAt.current)),
@@ -278,23 +359,23 @@ function VotePage() {
       if (result.queued) {
         queueVote(row);
         setQueuedCount(readQueuedVotes().length);
-        setStatus('Preference queued');
+        setStatus('Feedback queued');
       } else {
         setQueuedCount(readQueuedVotes().length);
-        setStatus('Preference recorded');
+        setStatus('Feedback recorded');
       }
     } catch (error) {
       queueVote(row);
       setQueuedCount(readQueuedVotes().length);
-      setStatus('Preference queued');
-      console.error('Could not record SampleBench vote', error);
+      setStatus('Feedback queued');
+      console.error('Could not record SampleBench feedback', error);
     } finally {
       setStoredVoteCount(nextVoteCount);
       setVoteCount(nextVoteCount);
-      setPendingChoice(null);
+      setIsSubmitting(false);
       advancePair(pair.id);
     }
-  }, [advancePair, pair, pendingChoice, voteCount, voterId]);
+  }, [advancePair, feedback, isSubmitting, pair, voteCount, voterId]);
 
   if (!pair) {
     return (
@@ -311,43 +392,253 @@ function VotePage() {
         <h1 id="vote-question">Which sample is better?</h1>
       </section>
 
-      <section className="sampleGrid" aria-label="Sample preference options">
-        <SampleOption
-          label="Sample A"
-          sample={pair.left}
-          pending={pendingChoice === 'left'}
-          disabled={Boolean(pendingChoice)}
-          onClick={() => submitVote('left')}
-        />
-        <SampleOption
-          label="Sample B"
-          sample={pair.right}
-          pending={pendingChoice === 'right'}
-          disabled={Boolean(pendingChoice)}
-          onClick={() => submitVote('right')}
-        />
+      <section className="sampleGrid" aria-label="Generated samples">
+        <SamplePane label="Sample A" sample={pair.left} />
+        <SamplePane label="Sample B" sample={pair.right} />
       </section>
 
+      <FeedbackPanel
+        feedback={feedback}
+        setFeedback={setFeedback}
+        disabled={isSubmitting}
+        onSubmit={submitFeedback}
+      />
+
       <section className="statusRow" aria-live="polite">
-        <span>{status || ' '}</span>
+        <span>{status || `${voteCount.toLocaleString()} submitted`}</span>
         {queuedCount > 0 && <span>{queuedCount} queued</span>}
       </section>
     </main>
   );
 }
 
-function SampleOption({ label, sample, pending, disabled, onClick }) {
+function SamplePane({ label, sample }) {
   return (
-    <article className="sampleOption">
+    <article className="samplePane">
       <span className="sampleTopline">
         <strong>{label}</strong>
         <span>{sample.text.split(/\s+/).length.toLocaleString()} words</span>
       </span>
       <span className="sampleText">{sample.text}</span>
-      <button className="sampleAction" type="button" disabled={disabled} onClick={onClick}>
-        {pending ? 'Saving...' : `Choose ${label}`}
-      </button>
     </article>
+  );
+}
+
+function FeedbackPanel({ feedback, setFeedback, disabled, onSubmit }) {
+  const strengthDisabled = disabled || !isBinaryChoice(feedback.choice);
+  const canSubmit = Boolean(feedback.choice) && !disabled;
+
+  return (
+    <section className="feedbackPanel" aria-label="Feedback details">
+      <div className="panelHeader">
+        <div>
+          <h2>Feedback</h2>
+          <p>Primary preference plus short structure for later metric-correlation analysis.</p>
+        </div>
+        <button className="submitButton" type="button" disabled={!canSubmit} onClick={onSubmit}>
+          {disabled ? 'Saving...' : 'Record feedback'}
+        </button>
+      </div>
+
+      <div className="feedbackGrid">
+        <FieldBlock title="Overall preference" detail="Required">
+          <SegmentedButtons
+            options={CHOICE_OPTIONS}
+            value={feedback.choice}
+            disabled={disabled}
+            onChange={(choice) => setFeedback((current) => ({ ...current, choice }))}
+          />
+        </FieldBlock>
+
+        <FieldBlock title="Preference strength" detail="Only for A/B preferences">
+          <ScaleButtons
+            options={STRENGTH_OPTIONS}
+            value={feedback.preferenceStrength}
+            disabled={strengthDisabled}
+            onChange={(preferenceStrength) => setFeedback((current) => ({ ...current, preferenceStrength }))}
+          />
+        </FieldBlock>
+
+        <FieldBlock title="What made it better?" detail="Optional multi-select" wide>
+          <ToggleChips
+            options={REASON_OPTIONS}
+            values={feedback.reasons}
+            disabled={disabled}
+            onChange={(reasons) => setFeedback((current) => ({ ...current, reasons }))}
+          />
+        </FieldBlock>
+      </div>
+
+      <div className="detailGrid">
+        <AxisVotePanel
+          value={feedback.axisVotes}
+          disabled={disabled}
+          onChange={(axisVotes) => setFeedback((current) => ({ ...current, axisVotes }))}
+        />
+        <RatingsPanel
+          ratings={feedback.ratings}
+          disabled={disabled}
+          onChange={(ratings) => setFeedback((current) => ({ ...current, ratings }))}
+        />
+      </div>
+    </section>
+  );
+}
+
+function FieldBlock({ title, detail, wide = false, children }) {
+  return (
+    <div className={wide ? 'fieldBlock wide' : 'fieldBlock'}>
+      <div className="fieldTop">
+        <h3>{title}</h3>
+        <span>{detail}</span>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function SegmentedButtons({ options, value, disabled, onChange }) {
+  return (
+    <div className="segmentedButtons">
+      {options.map((option) => (
+        <button
+          key={option.value}
+          className={value === option.value ? 'selected' : ''}
+          type="button"
+          disabled={disabled}
+          onClick={() => onChange(option.value)}
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function ScaleButtons({ options, value, disabled, onChange }) {
+  return (
+    <div className="scaleButtons">
+      {options.map((option) => (
+        <button
+          key={option.value}
+          className={value === option.value ? 'selected' : ''}
+          type="button"
+          disabled={disabled}
+          onClick={() => onChange(option.value)}
+        >
+          <strong>{option.value}</strong>
+          <span>{option.label}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function ToggleChips({ options, values, disabled, onChange }) {
+  return (
+    <div className="toggleChips">
+      {options.map((option) => {
+        const selected = values.includes(option.value);
+        return (
+          <button
+            key={option.value}
+            className={selected ? 'selected' : ''}
+            type="button"
+            disabled={disabled}
+            onClick={() => {
+              onChange(selected
+                ? values.filter((value) => value !== option.value)
+                : [...values, option.value]);
+            }}
+          >
+            {option.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function AxisVotePanel({ value, disabled, onChange }) {
+  return (
+    <section className="structuredPanel">
+      <div className="fieldTop">
+        <h3>Per-axis winner</h3>
+        <span>A / same / B / unsure</span>
+      </div>
+      <div className="axisList">
+        {AXES.map((axis) => (
+          <div className="axisRow" key={axis.id}>
+            <span>{axis.label}</span>
+            <SegmentedButtons
+              options={AXIS_CHOICES}
+              value={value[axis.id]}
+              disabled={disabled}
+              onChange={(axisChoice) => onChange({ ...value, [axis.id]: axisChoice })}
+            />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function RatingsPanel({ ratings, disabled, onChange }) {
+  const updateRating = (side, dimension, score) => {
+    onChange({
+      ...ratings,
+      [side]: {
+        ...ratings[side],
+        [dimension]: ratings[side][dimension] === score ? null : score,
+      },
+    });
+  };
+
+  return (
+    <section className="structuredPanel">
+      <div className="fieldTop">
+        <h3>Optional 1-5 ratings</h3>
+        <span>Higher is better</span>
+      </div>
+      <div className="ratingsList">
+        {RATING_DIMENSIONS.map((dimension) => (
+          <div className="ratingRow" key={dimension.id}>
+            <span>{dimension.label}</span>
+            <RatingScale
+              label="A"
+              value={ratings.left[dimension.id]}
+              disabled={disabled}
+              onChange={(score) => updateRating('left', dimension.id, score)}
+            />
+            <RatingScale
+              label="B"
+              value={ratings.right[dimension.id]}
+              disabled={disabled}
+              onChange={(score) => updateRating('right', dimension.id, score)}
+            />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function RatingScale({ label, value, disabled, onChange }) {
+  return (
+    <div className="ratingScale" aria-label={`${label} rating`}>
+      <span>{label}</span>
+      {[1, 2, 3, 4, 5].map((score) => (
+        <button
+          key={score}
+          className={value === score ? 'selected' : ''}
+          type="button"
+          disabled={disabled}
+          onClick={() => onChange(score)}
+        >
+          {score}
+        </button>
+      ))}
+    </div>
   );
 }
 
