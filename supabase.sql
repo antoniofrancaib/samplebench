@@ -5,10 +5,7 @@ create table if not exists public.sample_votes (
   battle_id text not null,
   choice text not null,
   preference_strength smallint,
-  reasons text[] not null default '{}',
-  axis_votes jsonb not null default '{}'::jsonb,
-  ratings jsonb not null default '{}'::jsonb,
-  rubric_version text not null default 'preference-rubric-v1',
+  rubric_version text not null default 'preference-strength-v1',
   winner_model_id text,
   loser_model_id text,
   left_model_id text not null,
@@ -26,10 +23,7 @@ create table if not exists public.sample_votes (
 
 alter table public.sample_votes
   add column if not exists preference_strength smallint,
-  add column if not exists reasons text[] not null default '{}',
-  add column if not exists axis_votes jsonb not null default '{}'::jsonb,
-  add column if not exists ratings jsonb not null default '{}'::jsonb,
-  add column if not exists rubric_version text not null default 'preference-rubric-v1';
+  add column if not exists rubric_version text not null default 'preference-strength-v1';
 
 alter table public.sample_votes
   alter column winner_model_id drop not null,
@@ -56,7 +50,6 @@ with check (
   choice in ('left', 'right', 'tie', 'both_bad', 'skip')
   and (preference_strength is null or preference_strength between 1 and 5)
   and response_time_ms >= 0
-  and coalesce(array_length(reasons, 1), 0) <= 8
 );
 
 create index if not exists sample_votes_created_at_idx on public.sample_votes (created_at desc);
