@@ -16,11 +16,11 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const SUPABASE_TABLE = import.meta.env.VITE_SUPABASE_TABLE || 'sample_votes';
 
 const CHOICES = [
-  { value: 'left', label: 'Sample A' },
-  { value: 'right', label: 'Sample B' },
-  { value: 'tie', label: 'Tie' },
-  { value: 'both_bad', label: 'Both bad' },
-  { value: 'skip', label: 'Skip' },
+  { value: 'left', label: 'Sample A', key: 'a' },
+  { value: 'right', label: 'Sample B', key: 'b' },
+  { value: 'tie', label: 'Tie', key: 't' },
+  { value: 'both_bad', label: 'Both bad', key: 'n' },
+  { value: 'skip', label: 'Skip', key: 's' },
 ];
 
 const STRENGTHS = [
@@ -315,98 +315,165 @@ function VotePage() {
     }
   }, [advancePair, choice, isSubmitting, pair, strength, voteCount, voterId]);
 
+  // Keyboard shortcuts: a/b/t/n/s for choices, 1-5 for strength, Enter to submit
+  useEffect(() => {
+    function onKey(e) {
+      if (e.target.matches('input, textarea, [contenteditable]')) return;
+      if (isSubmitting) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      const k = e.key;
+
+      if (k === 'Enter' || k === ' ') {
+        if (choice) { e.preventDefault(); submitVote(); }
+        return;
+      }
+
+      const choiceMap = { a: 'left', b: 'right', t: 'tie', n: 'both_bad', s: 'skip' };
+      const mapped = choiceMap[k.toLowerCase()];
+      if (mapped) { setChoice(mapped); return; }
+
+      if (isBinaryChoice(choice)) {
+        const n = Number(k);
+        if (n >= 1 && n <= 5) setStrength(n);
+      }
+    }
+
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [choice, isSubmitting, submitVote]);
+
   if (!pair) {
     return (
-      <main className="page emptyState">
-        <h1>Which sample is better?</h1>
-        <p>No sample pairs are available.</p>
-      </main>
+      <div className="emptyPage">
+        <p>No sample pairs available.</p>
+      </div>
     );
   }
 
   const strengthEnabled = isBinaryChoice(choice);
-  const selectedChoiceLabel = CHOICES.find((option) => option.value === choice)?.label;
+  const selectedStrengthLabel = strengthEnabled
+    ? STRENGTHS.find((s) => s.value === strength)?.label
+    : '';
 
   return (
     <main className="page">
-      <section className="heading">
-        <div>
-          <span className="eyebrow">SampleBench</span>
-          <h1>Which sample is better?</h1>
+      {/* ── Top bar ── */}
+      <header className="topBar">
+        <span className="brand">SampleBench</span>
+        <span className="topSep" aria-hidden="true">/</span>
+        <span className="topTask">Which sample reads better?</span>
+        <div className="topRight">
+          {queuedCount > 0 && (
+            <span className="topTag queued">{queuedCount} queued</span>
+          )}
+          <span className="topTag">{voteCount.toLocaleString()} rated</span>
         </div>
-        <div className="sessionMeta">
-          <span>{voteCount.toLocaleString()} submitted</span>
-          {queuedCount > 0 && <span>{queuedCount} queued</span>}
-        </div>
+      </header>
+
+      {/* ── Sample panes ── */}
+      <section className="samples" aria-label="Generated text samples">
+        <SamplePane
+          label="A"
+          sample={pair.left}
+          selected={choice === 'left'}
+          onSelect={() => !isSubmitting && setChoice('left')}
+        />
+        <SamplePane
+          label="B"
+          sample={pair.right}
+          selected={choice === 'right'}
+          onSelect={() => !isSubmitting && setChoice('right')}
+        />
       </section>
 
-      <section className="samples" aria-label="Generated samples">
-        <SamplePane label="Sample A" sample={pair.left} selected={choice === 'left'} />
-        <SamplePane label="Sample B" sample={pair.right} selected={choice === 'right'} />
-      </section>
-
-      <section className="controlDock" aria-label="Preference controls">
-        <div className="controlHeader">
-          <div>
-            <h2>Preference</h2>
-            <p>{selectedChoiceLabel ? `${selectedChoiceLabel} selected` : 'Choose the better sample, or mark no clear winner.'}</p>
-          </div>
-          <button className="submitButton" type="button" disabled={!choice || isSubmitting} onClick={submitVote}>
-            {isSubmitting ? 'Saving...' : 'Submit'}
-          </button>
-        </div>
-
-        <div className="choiceGrid">
-          {CHOICES.map((option) => (
+      {/* ── Control row ── */}
+      <footer className="controlRow" aria-label="Response controls">
+        <div className="choiceGroup" role="group" aria-label="Your preference">
+          {CHOICES.map((opt) => (
             <button
-              key={option.value}
-              className={choice === option.value ? 'choiceButton selected' : 'choiceButton'}
+              key={opt.value}
               type="button"
+              className={`cBtn${choice === opt.value ? ' sel' : ''}`}
               disabled={isSubmitting}
-              onClick={() => setChoice(option.value)}
+              onClick={() => setChoice(opt.value)}
             >
-              {option.label}
+              {opt.label}
             </button>
           ))}
         </div>
 
-        <div className={strengthEnabled ? 'strengthBlock' : 'strengthBlock disabled'}>
-          <div className="strengthTop">
-            <span>Preference strength</span>
-            <strong>{strengthEnabled ? `${strength}/5` : 'Only for A/B'}</strong>
-          </div>
-          <div className="strengthGrid">
-            {STRENGTHS.map((option) => (
-              <button
-                key={option.value}
-                className={strengthEnabled && strength === option.value ? 'strengthButton selected' : 'strengthButton'}
-                type="button"
-                disabled={!strengthEnabled || isSubmitting}
-                onClick={() => setStrength(option.value)}
-              >
-                <strong>{option.value}</strong>
-                <span>{option.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
+        <div className="vRule" aria-hidden="true" />
 
-      <section className="statusRow" aria-live="polite">
-        <span>{status || ' '}</span>
-      </section>
+        <div
+          className={`strengthGroup${!strengthEnabled ? ' off' : ''}`}
+          role="group"
+          aria-label="Preference strength"
+          aria-disabled={!strengthEnabled}
+        >
+          <span className="sLabel">Strength</span>
+          {STRENGTHS.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              className={`sBtn${strengthEnabled && strength === opt.value ? ' sel' : ''}`}
+              disabled={!strengthEnabled || isSubmitting}
+              title={opt.label}
+              aria-label={`${opt.value} — ${opt.label}`}
+              onClick={() => setStrength(opt.value)}
+            >
+              {opt.value}
+            </button>
+          ))}
+          <span className={`sHint${strengthEnabled ? ' vis' : ''}`} aria-live="polite">
+            {selectedStrengthLabel}
+          </span>
+        </div>
+
+        <div className="rowSpacer" aria-hidden="true" />
+
+        <button
+          className="submitBtn"
+          type="button"
+          disabled={!choice || isSubmitting}
+          onClick={submitVote}
+        >
+          {isSubmitting ? 'Saving…' : 'Submit'}
+        </button>
+      </footer>
+
+      {/* ── Status line ── */}
+      <div className="statusLine" aria-live="polite">
+        <span className="statusMsg">{status || ' '}</span>
+        <span className="kbHint" aria-hidden="true">a · b · t · n · s · enter</span>
+      </div>
     </main>
   );
 }
 
-function SamplePane({ label, sample, selected }) {
+function SamplePane({ label, sample, selected, onSelect }) {
+  const wordCount = sample.text.split(/\s+/).length;
+
   return (
-    <article className={selected ? 'samplePane selected' : 'samplePane'}>
-      <span className="sampleTopline">
-        <strong>{label}</strong>
-        <span>{sample.text.split(/\s+/).length.toLocaleString()} words</span>
-      </span>
-      <span className="sampleText">{sample.text}</span>
+    <article className={`samplePane${selected ? ' sel' : ''}`}>
+      <div
+        className="pHead"
+        role="button"
+        tabIndex={0}
+        aria-pressed={selected}
+        aria-label={`Select Sample ${label}`}
+        onClick={onSelect}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(); } }}
+      >
+        <div className="pLabelRow">
+          <span className="pSelDot" aria-hidden="true">●</span>
+          <span className="pLabel">{label}</span>
+        </div>
+        <span className="pWords">{wordCount.toLocaleString()} words</span>
+      </div>
+      <div className="pBody">
+        <span className="pText">{sample.text}</span>
+      </div>
     </article>
   );
 }
