@@ -17,11 +17,11 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const SUPABASE_TABLE = import.meta.env.VITE_SUPABASE_TABLE || 'sample_votes';
 
 const CHOICES = [
-  { value: 'left',      label: 'Sample A', key: 'a' },
-  { value: 'right',     label: 'Sample B', key: 'b' },
-  { value: 'tie',       label: 'Tie',       key: 't' },
-  { value: 'both_bad',  label: 'Both bad',  key: 'n' },
-  { value: 'skip',      label: 'Skip',      key: 's' },
+  { value: 'left',     label: 'Sample A', key: 'a' },
+  { value: 'right',    label: 'Sample B',  key: 'b' },
+  { value: 'tie',      label: 'Tie',       key: 't' },
+  { value: 'both_bad', label: 'Both bad',  key: 'n' },
+  { value: 'skip',     label: 'Skip',      key: 's' },
 ];
 
 const STRENGTHS = [
@@ -34,25 +34,16 @@ const STRENGTHS = [
 
 const samplePool = models.flatMap((model) =>
   (model.samples || []).map((sample, sampleIndex) => ({
-    modelId: model.id,
-    modelName: model.name,
-    method: model.method,
-    family: model.family,
-    nfe: model.nfe,
-    sampleId: sample.id,
-    sampleIndex,
-    text: sample.text,
-    genPpl: sample.genPpl,
-    entropy: sample.entropy,
+    modelId: model.id, modelName: model.name, method: model.method,
+    family: model.family, nfe: model.nfe, sampleId: sample.id,
+    sampleIndex, text: sample.text, genPpl: sample.genPpl, entropy: sample.entropy,
   })),
 ).filter((s) => s.text);
 
 function getRandomIndex(max) {
   if (max <= 1) return 0;
   if (globalThis.crypto?.getRandomValues) {
-    const v = new Uint32Array(1);
-    globalThis.crypto.getRandomValues(v);
-    return v[0] % max;
+    const v = new Uint32Array(1); globalThis.crypto.getRandomValues(v); return v[0] % max;
   }
   return Math.floor(Math.random() * max);
 }
@@ -133,28 +124,19 @@ function buildVoteRow({ pair, choice, strength, voterId, responseTimeMs, voteNum
   const winner = choice === 'left' ? pair.left : choice === 'right' ? pair.right : null;
   const loser  = choice === 'left' ? pair.right : choice === 'right' ? pair.left : null;
   return {
-    session_id: voterId,
-    battle_id: pair.id,
-    choice,
+    session_id: voterId, battle_id: pair.id, choice,
     preference_strength: isBinaryChoice(choice) ? strength : null,
     rubric_version: RUBRIC_VERSION,
-    winner_model_id: winner?.modelId ?? null,
-    loser_model_id:  loser?.modelId  ?? null,
-    left_model_id:  pair.left.modelId,
-    right_model_id: pair.right.modelId,
-    left_sample_id:  pair.left.sampleId,
-    right_sample_id: pair.right.sampleId,
-    response_time_ms: responseTimeMs,
-    app_version: APP_VERSION,
+    winner_model_id: winner?.modelId ?? null, loser_model_id: loser?.modelId ?? null,
+    left_model_id: pair.left.modelId, right_model_id: pair.right.modelId,
+    left_sample_id: pair.left.sampleId, right_sample_id: pair.right.sampleId,
+    response_time_ms: responseTimeMs, app_version: APP_VERSION,
     payload: {
-      vote_number: voteNumber,
-      client_time: new Date().toISOString(),
+      vote_number: voteNumber, client_time: new Date().toISOString(),
       page_url: window.location.href,
       viewport: { width: window.innerWidth, height: window.innerHeight },
-      left:   samplePayload(pair.left),
-      right:  samplePayload(pair.right),
-      winner: winner && samplePayload(winner),
-      loser:  loser  && samplePayload(loser),
+      left: samplePayload(pair.left), right: samplePayload(pair.right),
+      winner: winner && samplePayload(winner), loser: loser && samplePayload(loser),
     },
   };
 }
@@ -167,15 +149,15 @@ function samplePayload(s) {
   };
 }
 
-/* ── Choice / Strength button — arena.ai light style ─────── */
-function CtrlBtn({ selected, className, ...props }) {
+/* ── Vote button ─────────────────────────────────────────────── */
+function VoteBtn({ selected, className, ...props }) {
   return (
     <button
       type="button"
       className={cn(
-        'inline-flex items-center justify-center rounded-md border text-[12.5px] font-medium transition-colors',
+        'inline-flex items-center justify-center rounded-lg border text-[13px] font-medium transition-colors',
         'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
-        'disabled:pointer-events-none disabled:opacity-40',
+        'disabled:pointer-events-none disabled:opacity-35',
         selected
           ? 'bg-primary border-primary text-primary-foreground'
           : 'bg-background border-input text-foreground/60 hover:bg-accent hover:border-[hsl(30_9%_83%)] hover:text-foreground',
@@ -186,22 +168,20 @@ function CtrlBtn({ selected, className, ...props }) {
   );
 }
 
-/* ── App ──────────────────────────────────────────────────── */
+/* ── App ──────────────────────────────────────────────────────── */
 function App() { return <VotePage />; }
 
 function VotePage() {
-  const [voterId]       = useState(getVoterId);
-  const [pair, setPair] = useState(() => createPair());
-  const [choice, setChoice]   = useState(null);
+  const [voterId]           = useState(getVoterId);
+  const [pair, setPair]     = useState(() => createPair());
+  const [choice, setChoice] = useState(null);
   const [strength, setStrength] = useState(3);
   const [voteCount, setVoteCount] = useState(getVoteCount);
-  const [status, setStatus]       = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [queuedCount, setQueuedCount]   = useState(() => readQueuedVotes().length);
   const startedAt = useRef(performance.now());
 
   useEffect(() => {
-    flushQueuedVotes().catch(console.error).finally(() => setQueuedCount(readQueuedVotes().length));
+    flushQueuedVotes().catch(console.error);
   }, []);
 
   const advancePair = useCallback((currentPairId) => {
@@ -214,7 +194,6 @@ function VotePage() {
   const submitVote = useCallback(async () => {
     if (!pair || !choice || isSubmitting) return;
     setIsSubmitting(true);
-    setStatus('Saving…');
     const nextCount = voteCount + 1;
     const row = buildVoteRow({
       pair, choice, strength, voterId,
@@ -223,12 +202,11 @@ function VotePage() {
     });
     try {
       const result = await insertVote(row);
-      if (result.queued) { queueVote(row); setStatus('Queued'); } else { setStatus('Saved'); }
+      if (result.queued) queueVote(row);
     } catch (err) {
-      queueVote(row); setStatus('Queued');
+      queueVote(row);
       console.error('SampleBench vote error', err);
     } finally {
-      setQueuedCount(readQueuedVotes().length);
       setStoredVoteCount(nextCount);
       setVoteCount(nextCount);
       setIsSubmitting(false);
@@ -262,31 +240,10 @@ function VotePage() {
   const strengthLabel = strengthEnabled ? STRENGTHS.find((s) => s.value === strength)?.label : '';
 
   return (
-    <main className="h-dvh flex flex-col overflow-hidden bg-background">
+    <main className="h-dvh flex flex-col overflow-hidden bg-background" style={{ padding: '20px 20px 0' }}>
 
-      {/* ── Top bar ─────────────────────────────────── */}
-      <header className="flex-none h-11 flex items-center px-4 gap-0 border-b border-border bg-background">
-        <span className="text-[13.5px] font-semibold tracking-[-0.01em] text-foreground">
-          SampleBench
-        </span>
-        <span className="mx-2.5 text-[16px] font-light text-muted-foreground/40 select-none leading-none">/</span>
-        <span className="hidden sm:block text-[12.5px] text-muted-foreground">
-          Which sample reads better?
-        </span>
-        <div className="ml-auto flex items-center gap-2">
-          {queuedCount > 0 && (
-            <span className="inline-flex items-center h-[22px] px-2 rounded-md border border-amber-300 bg-amber-50 text-amber-700 text-[11.5px] tabular-nums font-medium">
-              {queuedCount} queued
-            </span>
-          )}
-          <span className="inline-flex items-center h-[22px] px-2 rounded-md border border-border bg-card text-muted-foreground text-[11.5px] tabular-nums">
-            {voteCount.toLocaleString()} rated
-          </span>
-        </div>
-      </header>
-
-      {/* ── Sample panes ────────────────────────────── */}
-      <section className="flex flex-1 min-h-0 overflow-hidden bg-background" aria-label="Generated text samples">
+      {/* ── Two sample cards ────────────────────────────── */}
+      <section className="flex flex-1 min-h-0 gap-4 overflow-hidden" aria-label="Generated text samples">
         <SamplePane
           label="A"
           sample={pair.left}
@@ -301,52 +258,51 @@ function VotePage() {
         />
       </section>
 
-      {/* ── Control row ─────────────────────────────── */}
+      {/* ── Controls ────────────────────────────────────── */}
       <footer
-        className="flex-none flex items-center gap-1.5 border-t border-border bg-background flex-wrap"
-        style={{ minHeight: 52, padding: '10px 14px' }}
+        className="flex-none flex items-center gap-2 py-4"
         aria-label="Response controls"
       >
-        {/* Choice buttons */}
-        <div className="flex gap-1.5" role="group" aria-label="Your preference">
+        {/* Choice */}
+        <div className="flex gap-2" role="group" aria-label="Your preference">
           {CHOICES.map((opt) => (
-            <CtrlBtn
+            <VoteBtn
               key={opt.value}
               selected={choice === opt.value}
               disabled={isSubmitting}
-              style={{ height: 30, padding: '0 12px' }}
+              style={{ height: 34, padding: '0 14px' }}
               onClick={() => setChoice(opt.value)}
             >
               {opt.label}
-            </CtrlBtn>
+            </VoteBtn>
           ))}
         </div>
 
         {/* Divider */}
-        <div className="w-px self-stretch mx-1 my-1 bg-border flex-shrink-0" aria-hidden="true" />
+        <div className="w-px h-5 bg-border mx-1 flex-shrink-0" aria-hidden="true" />
 
         {/* Strength */}
         <div
-          className={cn('flex items-center gap-1.5 flex-shrink-0 transition-opacity', !strengthEnabled && 'opacity-30 pointer-events-none')}
+          className={cn('flex items-center gap-2 flex-shrink-0 transition-opacity', !strengthEnabled && 'opacity-25 pointer-events-none')}
           role="group"
           aria-label="Preference strength"
         >
-          <span className="text-[11.5px] text-muted-foreground mr-0.5 select-none">Strength</span>
+          <span className="text-[12px] text-muted-foreground select-none">Strength</span>
           {STRENGTHS.map((opt) => (
-            <CtrlBtn
+            <VoteBtn
               key={opt.value}
               selected={strengthEnabled && strength === opt.value}
               disabled={!strengthEnabled || isSubmitting}
               title={opt.label}
-              style={{ height: 30, width: 30 }}
+              style={{ height: 34, width: 34 }}
               aria-label={`${opt.value} — ${opt.label}`}
               onClick={() => setStrength(opt.value)}
             >
               {opt.value}
-            </CtrlBtn>
+            </VoteBtn>
           ))}
           <span
-            className="text-[11.5px] text-muted-foreground ml-1.5 min-w-[80px] transition-opacity"
+            className="text-[12px] text-muted-foreground min-w-[88px] transition-opacity"
             style={{ opacity: strengthEnabled ? 1 : 0 }}
             aria-live="polite"
           >
@@ -355,7 +311,7 @@ function VotePage() {
         </div>
 
         {/* Spacer */}
-        <div className="flex-1 min-w-2" aria-hidden="true" />
+        <div className="flex-1" aria-hidden="true" />
 
         {/* Submit */}
         <button
@@ -363,92 +319,57 @@ function VotePage() {
           disabled={!choice || isSubmitting}
           onClick={submitVote}
           className={cn(
-            'inline-flex items-center justify-center rounded-md border text-[12.5px] font-semibold transition-colors',
+            'inline-flex items-center justify-center rounded-lg border text-[13px] font-semibold transition-colors flex-shrink-0',
             'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
-            'flex-shrink-0',
             choice && !isSubmitting
               ? 'bg-primary border-primary text-primary-foreground hover:opacity-90 cursor-pointer'
-              : 'bg-card border-input text-muted-foreground/40 cursor-not-allowed',
+              : 'bg-background border-input text-muted-foreground/35 cursor-not-allowed',
           )}
-          style={{ height: 30, padding: '0 16px' }}
+          style={{ height: 34, padding: '0 18px' }}
         >
           {isSubmitting ? 'Saving…' : 'Submit →'}
         </button>
       </footer>
 
-      {/* ── Status line ─────────────────────────────── */}
-      <div
-        className="flex-none flex items-center justify-between px-4 border-t border-border bg-background text-muted-foreground overflow-hidden h-[26px]"
-        style={{ fontSize: 11.5 }}
-        aria-live="polite"
-      >
-        <span className="truncate opacity-60">{status || ' '}</span>
-        <span className="font-mono flex-shrink-0 pl-3 opacity-40" style={{ fontSize: 10.5 }}>
-          a · b · t · n · s · enter
-        </span>
-      </div>
-
     </main>
   );
 }
 
-/* ── SamplePane ───────────────────────────────────────────── */
+/* ── SamplePane ───────────────────────────────────────────────── */
 function SamplePane({ label, sample, selected, onSelect }) {
-  const wordCount = sample.text.split(/\s+/).length;
-
   return (
     <article
+      role="button"
+      tabIndex={0}
+      aria-pressed={selected}
+      aria-label={`Select Sample ${label}`}
+      onClick={onSelect}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(); } }}
       className={cn(
-        'flex flex-col flex-1 min-w-0 overflow-hidden transition-colors duration-150',
-        '[&:not(:first-child)]:border-l [&:not(:first-child)]:border-border',
-        selected ? 'bg-accent/40' : 'bg-background',
+        'flex flex-col flex-1 min-w-0 rounded-2xl border cursor-pointer transition-colors duration-150 overflow-hidden',
+        selected
+          ? 'bg-accent/40 border-[hsl(30_9%_83%)]'
+          : 'bg-card border-border hover:border-input hover:bg-accent/10',
       )}
     >
-      {/* Pane header — click to select */}
-      <div
-        role="button"
-        tabIndex={0}
-        aria-pressed={selected}
-        aria-label={`Select Sample ${label}`}
-        onClick={onSelect}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(); } }}
-        className={cn(
-          'flex-none h-10 flex items-center justify-between px-5 border-b cursor-pointer select-none transition-colors duration-100',
-          selected
-            ? 'bg-accent/60 border-border'
-            : 'bg-background border-border hover:bg-accent/30',
-        )}
-      >
-        <div className="flex items-center gap-2.5">
-          {/* Selection indicator */}
-          <div
-            className={cn(
-              'size-[7px] rounded-full border transition-colors duration-150 flex-shrink-0',
-              selected
-                ? 'bg-primary border-primary'
-                : 'bg-transparent border-[hsl(30_9%_83%)]',
-            )}
-          />
-          <span
-            className={cn(
-              'text-[11px] font-semibold tracking-[0.07em] uppercase transition-colors duration-100 font-mono',
-              selected ? 'text-foreground' : 'text-muted-foreground',
-            )}
-          >
-            Sample {label}
-          </span>
-        </div>
-        <span className="text-[11px] font-mono text-muted-foreground/50 tabular-nums">
-          {wordCount.toLocaleString()} w
+      {/* Label */}
+      <div className="flex-none px-7 pt-6 pb-2">
+        <span
+          className={cn(
+            'text-[11px] font-semibold tracking-[0.1em] uppercase font-mono transition-colors',
+            selected ? 'text-foreground/70' : 'text-muted-foreground/50',
+          )}
+        >
+          Sample {label}
         </span>
       </div>
 
-      {/* Scrollable body */}
-      <div className="flex-1 min-h-0 overflow-y-auto px-6 py-5 pb-8 cursor-auto">
+      {/* Text body */}
+      <div className="flex-1 min-h-0 overflow-y-auto px-7 pb-8 cursor-auto" onClick={(e) => e.stopPropagation()}>
         <p
           className={cn(
-            'text-[14px] leading-[1.75] whitespace-pre-wrap transition-colors duration-150',
-            selected ? 'text-foreground' : 'text-foreground/70',
+            'text-[14.5px] leading-[1.78] whitespace-pre-wrap transition-colors duration-150',
+            selected ? 'text-foreground' : 'text-foreground/72',
           )}
         >
           {sample.text}
