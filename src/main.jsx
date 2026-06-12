@@ -16,20 +16,12 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL?.replace(/\/$/, '');
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const SUPABASE_TABLE = import.meta.env.VITE_SUPABASE_TABLE || 'sample_votes';
 
+/* 4 choices — matches arena.ai battle UX */
 const CHOICES = [
-  { value: 'left',     label: 'Sample A', key: 'a' },
-  { value: 'right',    label: 'Sample B',  key: 'b' },
-  { value: 'tie',      label: 'Tie',       key: 't' },
-  { value: 'both_bad', label: 'Both bad',  key: 'n' },
-  { value: 'skip',     label: 'Skip',      key: 's' },
-];
-
-const STRENGTHS = [
-  { value: 1, label: 'Barely' },
-  { value: 2, label: 'Slightly' },
-  { value: 3, label: 'Clearly' },
-  { value: 4, label: 'Much' },
-  { value: 5, label: 'Overwhelmingly' },
+  { value: 'left',     label: 'A is better',  key: 'a' },
+  { value: 'tie',      label: 'Both are good', key: 't' },
+  { value: 'both_bad', label: 'Both are bad',  key: 'n' },
+  { value: 'right',    label: 'B is better',  key: 'b' },
 ];
 
 const samplePool = models.flatMap((model) =>
@@ -120,12 +112,12 @@ async function flushQueuedVotes() {
 
 function isBinaryChoice(choice) { return choice === 'left' || choice === 'right'; }
 
-function buildVoteRow({ pair, choice, strength, voterId, responseTimeMs, voteNumber }) {
+function buildVoteRow({ pair, choice, voterId, responseTimeMs, voteNumber }) {
   const winner = choice === 'left' ? pair.left : choice === 'right' ? pair.right : null;
   const loser  = choice === 'left' ? pair.right : choice === 'right' ? pair.left : null;
   return {
     session_id: voterId, battle_id: pair.id, choice,
-    preference_strength: isBinaryChoice(choice) ? strength : null,
+    preference_strength: null,
     rubric_version: RUBRIC_VERSION,
     winner_model_id: winner?.modelId ?? null, loser_model_id: loser?.modelId ?? null,
     left_model_id: pair.left.modelId, right_model_id: pair.right.modelId,
@@ -149,35 +141,15 @@ function samplePayload(s) {
   };
 }
 
-/* ── Vote button ─────────────────────────────────────────────── */
-function VoteBtn({ selected, className, ...props }) {
-  return (
-    <button
-      type="button"
-      className={cn(
-        'inline-flex items-center justify-center rounded-lg border text-[13px] font-medium transition-colors',
-        'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
-        'disabled:pointer-events-none disabled:opacity-35',
-        selected
-          ? 'bg-primary border-primary text-primary-foreground'
-          : 'bg-background border-input text-foreground/60 hover:bg-accent hover:border-[hsl(30_9%_83%)] hover:text-foreground',
-        className,
-      )}
-      {...props}
-    />
-  );
-}
-
 /* ── App ──────────────────────────────────────────────────────── */
 function App() { return <VotePage />; }
 
 function VotePage() {
-  const [voterId]           = useState(getVoterId);
-  const [pair, setPair]     = useState(() => createPair());
-  const [choice, setChoice] = useState(null);
-  const [strength, setStrength] = useState(3);
+  const [voterId]        = useState(getVoterId);
+  const [pair, setPair]  = useState(() => createPair());
   const [voteCount, setVoteCount] = useState(getVoteCount);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [lastChoice, setLastChoice] = useState(null);
   const startedAt = useRef(performance.now());
 
   useEffect(() => {
@@ -186,17 +158,17 @@ function VotePage() {
 
   const advancePair = useCallback((currentPairId) => {
     setPair(createPair(currentPairId));
-    setChoice(null);
-    setStrength(3);
+    setLastChoice(null);
     startedAt.current = performance.now();
   }, []);
 
-  const submitVote = useCallback(async () => {
-    if (!pair || !choice || isSubmitting) return;
+  const submitChoice = useCallback(async (choiceValue) => {
+    if (!pair || isSubmitting) return;
     setIsSubmitting(true);
+    setLastChoice(choiceValue);
     const nextCount = voteCount + 1;
     const row = buildVoteRow({
-      pair, choice, strength, voterId,
+      pair, choice: choiceValue, voterId,
       voteNumber: nextCount,
       responseTimeMs: Math.max(0, Math.round(performance.now() - startedAt.current)),
     });
@@ -212,21 +184,19 @@ function VotePage() {
       setIsSubmitting(false);
       advancePair(pair.id);
     }
-  }, [advancePair, choice, isSubmitting, pair, strength, voteCount, voterId]);
+  }, [advancePair, isSubmitting, pair, voteCount, voterId]);
 
   useEffect(() => {
     function onKey(e) {
       if (e.target.matches('input,textarea,[contenteditable]')) return;
       if (isSubmitting || e.metaKey || e.ctrlKey || e.altKey) return;
-      const k = e.key;
-      if (k === 'Enter' || k === ' ') { if (choice) { e.preventDefault(); submitVote(); } return; }
-      const cm = { a: 'left', b: 'right', t: 'tie', n: 'both_bad', s: 'skip' };
-      if (cm[k?.toLowerCase()]) { setChoice(cm[k.toLowerCase()]); return; }
-      if (isBinaryChoice(choice)) { const n = Number(k); if (n >= 1 && n <= 5) setStrength(n); }
+      const map = { a: 'left', t: 'tie', n: 'both_bad', b: 'right' };
+      const v = map[e.key?.toLowerCase()];
+      if (v) { e.preventDefault(); submitChoice(v); }
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [choice, isSubmitting, submitVote]);
+  }, [isSubmitting, submitChoice]);
 
   if (!pair) {
     return (
@@ -236,146 +206,68 @@ function VotePage() {
     );
   }
 
-  const strengthEnabled = isBinaryChoice(choice);
-  const strengthLabel = strengthEnabled ? STRENGTHS.find((s) => s.value === strength)?.label : '';
-
   return (
-    <main className="h-dvh flex flex-col overflow-hidden bg-background" style={{ padding: '40px 48px' }}>
-
-      {/* ── Two sample cards ────────────────────────────── */}
-      <section className="flex flex-1 min-h-0 gap-4 overflow-hidden" aria-label="Generated text samples">
-        <SamplePane
-          label="A"
-          sample={pair.left}
-          selected={choice === 'left'}
-          onSelect={() => !isSubmitting && setChoice('left')}
-        />
-        <SamplePane
-          label="B"
-          sample={pair.right}
-          selected={choice === 'right'}
-          onSelect={() => !isSubmitting && setChoice('right')}
-        />
+    <main
+      className="h-dvh flex flex-col overflow-hidden bg-background"
+      style={{ padding: '40px 48px 28px' }}
+    >
+      {/* ── Two panes in one rounded container ───────────── */}
+      <section
+        className="flex flex-1 min-h-0 rounded-xl border border-border overflow-hidden"
+        aria-label="Generated text samples"
+      >
+        <SamplePane label="A" sample={pair.left} />
+        <div className="w-px bg-border flex-shrink-0" aria-hidden="true" />
+        <SamplePane label="B" sample={pair.right} />
       </section>
 
-      {/* ── Controls ────────────────────────────────────── */}
+      {/* ── 4 choice buttons — click = vote ──────────────── */}
       <footer
-        className="flex-none flex items-center justify-center pt-4 pb-0"
-        aria-label="Response controls"
+        className="flex-none flex items-center justify-center gap-3 pt-5 pb-0"
+        aria-label="Vote"
       >
-        <div className="flex items-center gap-2">
-          {/* Choice */}
-          <div className="flex gap-2" role="group" aria-label="Your preference">
-            {CHOICES.map((opt) => (
-              <VoteBtn
-                key={opt.value}
-                selected={choice === opt.value}
-                disabled={isSubmitting}
-                style={{ height: 34, padding: '0 14px' }}
-                onClick={() => setChoice(opt.value)}
-              >
-                {opt.label}
-              </VoteBtn>
-            ))}
-          </div>
-
-          {/* Divider */}
-          <div className="w-px h-5 bg-border mx-1 flex-shrink-0" aria-hidden="true" />
-
-          {/* Strength */}
-          <div
-            className={cn('flex items-center gap-2 flex-shrink-0 transition-opacity', !strengthEnabled && 'opacity-25 pointer-events-none')}
-            role="group"
-            aria-label="Preference strength"
-          >
-            <span className="text-[12px] text-muted-foreground select-none">Strength</span>
-            {STRENGTHS.map((opt) => (
-              <VoteBtn
-                key={opt.value}
-                selected={strengthEnabled && strength === opt.value}
-                disabled={!strengthEnabled || isSubmitting}
-                title={opt.label}
-                style={{ height: 34, width: 34 }}
-                aria-label={`${opt.value} — ${opt.label}`}
-                onClick={() => setStrength(opt.value)}
-              >
-                {opt.value}
-              </VoteBtn>
-            ))}
-            <span
-              className="text-[12px] text-muted-foreground min-w-[76px] transition-opacity"
-              style={{ opacity: strengthEnabled ? 1 : 0 }}
-              aria-live="polite"
-            >
-              {strengthLabel}
-            </span>
-          </div>
-
-          {/* Divider */}
-          <div className="w-px h-5 bg-border mx-1 flex-shrink-0" aria-hidden="true" />
-
-          {/* Submit */}
+        {CHOICES.map((opt) => (
           <button
+            key={opt.value}
             type="button"
-            disabled={!choice || isSubmitting}
-            onClick={submitVote}
+            disabled={isSubmitting}
+            onClick={() => submitChoice(opt.value)}
             className={cn(
-              'inline-flex items-center justify-center rounded-lg border text-[13px] font-semibold transition-colors flex-shrink-0',
+              'inline-flex items-center justify-center rounded-lg border px-5 text-[13px] font-medium transition-colors',
               'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
-              choice && !isSubmitting
-                ? 'bg-primary border-primary text-primary-foreground hover:opacity-90 cursor-pointer'
-                : 'bg-background border-input text-muted-foreground/35 cursor-not-allowed',
+              'disabled:pointer-events-none',
+              lastChoice === opt.value && isSubmitting
+                ? 'bg-primary border-primary text-primary-foreground opacity-80'
+                : 'bg-background border-input text-foreground/65 hover:bg-accent hover:border-[hsl(30_9%_83%)] hover:text-foreground disabled:opacity-35',
             )}
-            style={{ height: 34, padding: '0 18px' }}
+            style={{ height: 36 }}
           >
-            {isSubmitting ? 'Saving…' : 'Submit →'}
+            {opt.label}
           </button>
-        </div>
+        ))}
       </footer>
-
     </main>
   );
 }
 
 /* ── SamplePane ───────────────────────────────────────────────── */
-function SamplePane({ label, sample, selected, onSelect }) {
+function SamplePane({ label, sample }) {
   return (
-    <article
-      role="button"
-      tabIndex={0}
-      aria-pressed={selected}
-      aria-label={`Select Sample ${label}`}
-      onClick={onSelect}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(); } }}
-      className={cn(
-        'flex flex-col flex-1 min-w-0 rounded-2xl border cursor-pointer transition-colors duration-150 overflow-hidden',
-        selected
-          ? 'bg-accent/40 border-[hsl(30_9%_83%)]'
-          : 'bg-card border-border hover:border-input hover:bg-accent/10',
-      )}
-    >
-      {/* Label */}
-      <div className="flex-none px-7 pt-6 pb-2">
-        <span
-          className={cn(
-            'text-[11px] font-semibold tracking-[0.1em] uppercase font-mono transition-colors',
-            selected ? 'text-foreground/70' : 'text-muted-foreground/50',
-          )}
-        >
+    <article className="flex flex-col flex-1 min-w-0 min-h-0">
+      {/* Minimal pane header */}
+      <div className="flex-none h-10 flex items-center px-6 border-b border-border bg-background">
+        <span className="text-[11px] font-semibold tracking-[0.1em] uppercase font-mono text-muted-foreground/50">
           Sample {label}
         </span>
       </div>
 
-      {/* Text body */}
-      <div className="flex-1 min-h-0 overflow-y-auto px-7 pb-8 cursor-auto" onClick={(e) => e.stopPropagation()}>
-        <p
-          className={cn(
-            'text-[14.5px] leading-[1.78] whitespace-pre-wrap transition-colors duration-150',
-            selected ? 'text-foreground' : 'text-foreground/72',
-          )}
-        >
-          {sample.text}
-        </p>
+      {/* Independently scrollable body */}
+      <div className="flex-1 min-h-0 overflow-y-auto bg-background">
+        <div className="px-8 py-7 pb-12">
+          <p className="text-[14.5px] leading-[1.78] text-foreground/78 whitespace-pre-wrap">
+            {sample.text}
+          </p>
+        </div>
       </div>
     </article>
   );
