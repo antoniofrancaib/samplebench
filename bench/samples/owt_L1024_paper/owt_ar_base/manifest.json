@@ -6,10 +6,6 @@
   "nfe": null,
   "n_samples": 1024,
   "source_type": "checkpoint",
-  "checkpoint_path": "checkpoints/owt/ar/base/model.ckpt",
-  "source": "https://github.com/s-sahoo/duo",
   "suite": "owt_L1024_paper",
-  "curated_k": 64,
-  "available_in_source": 1024,
-  "curate_seed": 1234
+  "curated_k": 64
 }

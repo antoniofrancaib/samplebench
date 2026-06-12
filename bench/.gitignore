@@ -1,3 +1,8 @@
-# Simulated votes are large and regenerate in seconds — keep the report, not the raw rows.
+# Built database — rebuildable from ~/lm-bench via `make refresh`.
+db/samplebench.db
+db/samplebench.db-wal
+db/samplebench.db-shm
+# Legacy simulated-vote dump (votes now live in the DB).
 analysis/sim_votes.jsonl
+analysis/sim_truth.json
 __pycache__/

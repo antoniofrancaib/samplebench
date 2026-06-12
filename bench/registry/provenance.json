@@ -1,0 +1,13 @@
+{
+  "lm_bench_sha": "90aee5a761f4662bb44eaae452530946f7e6ad2a",
+  "lm_bench_path": "/mnt/storage01/home/afranca/lm-bench",
+  "dataset": "owt",
+  "suites": [
+    "owt_L1024_paper",
+    "owt_L1024_naive"
+  ],
+  "n_checkpoints": 15,
+  "metrics_csv": "/mnt/storage01/home/afranca/samplebench/bench/registry/metrics.csv",
+  "curated_models": 13,
+  "curated_samples": 832
+}

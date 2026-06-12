@@ -1,0 +1,779 @@
+version: 1
+
+# Canonical checkpoint registry. Large checkpoint files remain under
+# checkpoints/ and are ignored by git; this file is the tracked source of truth
+# for model ids, paths, generation settings, and readiness.
+#
+# Command entries may use:
+#   {repo_root} {checkpoint_path} {output} {output_dir}
+#   {dataset} {suite_id} {seq_len} {n_samples} {seed} {model_id} {label}
+
+checkpoints:
+  # -------------------------------------------------------------------------
+  # LM1B: FLM/FMLM checkpoints released with arXiv:2602.16813.
+  # These use the david3684/flm Hydra sampler.
+  # -------------------------------------------------------------------------
+  - id: lm1b_flm_1024_nfe
+    label: FLM 1024-NFE
+    dataset: lm1b
+    family: flm
+    enabled: true
+    adapter: command
+    path: checkpoints/lm1b/flm/base/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: flm
+      nfe: 1024
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - flm
+      - --steps
+      - "1024"
+      - --nfe
+      - "1024"
+      - --eval-batch-size
+      - "32"
+      - --double-temb
+      - "false"
+      - --disable-ema
+      - "false"
+
+  - id: lm1b_fmlm_1_nfe
+    label: FMLM 1-NFE
+    dataset: lm1b
+    family: fmlm
+    enabled: true
+    adapter: command
+    path: checkpoints/lm1b/fmlm/distilled/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: fmlm
+      nfe: 1
+      gamma: 0.8
+      paper_aligned: true
+    command: &lm1b_fmlm_command
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - fmlm
+      - --steps
+      - "1"
+      - --nfe
+      - "1"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "true"
+      - --learnable-loss-weighting
+      - "false"
+      - --disable-ema
+      - "false"
+      - --gamma
+      - "0.8"
+
+  - id: lm1b_fmlm_4_nfe
+    label: FMLM 4-NFE
+    dataset: lm1b
+    family: fmlm
+    enabled: true
+    adapter: command
+    path: checkpoints/lm1b/fmlm/distilled/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: fmlm
+      nfe: 4
+      gamma: 0.8
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - fmlm
+      - --steps
+      - "4"
+      - --nfe
+      - "4"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "true"
+      - --learnable-loss-weighting
+      - "false"
+      - --disable-ema
+      - "false"
+      - --gamma
+      - "0.8"
+
+  - id: lm1b_fmlm_32_nfe
+    label: FMLM 32-NFE
+    dataset: lm1b
+    family: fmlm
+    enabled: true
+    adapter: command
+    path: checkpoints/lm1b/fmlm/distilled/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: fmlm
+      nfe: 32
+      gamma: 0.8
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - fmlm
+      - --steps
+      - "32"
+      - --nfe
+      - "32"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "true"
+      - --learnable-loss-weighting
+      - "false"
+      - --disable-ema
+      - "false"
+      - --gamma
+      - "0.8"
+
+  # -------------------------------------------------------------------------
+  # LM1B baseline checkpoints.
+  # -------------------------------------------------------------------------
+  - id: lm1b_mdlm_1024_nfe
+    label: MDLM LM1B 1024-NFE
+    dataset: lm1b
+    family: mdlm
+    enabled: true
+    adapter: command
+    path: checkpoints/lm1b/mdlm/base/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: mdlm
+      nfe: 1024
+      predictor: ancestral_cache
+      noise_removal: ancestral
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - mdlm
+      - --steps
+      - "1024"
+      - --nfe
+      - "1024"
+      - --eval-batch-size
+      - "64"
+      - --predictor
+      - ancestral_cache
+      - --noise-removal
+      - ancestral
+
+  - id: lm1b_duo_1024_nfe
+    label: Duo LM1B 1024-NFE
+    dataset: lm1b
+    family: duo
+    enabled: true
+    adapter: command
+    path: checkpoints/lm1b/duo/base/model.ckpt
+    source: https://github.com/s-sahoo/duo
+    generation:
+      backend: flm-hydra
+      algo: duo
+      nfe: 1024
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - duo
+      - --steps
+      - "1024"
+      - --nfe
+      - "1024"
+      - --eval-batch-size
+      - "16"
+      - --predictor
+      - ancestral
+      - --noise-removal
+      - ancestral
+      - --extra-override
+      - algo.gumbel_tau_log10_start=-3.0
+      - --extra-override
+      - algo.gumbel_tau_log10_end=-3.0
+      - --extra-override
+      - algo.gamma_min=-3.55
+      - --extra-override
+      - algo.gamma_max=-1.85
+
+  - id: lm1b_candi_1024_nfe
+    label: CANDI LM1B 1024-NFE
+    dataset: lm1b
+    family: candi
+    enabled: true
+    adapter: command
+    path: checkpoints/lm1b/candi/base/model.ckpt
+    source: https://github.com/patrickpynadath1/candi-diffusion
+    generation:
+      backend: candi
+      nfe: 1024
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --repo
+      - /mnt/nfs/vol8t/home/afranca/latent-transport-lm/third_party/candi-diffusion
+      - --backend-label
+      - candi-hydra
+      - --algo
+      - candi
+      - --steps
+      - "1024"
+      - --nfe
+      - "1024"
+      - --batch-size
+      - "16"
+      - --eval-batch-size
+      - "2"
+      - --extra-override
+      - scratch_dir={repo_root}/results/upstream_runs/candi
+      - --extra-override
+      - algo.step_size=1
+      - --extra-override
+      - algo.mixed_coeff=0.5
+      - --extra-override
+      - algo.temp=1.0
+
+  # -------------------------------------------------------------------------
+  # OWT: FLM/FMLM checkpoints and Duo-codebase baselines.
+  # -------------------------------------------------------------------------
+  - id: owt_flm_1024_nfe
+    label: FLM 1024-NFE
+    dataset: owt
+    family: flm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/flm/base/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: flm
+      nfe: 1024
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - flm
+      - --steps
+      - "1024"
+      - --nfe
+      - "1024"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "false"
+      - --disable-ema
+      - "false"
+
+  - id: owt_fmlm_1_nfe
+    label: FMLM 1-NFE
+    dataset: owt
+    family: fmlm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/fmlm/distilled/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: fmlm
+      nfe: 1
+      gamma: 1.0
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - fmlm
+      - --steps
+      - "1"
+      - --nfe
+      - "1"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "true"
+      - --learnable-loss-weighting
+      - "false"
+      - --disable-ema
+      - "false"
+      - --gamma
+      - "1.0"
+
+  - id: owt_fmlm_4_nfe
+    label: FMLM 4-NFE
+    dataset: owt
+    family: fmlm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/fmlm/distilled/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: fmlm
+      nfe: 4
+      gamma: 1.0
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - fmlm
+      - --steps
+      - "4"
+      - --nfe
+      - "4"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "true"
+      - --learnable-loss-weighting
+      - "false"
+      - --disable-ema
+      - "false"
+      - --gamma
+      - "1.0"
+
+  - id: owt_fmlm_32_nfe
+    label: FMLM 32-NFE
+    dataset: owt
+    family: fmlm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/fmlm/distilled/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: fmlm
+      nfe: 32
+      gamma: 1.0
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - fmlm
+      - --steps
+      - "32"
+      - --nfe
+      - "32"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "true"
+      - --learnable-loss-weighting
+      - "false"
+      - --disable-ema
+      - "false"
+      - --gamma
+      - "1.0"
+
+  - id: owt_ar_base
+    label: AR OWT
+    dataset: owt
+    family: ar
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/ar/base/model.ckpt
+    source: https://github.com/s-sahoo/duo
+    generation:
+      backend: flm-hydra
+      algo: ar
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - ar
+      - --steps
+      - "1"
+      - --eval-batch-size
+      - "8"
+
+  - id: owt_mdlm_1024_nfe
+    label: MDLM OWT 1024-NFE
+    dataset: owt
+    family: mdlm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/mdlm/base/model.ckpt
+    source: https://github.com/s-sahoo/duo
+    generation:
+      backend: flm-hydra
+      algo: mdlm
+      nfe: 1024
+      predictor: ancestral_cache
+      noise_removal: ancestral
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - mdlm
+      - --steps
+      - "1024"
+      - --nfe
+      - "1024"
+      - --eval-batch-size
+      - "16"
+      - --predictor
+      - ancestral_cache
+      - --noise-removal
+      - ancestral
+
+  - id: owt_sedd_1024_nfe
+    label: SEDD OWT 1024-NFE
+    dataset: owt
+    family: sedd
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/sedd/base/model.ckpt
+    source: https://github.com/s-sahoo/duo
+    generation:
+      backend: flm-hydra
+      algo: sedd
+      nfe: 1024
+      predictor: analytic
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - sedd
+      - --steps
+      - "1024"
+      - --nfe
+      - "1024"
+      - --eval-batch-size
+      - "8"
+      - --predictor
+      - analytic
+
+  - id: owt_duo_base_1024_nfe
+    label: Duo OWT 1024-NFE
+    dataset: owt
+    family: duo
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/duo/base/model.ckpt
+    source: https://github.com/s-sahoo/duo
+    generation:
+      backend: flm-hydra
+      algo: duo_base
+      nfe: 1024
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - duo_base
+      - --steps
+      - "1024"
+      - --nfe
+      - "1024"
+      - --eval-batch-size
+      - "8"

@@ -1,0 +1,5 @@
+Vendored snapshot of ~/lm-bench/model_evals
+lm-bench commit: 90aee5a761f4662bb44eaae452530946f7e6ad2a
+Purpose: re-verify samplebench's canonical metrics by re-running the exact
+paper metric definitions. Run only in a GPU/torch env (see requirements-eval.txt),
+never in the Vercel web build. Do not edit in place — re-vendor from lm-bench.

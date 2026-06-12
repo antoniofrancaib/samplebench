@@ -1,0 +1,9 @@
+id: owt_L1024_paper
+dataset: owt
+seq_len: 1024
+n_samples: 1024
+seed: 1
+sampling:
+  protocol: paper_gen_ppl
+  tokenizer: gpt2 for native OWT samplers; decoded text normalized to JSONL
+

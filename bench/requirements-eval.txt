@@ -1,0 +1,7 @@
+# Heavy deps for re-running the vendored paper metrics (bench/evals/).
+# Used by bench/pipeline/reverify.py in a GPU env — NOT part of the web app.
+numpy>=1.26
+torch>=2.1            # gen_ppl, mauve, grad_moment (gpt2-large scorer, CUDA)
+transformers>=4.40
+mauve-text>=0.3       # mauve metric
+pyyaml>=6.0           # config parsing

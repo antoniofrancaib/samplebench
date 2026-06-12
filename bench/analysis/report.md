@@ -1,80 +1,80 @@
 # SampleBench — human-preference ↔ metric correlation
 
-> **Simulated human votes.** Latent per-model quality came from an independent fluency prior, *not* from any metric below; votes were drawn from a Bradley–Terry/Elo model with rater noise, ties and both-bad outcomes. Numbers illustrate the pipeline, not real opinion.
+> **Simulated votes** (latent quality from an independent fluency prior, not from any metric). Swap for the real Supabase table to rerun verbatim.
 
-- votes: **14,000** (13,115 decisive) over **13** models, 280 voters
-
-- BT recovery of simulated truth: Spearman ρ = **1.000** (95% CI 0.978–1.000) — the fit reconstructs the planted ranking.
-
+- votes: **14,000** (13,267 decisive) over **9** models
+- metrics: canonical lm-bench paper metrics (suite `owt_L1024_paper`)
+- BT recovery of simulated truth: Spearman ρ = **1.000** (95% CI 0.983–1.000)
 
 ## 1. Recovered human score (Bradley–Terry, Elo scale)
 
-| model | human Elo (95% CI) | true (sim) |
+| model | human Elo (95% CI) | true |
 |---|---|---|
-| owt_data_train | 1752 (1733–1772) | 1700 |
-| owt_ar_base | 1679 (1664–1697) | 1620 |
-| owt_flm_1024_nfe | 1619 (1605–1634) | 1545 |
-| owt_duo_base_1024_nfe | 1590 (1575–1605) | 1530 |
-| owt_sedd_1024_nfe | 1580 (1563–1594) | 1515 |
-| owt_mdlm_1024_nfe | 1578 (1565–1593) | 1500 |
-| owt_fmlm_32_nfe | 1544 (1528–1558) | 1465 |
-| owt_mirror_5000 | 1501 (1486–1514) | 1430 |
-| owt_fmlm_4_nfe | 1450 (1435–1467) | 1380 |
-| owt_phrase_bank_5000 | 1431 (1417–1448) | 1360 |
-| owt_fmlm_1_nfe | 1372 (1357–1389) | 1300 |
-| owt_topk_iid_k64 | 1251 (1231–1269) | 1160 |
-| owt_periodic_k_400 | 1153 (1130–1175) | 1100 |
+| OWT train data | 1680 (1669–1693) | 1700 |
+| AR OWT | 1606 (1595–1617) | 1620 |
+| FLM 1024-NFE | 1544 (1532–1554) | 1545 |
+| Duo OWT 1024-NFE | 1526 (1515–1536) | 1530 |
+| SEDD OWT 1024-NFE | 1503 (1491–1515) | 1515 |
+| MDLM OWT 1024-NFE | 1499 (1487–1510) | 1500 |
+| FMLM 32-NFE | 1464 (1453–1474) | 1465 |
+| FMLM 4-NFE | 1376 (1363–1387) | 1380 |
+| FMLM 1-NFE | 1303 (1292–1315) | 1300 |
 
 ## 2. Which metric ranks models like humans? (model-level)
 
-Spearman ρ / Kendall τ between human Elo and each model-mean metric (n = 13 models), ranked by |ρ|.
+Spearman ρ / Kendall τ between human Elo and each canonical metric, ranked by |ρ|.
 
-| metric | n models | ρ (95% CI) | τ | orientation |
+| metric | n | ρ (95% CI) | τ | orientation |
 |---|---|---|---|---|
-| gen_ppl | 4 | -0.800 (-0.80,-0.80) | -0.667 | lower=better |
-| js_to_human | 13 | -0.709 (-0.74,-0.69) | -0.538 | lower=better |
-| distinct_1 | 13 | +0.621 (+0.55,+0.64) | +0.436 | higher=better |
-| char_len | 13 | +0.615 (+0.57,+0.64) | +0.436 | higher=better |
-| unigram_entropy | 13 | +0.297 (+0.25,+0.31) | +0.256 | higher=better |
-| distinct_2 | 13 | +0.291 (+0.24,+0.31) | +0.205 | higher=better |
-| zipf_coef | 13 | -0.044 (-0.06,+0.03) | -0.026 | higher=better |
-| rep_4gram | 13 | +0.006 (+0.01,+0.04) | +0.013 | lower=better |
-| entropy | 4 | +0.000 (+0.00,+0.00) | +0.000 | higher=better |
+| EnergyDist | 9 | -0.900 (-0.90,-0.88) | -0.833 | lower=better |
+| GradMoment | 9 | -0.833 (-0.85,-0.83) | -0.667 | lower=better |
+| FMTyp-p | 9 | +0.817 (+0.78,+0.82) | +0.722 | higher=better |
+| MAUVE | 9 | +0.783 (+0.77,+0.78) | +0.667 | higher=better |
+| gen-PPL | 9 | -0.750 (-0.82,-0.75) | -0.667 | lower=better |
+| Rep-4 | 9 | +0.746 (+0.75,+0.78) | +0.583 | lower=better |
+| Rep-3 | 9 | +0.700 (+0.70,+0.75) | +0.556 | lower=better |
+| H (nats) | 9 | +0.517 (+0.40,+0.52) | +0.333 | higher=better |
+| Rep-2 | 9 | +0.317 (+0.32,+0.42) | +0.278 | lower=better |
+| Rep-1 | 9 | -0.250 (-0.25,-0.13) | -0.167 | lower=better |
 
-## 3. Does the metric pick the human winner? (sample-level)
+## 3. Does the metric pick the human winner? (per-battle)
 
-Pairwise accuracy: fraction of decisive battles where the metric's preferred side matches the human pick (0.5 = chance).
+Each side scored by its model-level metric; accuracy = fraction of decisive battles matching the human pick.
 
-| metric | pairwise acc | direction | n |
-|---|---|---|---|
-| js_to_human | 0.674 | lower=better | 13,115 |
-| distinct_1 | 0.622 | higher=better | 13,112 |
-| char_len | 0.617 | higher=better | 13,108 |
-| distinct_2 | 0.596 | higher=better | 13,110 |
-| word_count | 0.562 | higher=better | 13,044 |
-| rep_4gram | 0.554 | lower=better | 10,855 |
-| unigram_entropy | 0.545 | higher=better | 13,114 |
-| zipf_coef | 0.514 | higher=better | 13,113 |
+| metric | acc | n |
+|---|---|---|
+| EnergyDist | 0.671 | 13,267 |
+| GradMoment | 0.666 | 13,267 |
+| FMTyp-p | 0.662 | 13,267 |
+| MAUVE | 0.660 | 13,267 |
+| gen-PPL | 0.655 | 13,267 |
+| H (nats) | 0.577 | 13,267 |
+| Rep-1 | 0.520 | 13,267 |
+| Rep-2 | 0.422 | 13,267 |
+| Rep-3 | 0.349 | 13,267 |
+| Rep-4 | 0.331 | 12,150 |
 
 ## 4. Learned combiner (logistic on metric deltas)
 
-5-fold CV: accuracy **0.712** ± 0.009, AUC **0.784** ± 0.009. Standardized weights (sign = direction, |·| = importance):
+Over 13,267 fully-scored battles — 5-fold CV: accuracy **0.679** ± 0.005, AUC **0.736** ± 0.007.
 
 | metric | weight |
 |---|---|
-| zipf_coef | +1.453 |
-| distinct_1 | +1.006 |
-| js_to_human | -0.988 |
-| distinct_2 | -0.827 |
-| word_count | -0.673 |
-| char_len | +0.620 |
-| unigram_entropy | +0.571 |
-| rep_4gram | +0.151 |
+| Rep-2 | -0.984 |
+| FMTyp-p | +0.609 |
+| H (nats) | -0.595 |
+| gen-PPL | -0.545 |
+| Rep-3 | +0.513 |
+| Rep-4 | +0.467 |
+| EnergyDist | +0.433 |
+| GradMoment | -0.383 |
+| Rep-1 | -0.115 |
+| MAUVE | -0.109 |
 
 ## Takeaways
 
-- Best *single* model-level metric: **gen_ppl** (|ρ| = 0.80, lower=better).
-- Best single sample-level discriminator: **js_to_human** (acc = 0.67).
-- A simple logistic blend reaches **0.71** pairwise accuracy — a learned composite beats any one metric.
-- Swap the simulated votes for the real Supabase table to rerun this verbatim; add real `gen_ppl`/MAUVE once the corpus is scored on GPU.
+- Best single model-level metric: **EnergyDist** (|ρ| = 0.90, lower=better).
+- Best single per-battle discriminator: **EnergyDist** (acc = 0.67).
+- A logistic blend of the paper metrics reaches **0.68** accuracy / **0.74** AUC.
+- Metrics are model-level (corpus-first, as in lm-bench); per-sample gen_ppl/rep would enable finer sample-level analysis if the runners are extended to dump per-sample scores.
 
