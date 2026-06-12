@@ -1,0 +1,15 @@
+{
+  "model_id": "owt_flm_1024_nfe",
+  "label": "FLM 1024-NFE",
+  "family": "flm",
+  "algo": "flm",
+  "nfe": 1024,
+  "n_samples": 1024,
+  "source_type": "checkpoint",
+  "checkpoint_path": "checkpoints/owt/flm/base/model.ckpt",
+  "source": "https://github.com/david3684/flm",
+  "suite": "owt_L1024_paper",
+  "curated_k": 64,
+  "available_in_source": 1024,
+  "curate_seed": 1234
+}

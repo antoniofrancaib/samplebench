@@ -1,0 +1,15 @@
+{
+  "model_id": "owt_duo_base_1024_nfe",
+  "label": "Duo OWT 1024-NFE",
+  "family": "duo",
+  "algo": "duo_base",
+  "nfe": 1024,
+  "n_samples": 1024,
+  "source_type": "checkpoint",
+  "checkpoint_path": "checkpoints/owt/duo/base/model.ckpt",
+  "source": "https://github.com/s-sahoo/duo",
+  "suite": "owt_L1024_paper",
+  "curated_k": 64,
+  "available_in_source": 1024,
+  "curate_seed": 1234
+}

@@ -1,0 +1,3 @@
+# Simulated votes are large and regenerate in seconds — keep the report, not the raw rows.
+analysis/sim_votes.jsonl
+__pycache__/

@@ -1,0 +1,184 @@
+{
+  "source_root": "/mnt/storage01/home/afranca/lm-bench/results/samples/owt",
+  "suites": {
+    "owt_L1024_paper": {
+      "models": [
+        {
+          "model_id": "owt_ar_base",
+          "label": "AR OWT",
+          "family": "ar",
+          "algo": "ar",
+          "nfe": null,
+          "n_samples": 1024,
+          "source_type": "checkpoint",
+          "checkpoint_path": "checkpoints/owt/ar/base/model.ckpt",
+          "source": "https://github.com/s-sahoo/duo",
+          "method": "Autoregressive",
+          "suite": "owt_L1024_paper"
+        },
+        {
+          "model_id": "owt_data_train",
+          "label": "OWT train data",
+          "family": "data",
+          "algo": null,
+          "nfe": null,
+          "n_samples": 1024,
+          "source_type": "dataset",
+          "checkpoint_path": null,
+          "source": null,
+          "method": "Other",
+          "suite": "owt_L1024_paper"
+        },
+        {
+          "model_id": "owt_duo_base_1024_nfe",
+          "label": "Duo OWT 1024-NFE",
+          "family": "duo",
+          "algo": "duo_base",
+          "nfe": 1024,
+          "n_samples": 1024,
+          "source_type": "checkpoint",
+          "checkpoint_path": "checkpoints/owt/duo/base/model.ckpt",
+          "source": "https://github.com/s-sahoo/duo",
+          "method": "Diffusion",
+          "suite": "owt_L1024_paper"
+        },
+        {
+          "model_id": "owt_flm_1024_nfe",
+          "label": "FLM 1024-NFE",
+          "family": "flm",
+          "algo": "flm",
+          "nfe": 1024,
+          "n_samples": 1024,
+          "source_type": "checkpoint",
+          "checkpoint_path": "checkpoints/owt/flm/base/model.ckpt",
+          "source": "https://github.com/david3684/flm",
+          "method": "Diffusion",
+          "suite": "owt_L1024_paper"
+        },
+        {
+          "model_id": "owt_fmlm_1_nfe",
+          "label": "FMLM 1-NFE",
+          "family": "fmlm",
+          "algo": "fmlm",
+          "nfe": 1,
+          "n_samples": 1024,
+          "source_type": "checkpoint",
+          "checkpoint_path": "checkpoints/owt/fmlm/distilled/model.ckpt",
+          "source": "https://github.com/david3684/flm",
+          "method": "Diffusion",
+          "suite": "owt_L1024_paper"
+        },
+        {
+          "model_id": "owt_fmlm_32_nfe",
+          "label": "FMLM 32-NFE",
+          "family": "fmlm",
+          "algo": "fmlm",
+          "nfe": 32,
+          "n_samples": 1024,
+          "source_type": "checkpoint",
+          "checkpoint_path": "checkpoints/owt/fmlm/distilled/model.ckpt",
+          "source": "https://github.com/david3684/flm",
+          "method": "Diffusion",
+          "suite": "owt_L1024_paper"
+        },
+        {
+          "model_id": "owt_fmlm_4_nfe",
+          "label": "FMLM 4-NFE",
+          "family": "fmlm",
+          "algo": "fmlm",
+          "nfe": 4,
+          "n_samples": 1024,
+          "source_type": "checkpoint",
+          "checkpoint_path": "checkpoints/owt/fmlm/distilled/model.ckpt",
+          "source": "https://github.com/david3684/flm",
+          "method": "Diffusion",
+          "suite": "owt_L1024_paper"
+        },
+        {
+          "model_id": "owt_mdlm_1024_nfe",
+          "label": "MDLM OWT 1024-NFE",
+          "family": "mdlm",
+          "algo": "mdlm",
+          "nfe": 1024,
+          "n_samples": 1024,
+          "source_type": "checkpoint",
+          "checkpoint_path": "checkpoints/owt/mdlm/base/model.ckpt",
+          "source": "https://github.com/s-sahoo/duo",
+          "method": "Diffusion",
+          "suite": "owt_L1024_paper"
+        },
+        {
+          "model_id": "owt_sedd_1024_nfe",
+          "label": "SEDD OWT 1024-NFE",
+          "family": "sedd",
+          "algo": "sedd",
+          "nfe": 1024,
+          "n_samples": 1024,
+          "source_type": "checkpoint",
+          "checkpoint_path": "checkpoints/owt/sedd/base/model.ckpt",
+          "source": "https://github.com/s-sahoo/duo",
+          "method": "Diffusion",
+          "suite": "owt_L1024_paper"
+        }
+      ],
+      "n_models": 9
+    },
+    "owt_L1024_naive": {
+      "models": [
+        {
+          "model_id": "owt_mirror_5000",
+          "label": "Mirror K=5000",
+          "family": "mirror",
+          "algo": "mirror",
+          "nfe": null,
+          "n_samples": 1024,
+          "source_type": "naive_sampler",
+          "checkpoint_path": null,
+          "source": null,
+          "method": "Naive baseline",
+          "suite": "owt_L1024_naive"
+        },
+        {
+          "model_id": "owt_periodic_k_400",
+          "label": "Periodic-k 400",
+          "family": "periodic_k",
+          "algo": "periodic_k",
+          "nfe": null,
+          "n_samples": 1024,
+          "source_type": "naive_sampler",
+          "checkpoint_path": null,
+          "source": null,
+          "method": "Naive baseline",
+          "suite": "owt_L1024_naive"
+        },
+        {
+          "model_id": "owt_phrase_bank_5000",
+          "label": "Phrase bank m=5000",
+          "family": "phrase_bank",
+          "algo": "phrase_bank",
+          "nfe": null,
+          "n_samples": 1024,
+          "source_type": "naive_sampler",
+          "checkpoint_path": null,
+          "source": null,
+          "method": "Naive baseline",
+          "suite": "owt_L1024_naive"
+        },
+        {
+          "model_id": "owt_topk_iid_k64",
+          "label": "Top-k IID k=64",
+          "family": "topk_iid",
+          "algo": "topk_iid",
+          "nfe": null,
+          "n_samples": 1024,
+          "source_type": "naive_sampler",
+          "checkpoint_path": null,
+          "source": null,
+          "method": "Naive baseline",
+          "suite": "owt_L1024_naive"
+        }
+      ],
+      "n_models": 4
+    }
+  }
+}
