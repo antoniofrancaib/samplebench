@@ -240,7 +240,7 @@ function VotePage() {
   const strengthLabel = strengthEnabled ? STRENGTHS.find((s) => s.value === strength)?.label : '';
 
   return (
-    <main className="h-dvh flex flex-col overflow-hidden bg-background" style={{ padding: '20px 20px 0' }}>
+    <main className="h-dvh flex flex-col overflow-hidden bg-background" style={{ padding: '40px 48px' }}>
 
       {/* ── Two sample cards ────────────────────────────── */}
       <section className="flex flex-1 min-h-0 gap-4 overflow-hidden" aria-label="Generated text samples">
@@ -260,75 +260,77 @@ function VotePage() {
 
       {/* ── Controls ────────────────────────────────────── */}
       <footer
-        className="flex-none flex items-center gap-2 py-4"
+        className="flex-none flex items-center justify-center pt-4 pb-0"
         aria-label="Response controls"
       >
-        {/* Choice */}
-        <div className="flex gap-2" role="group" aria-label="Your preference">
-          {CHOICES.map((opt) => (
-            <VoteBtn
-              key={opt.value}
-              selected={choice === opt.value}
-              disabled={isSubmitting}
-              style={{ height: 34, padding: '0 14px' }}
-              onClick={() => setChoice(opt.value)}
-            >
-              {opt.label}
-            </VoteBtn>
-          ))}
-        </div>
+        <div className="flex items-center gap-2">
+          {/* Choice */}
+          <div className="flex gap-2" role="group" aria-label="Your preference">
+            {CHOICES.map((opt) => (
+              <VoteBtn
+                key={opt.value}
+                selected={choice === opt.value}
+                disabled={isSubmitting}
+                style={{ height: 34, padding: '0 14px' }}
+                onClick={() => setChoice(opt.value)}
+              >
+                {opt.label}
+              </VoteBtn>
+            ))}
+          </div>
 
-        {/* Divider */}
-        <div className="w-px h-5 bg-border mx-1 flex-shrink-0" aria-hidden="true" />
+          {/* Divider */}
+          <div className="w-px h-5 bg-border mx-1 flex-shrink-0" aria-hidden="true" />
 
-        {/* Strength */}
-        <div
-          className={cn('flex items-center gap-2 flex-shrink-0 transition-opacity', !strengthEnabled && 'opacity-25 pointer-events-none')}
-          role="group"
-          aria-label="Preference strength"
-        >
-          <span className="text-[12px] text-muted-foreground select-none">Strength</span>
-          {STRENGTHS.map((opt) => (
-            <VoteBtn
-              key={opt.value}
-              selected={strengthEnabled && strength === opt.value}
-              disabled={!strengthEnabled || isSubmitting}
-              title={opt.label}
-              style={{ height: 34, width: 34 }}
-              aria-label={`${opt.value} — ${opt.label}`}
-              onClick={() => setStrength(opt.value)}
-            >
-              {opt.value}
-            </VoteBtn>
-          ))}
-          <span
-            className="text-[12px] text-muted-foreground min-w-[88px] transition-opacity"
-            style={{ opacity: strengthEnabled ? 1 : 0 }}
-            aria-live="polite"
+          {/* Strength */}
+          <div
+            className={cn('flex items-center gap-2 flex-shrink-0 transition-opacity', !strengthEnabled && 'opacity-25 pointer-events-none')}
+            role="group"
+            aria-label="Preference strength"
           >
-            {strengthLabel}
-          </span>
+            <span className="text-[12px] text-muted-foreground select-none">Strength</span>
+            {STRENGTHS.map((opt) => (
+              <VoteBtn
+                key={opt.value}
+                selected={strengthEnabled && strength === opt.value}
+                disabled={!strengthEnabled || isSubmitting}
+                title={opt.label}
+                style={{ height: 34, width: 34 }}
+                aria-label={`${opt.value} — ${opt.label}`}
+                onClick={() => setStrength(opt.value)}
+              >
+                {opt.value}
+              </VoteBtn>
+            ))}
+            <span
+              className="text-[12px] text-muted-foreground min-w-[76px] transition-opacity"
+              style={{ opacity: strengthEnabled ? 1 : 0 }}
+              aria-live="polite"
+            >
+              {strengthLabel}
+            </span>
+          </div>
+
+          {/* Divider */}
+          <div className="w-px h-5 bg-border mx-1 flex-shrink-0" aria-hidden="true" />
+
+          {/* Submit */}
+          <button
+            type="button"
+            disabled={!choice || isSubmitting}
+            onClick={submitVote}
+            className={cn(
+              'inline-flex items-center justify-center rounded-lg border text-[13px] font-semibold transition-colors flex-shrink-0',
+              'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
+              choice && !isSubmitting
+                ? 'bg-primary border-primary text-primary-foreground hover:opacity-90 cursor-pointer'
+                : 'bg-background border-input text-muted-foreground/35 cursor-not-allowed',
+            )}
+            style={{ height: 34, padding: '0 18px' }}
+          >
+            {isSubmitting ? 'Saving…' : 'Submit →'}
+          </button>
         </div>
-
-        {/* Spacer */}
-        <div className="flex-1" aria-hidden="true" />
-
-        {/* Submit */}
-        <button
-          type="button"
-          disabled={!choice || isSubmitting}
-          onClick={submitVote}
-          className={cn(
-            'inline-flex items-center justify-center rounded-lg border text-[13px] font-semibold transition-colors flex-shrink-0',
-            'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
-            choice && !isSubmitting
-              ? 'bg-primary border-primary text-primary-foreground hover:opacity-90 cursor-pointer'
-              : 'bg-background border-input text-muted-foreground/35 cursor-not-allowed',
-          )}
-          style={{ height: 34, padding: '0 18px' }}
-        >
-          {isSubmitting ? 'Saving…' : 'Submit →'}
-        </button>
       </footer>
 
     </main>
