@@ -4,8 +4,6 @@
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/geist-mono";
 
-@custom-variant dark (&:is(.dark *));
-
 @theme inline {
   --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'Geist Mono Variable', ui-monospace, 'Cascadia Code', Menlo, monospace;
@@ -36,37 +34,58 @@
   --radius-xl: calc(var(--radius) * 1.4);
 }
 
-/* Dark-only; applied via class="dark" on <html> */
+/* Arena.ai light mode — exact design tokens */
 :root {
-  /* Arena-style dark neutrals */
-  --background: oklch(0.11 0 0);
-  --foreground: oklch(0.95 0 0);
-  --card: oklch(0.135 0 0);
-  --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.16 0 0);
-  --popover-foreground: oklch(0.95 0 0);
+  /* Surfaces */
+  --surface-primary:   hsl(36 45% 98%);   /* warm cream — page bg */
+  --surface-secondary: hsl(0 0% 100%);    /* white — card bg */
+  --surface-tertiary:  hsl(33 31% 94%);   /* warm tint — hover / accent */
+  --surface-raised:    hsl(33 28% 92%);
+  --surface-raised-alt:hsl(33 20% 87%);
 
-  /* Primary = near-white (selected button state) */
-  --primary: oklch(0.93 0 0);
-  --primary-foreground: oklch(0.11 0 0);
+  /* Text */
+  --text-primary:   hsl(24 6% 17%);   /* rgb(46,43,41) — main text */
+  --text-secondary: hsl(30 7% 24%);
+  --text-tertiary:  hsl(35 6% 38%);
+  --text-muted:     hsl(37 5% 52%);
 
-  --secondary: oklch(0.20 0 0);
-  --secondary-foreground: oklch(0.93 0 0);
+  /* Borders */
+  --border-faint:  hsl(30 5% 93%);   /* very subtle warm border */
+  --border-medium: hsl(30 9% 87%);
+  --border-strong: hsl(30 9% 83%);
 
-  --muted: oklch(0.18 0 0);
-  --muted-foreground: oklch(0.50 0 0);
+  /* Interactive */
+  --interactive-cta:           hsl(60 3% 14%);   /* near-black */
+  --interactive-on-cta:        hsl(36 45% 98%);  /* cream text on CTA */
+  --interactive-cta-secondary: hsl(0 0% 100%);
+  --interactive-cta-secondary-hover: hsl(34 23% 89%);
 
-  --accent: oklch(0.19 0 0);
-  --accent-foreground: oklch(0.93 0 0);
+  /* shadcn semantic tokens */
+  --background:          var(--surface-primary);
+  --foreground:          var(--text-primary);
+  --card:                var(--surface-secondary);
+  --card-foreground:     var(--text-primary);
+  --popover:             var(--surface-tertiary);
+  --popover-foreground:  var(--text-primary);
 
-  --destructive: oklch(0.65 0.20 27);
+  --primary:             hsl(60 5% 14%);            /* CTA near-black */
+  --primary-foreground:  var(--interactive-on-cta); /* cream */
 
-  /* Crisp, minimal borders */
-  --border: oklch(1 0 0 / 8%);
-  --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.45 0 0);
+  --secondary:           var(--interactive-cta-secondary);
+  --secondary-foreground:var(--text-primary);
 
-  /* Small radius for a crisper feel */
+  --muted:               var(--surface-raised-alt);
+  --muted-foreground:    var(--text-muted);
+
+  --accent:              var(--surface-tertiary);
+  --accent-foreground:   var(--text-secondary);
+
+  --destructive:         hsl(2 63% 54%);
+
+  --border:              var(--border-faint);
+  --input:               var(--border-medium);
+  --ring:                hsl(208 77% 52%);
+
   --radius: 0.375rem;
 }
 
@@ -76,8 +95,8 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-size: 13px;
-    line-height: 1;
+    font-size: 14px;
+    line-height: 1.5;
     overflow: hidden;
   }
   html, body, #root {
@@ -87,11 +106,11 @@
     font: inherit;
     cursor: pointer;
   }
-  /* Minimal scrollbar */
+  /* Light-mode scrollbar */
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: oklch(1 0 0 / 9%);
+    background: hsl(30 9% 87%);
     border-radius: 9px;
   }
 }

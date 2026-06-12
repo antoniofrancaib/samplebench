@@ -3,12 +3,6 @@ import { createRoot } from 'react-dom/client';
 import { models } from './data.js';
 import './index.css';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-// Note: Tooltip used only for non-button wrappers to avoid nested <button> errors
 
 const STORAGE_KEYS = {
   voterId: 'samplebench:voter_id',
@@ -173,18 +167,18 @@ function samplePayload(s) {
   };
 }
 
-/* ── Choice / Strength button ─────────────────────────────── */
+/* ── Choice / Strength button — arena.ai light style ─────── */
 function CtrlBtn({ selected, className, ...props }) {
   return (
     <button
       type="button"
       className={cn(
-        'inline-flex items-center justify-center rounded-md border text-[12px] font-medium transition-colors',
+        'inline-flex items-center justify-center rounded-md border text-[12.5px] font-medium transition-colors',
         'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
         'disabled:pointer-events-none disabled:opacity-40',
         selected
-          ? 'bg-foreground border-foreground text-background'
-          : 'bg-transparent border-border text-muted-foreground hover:border-[oklch(1_0_0/20%)] hover:text-foreground hover:bg-[oklch(1_0_0/4%)]',
+          ? 'bg-primary border-primary text-primary-foreground'
+          : 'bg-background border-input text-foreground/60 hover:bg-accent hover:border-[hsl(30_9%_83%)] hover:text-foreground',
         className,
       )}
       {...props}
@@ -268,133 +262,133 @@ function VotePage() {
   const strengthLabel = strengthEnabled ? STRENGTHS.find((s) => s.value === strength)?.label : '';
 
   return (
-    <main className="h-dvh flex flex-col overflow-hidden">
+    <main className="h-dvh flex flex-col overflow-hidden bg-background">
 
-        {/* ── Top bar ─────────────────────────────────── */}
-        <header className="flex-none h-10 flex items-center px-4 gap-0 border-b border-border bg-card">
-          <span className="text-[13px] font-semibold tracking-[-0.01em] text-foreground">
-            SampleBench
-          </span>
-          <span className="mx-2.5 text-[17px] font-light text-muted-foreground/30 select-none leading-none">/</span>
-          <span className="hidden sm:block text-[12px] text-muted-foreground">
-            Which sample reads better?
-          </span>
-          <div className="ml-auto flex items-center gap-1.5">
-            {queuedCount > 0 && (
-              <span className="inline-flex items-center h-[20px] px-1.5 rounded border border-amber-600/30 bg-amber-900/10 text-amber-500/80 text-[11px] tabular-nums">
-                {queuedCount} queued
-              </span>
-            )}
-            <span className="inline-flex items-center h-[20px] px-1.5 rounded border border-border bg-muted/30 text-muted-foreground/50 text-[11px] tabular-nums">
-              {voteCount.toLocaleString()} rated
+      {/* ── Top bar ─────────────────────────────────── */}
+      <header className="flex-none h-11 flex items-center px-4 gap-0 border-b border-border bg-background">
+        <span className="text-[13.5px] font-semibold tracking-[-0.01em] text-foreground">
+          SampleBench
+        </span>
+        <span className="mx-2.5 text-[16px] font-light text-muted-foreground/40 select-none leading-none">/</span>
+        <span className="hidden sm:block text-[12.5px] text-muted-foreground">
+          Which sample reads better?
+        </span>
+        <div className="ml-auto flex items-center gap-2">
+          {queuedCount > 0 && (
+            <span className="inline-flex items-center h-[22px] px-2 rounded-md border border-amber-300 bg-amber-50 text-amber-700 text-[11.5px] tabular-nums font-medium">
+              {queuedCount} queued
             </span>
-          </div>
-        </header>
+          )}
+          <span className="inline-flex items-center h-[22px] px-2 rounded-md border border-border bg-card text-muted-foreground text-[11.5px] tabular-nums">
+            {voteCount.toLocaleString()} rated
+          </span>
+        </div>
+      </header>
 
-        {/* ── Sample panes ────────────────────────────── */}
-        <section className="flex flex-1 min-h-0 overflow-hidden" aria-label="Generated text samples">
-          <SamplePane
-            label="A"
-            sample={pair.left}
-            selected={choice === 'left'}
-            onSelect={() => !isSubmitting && setChoice('left')}
-          />
-          <SamplePane
-            label="B"
-            sample={pair.right}
-            selected={choice === 'right'}
-            onSelect={() => !isSubmitting && setChoice('right')}
-          />
-        </section>
+      {/* ── Sample panes ────────────────────────────── */}
+      <section className="flex flex-1 min-h-0 overflow-hidden bg-background" aria-label="Generated text samples">
+        <SamplePane
+          label="A"
+          sample={pair.left}
+          selected={choice === 'left'}
+          onSelect={() => !isSubmitting && setChoice('left')}
+        />
+        <SamplePane
+          label="B"
+          sample={pair.right}
+          selected={choice === 'right'}
+          onSelect={() => !isSubmitting && setChoice('right')}
+        />
+      </section>
 
-        {/* ── Control row ─────────────────────────────── */}
-        <footer
-          className="flex-none flex items-center gap-1 px-3 border-t border-border bg-card flex-wrap"
-          style={{ minHeight: 50, padding: '9px 12px' }}
-          aria-label="Response controls"
-        >
-          {/* Choice buttons */}
-          <div className="flex gap-1" role="group" aria-label="Your preference">
-            {CHOICES.map((opt) => (
-              <CtrlBtn
-                key={opt.value}
-                selected={choice === opt.value}
-                disabled={isSubmitting}
-                style={{ height: 28, padding: '0 11px' }}
-                onClick={() => setChoice(opt.value)}
-              >
-                {opt.label}
-              </CtrlBtn>
-            ))}
-          </div>
-
-          {/* Divider */}
-          <div className="w-px self-stretch mx-1.5 my-1 bg-border flex-shrink-0" aria-hidden="true" />
-
-          {/* Strength */}
-          <div
-            className={cn('flex items-center gap-1 flex-shrink-0 transition-opacity', !strengthEnabled && 'opacity-25 pointer-events-none')}
-            role="group"
-            aria-label="Preference strength"
-          >
-            <span className="text-[11px] text-muted-foreground mr-1 select-none">Strength</span>
-            {STRENGTHS.map((opt) => (
-              <CtrlBtn
-                key={opt.value}
-                selected={strengthEnabled && strength === opt.value}
-                disabled={!strengthEnabled || isSubmitting}
-                title={opt.label}
-                style={{ height: 28, width: 28 }}
-                aria-label={`${opt.value} — ${opt.label}`}
-                onClick={() => setStrength(opt.value)}
-              >
-                {opt.value}
-              </CtrlBtn>
-            ))}
-            <span
-              className="text-[11px] text-muted-foreground ml-1.5 min-w-[72px] transition-opacity"
-              style={{ opacity: strengthEnabled ? 1 : 0 }}
-              aria-live="polite"
+      {/* ── Control row ─────────────────────────────── */}
+      <footer
+        className="flex-none flex items-center gap-1.5 border-t border-border bg-background flex-wrap"
+        style={{ minHeight: 52, padding: '10px 14px' }}
+        aria-label="Response controls"
+      >
+        {/* Choice buttons */}
+        <div className="flex gap-1.5" role="group" aria-label="Your preference">
+          {CHOICES.map((opt) => (
+            <CtrlBtn
+              key={opt.value}
+              selected={choice === opt.value}
+              disabled={isSubmitting}
+              style={{ height: 30, padding: '0 12px' }}
+              onClick={() => setChoice(opt.value)}
             >
-              {strengthLabel}
-            </span>
-          </div>
+              {opt.label}
+            </CtrlBtn>
+          ))}
+        </div>
 
-          {/* Spacer */}
-          <div className="flex-1 min-w-2" aria-hidden="true" />
+        {/* Divider */}
+        <div className="w-px self-stretch mx-1 my-1 bg-border flex-shrink-0" aria-hidden="true" />
 
-          {/* Submit */}
-          <button
-            type="button"
-            disabled={!choice || isSubmitting}
-            onClick={submitVote}
-            className={cn(
-              'inline-flex items-center justify-center rounded-md border text-[12px] font-semibold transition-colors',
-              'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
-              'flex-shrink-0',
-              choice && !isSubmitting
-                ? 'bg-foreground border-foreground text-background hover:bg-foreground/85 cursor-pointer'
-                : 'bg-transparent border-border text-muted-foreground/30 cursor-not-allowed',
-            )}
-            style={{ height: 28, padding: '0 14px' }}
-          >
-            {isSubmitting ? 'Saving…' : 'Submit'}
-          </button>
-        </footer>
-
-        {/* ── Status line ─────────────────────────────── */}
+        {/* Strength */}
         <div
-          className="flex-none flex items-center justify-between px-4 border-t border-border bg-card/50 text-muted-foreground/50 overflow-hidden h-6"
-          style={{ fontSize: 11 }}
-          aria-live="polite"
+          className={cn('flex items-center gap-1.5 flex-shrink-0 transition-opacity', !strengthEnabled && 'opacity-30 pointer-events-none')}
+          role="group"
+          aria-label="Preference strength"
         >
-          <span className="truncate">{status || ' '}</span>
-          <span className="font-mono flex-shrink-0 pl-3" style={{ fontSize: 10.5 }}>
-            a · b · t · n · s · enter
+          <span className="text-[11.5px] text-muted-foreground mr-0.5 select-none">Strength</span>
+          {STRENGTHS.map((opt) => (
+            <CtrlBtn
+              key={opt.value}
+              selected={strengthEnabled && strength === opt.value}
+              disabled={!strengthEnabled || isSubmitting}
+              title={opt.label}
+              style={{ height: 30, width: 30 }}
+              aria-label={`${opt.value} — ${opt.label}`}
+              onClick={() => setStrength(opt.value)}
+            >
+              {opt.value}
+            </CtrlBtn>
+          ))}
+          <span
+            className="text-[11.5px] text-muted-foreground ml-1.5 min-w-[80px] transition-opacity"
+            style={{ opacity: strengthEnabled ? 1 : 0 }}
+            aria-live="polite"
+          >
+            {strengthLabel}
           </span>
         </div>
 
-      </main>
+        {/* Spacer */}
+        <div className="flex-1 min-w-2" aria-hidden="true" />
+
+        {/* Submit */}
+        <button
+          type="button"
+          disabled={!choice || isSubmitting}
+          onClick={submitVote}
+          className={cn(
+            'inline-flex items-center justify-center rounded-md border text-[12.5px] font-semibold transition-colors',
+            'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
+            'flex-shrink-0',
+            choice && !isSubmitting
+              ? 'bg-primary border-primary text-primary-foreground hover:opacity-90 cursor-pointer'
+              : 'bg-card border-input text-muted-foreground/40 cursor-not-allowed',
+          )}
+          style={{ height: 30, padding: '0 16px' }}
+        >
+          {isSubmitting ? 'Saving…' : 'Submit →'}
+        </button>
+      </footer>
+
+      {/* ── Status line ─────────────────────────────── */}
+      <div
+        className="flex-none flex items-center justify-between px-4 border-t border-border bg-background text-muted-foreground overflow-hidden h-[26px]"
+        style={{ fontSize: 11.5 }}
+        aria-live="polite"
+      >
+        <span className="truncate opacity-60">{status || ' '}</span>
+        <span className="font-mono flex-shrink-0 pl-3 opacity-40" style={{ fontSize: 10.5 }}>
+          a · b · t · n · s · enter
+        </span>
+      </div>
+
+    </main>
   );
 }
 
@@ -405,9 +399,9 @@ function SamplePane({ label, sample, selected, onSelect }) {
   return (
     <article
       className={cn(
-        'flex flex-col flex-1 min-w-0 overflow-hidden bg-card transition-colors duration-150',
+        'flex flex-col flex-1 min-w-0 overflow-hidden transition-colors duration-150',
         '[&:not(:first-child)]:border-l [&:not(:first-child)]:border-border',
-        selected && 'bg-[oklch(1_0_0/2%)]',
+        selected ? 'bg-accent/40' : 'bg-background',
       )}
     >
       {/* Pane header — click to select */}
@@ -419,40 +413,42 @@ function SamplePane({ label, sample, selected, onSelect }) {
         onClick={onSelect}
         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(); } }}
         className={cn(
-          'flex-none h-9 flex items-center justify-between px-4 border-b cursor-pointer select-none transition-colors duration-100',
+          'flex-none h-10 flex items-center justify-between px-5 border-b cursor-pointer select-none transition-colors duration-100',
           selected
-            ? 'bg-[oklch(1_0_0/4%)] border-border/80'
-            : 'bg-[oklch(1_0_0/1.5%)] border-border hover:bg-[oklch(1_0_0/3%)]',
+            ? 'bg-accent/60 border-border'
+            : 'bg-background border-border hover:bg-accent/30',
         )}
       >
-        <div className="flex items-center gap-2">
-          {/* Selection dot */}
+        <div className="flex items-center gap-2.5">
+          {/* Selection indicator */}
           <div
             className={cn(
-              'size-[7px] rounded-full transition-colors duration-150',
-              selected ? 'bg-foreground' : 'bg-transparent ring-1 ring-inset ring-border/60',
+              'size-[7px] rounded-full border transition-colors duration-150 flex-shrink-0',
+              selected
+                ? 'bg-primary border-primary'
+                : 'bg-transparent border-[hsl(30_9%_83%)]',
             )}
           />
           <span
             className={cn(
-              'text-[10.5px] font-semibold tracking-[0.07em] uppercase transition-colors duration-100 font-mono',
-              selected ? 'text-foreground' : 'text-muted-foreground/60',
+              'text-[11px] font-semibold tracking-[0.07em] uppercase transition-colors duration-100 font-mono',
+              selected ? 'text-foreground' : 'text-muted-foreground',
             )}
           >
             Sample {label}
           </span>
         </div>
-        <span className="text-[11px] font-mono text-muted-foreground/35 tabular-nums">
+        <span className="text-[11px] font-mono text-muted-foreground/50 tabular-nums">
           {wordCount.toLocaleString()} w
         </span>
       </div>
 
       {/* Scrollable body */}
-      <div className="flex-1 min-h-0 overflow-y-auto px-5 py-[18px] pb-6 cursor-auto">
+      <div className="flex-1 min-h-0 overflow-y-auto px-6 py-5 pb-8 cursor-auto">
         <p
           className={cn(
-            'text-[13.5px] leading-[1.73] whitespace-pre-wrap transition-colors duration-150',
-            selected ? 'text-foreground/85' : 'text-muted-foreground',
+            'text-[14px] leading-[1.75] whitespace-pre-wrap transition-colors duration-150',
+            selected ? 'text-foreground' : 'text-foreground/70',
           )}
         >
           {sample.text}
