@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { models } from './data.js';
 import './index.css';
 import { cn } from '@/lib/utils';
+import { ArrowLeftRight, Ban, ChevronRight, Copy, Check } from 'lucide-react';
 
 const STORAGE_KEYS = {
   voterId: 'samplebench:voter_id',
@@ -16,12 +17,13 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL?.replace(/\/$/, '');
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const SUPABASE_TABLE = import.meta.env.VITE_SUPABASE_TABLE || 'sample_votes';
 
-/* 4 choices — matches arena.ai battle UX */
+/* 4 choices — matches arena.ai battle UX.
+   On mobile the two middle choices collapse to icon-only buttons (image copy 2). */
 const CHOICES = [
-  { value: 'left',     label: 'A is better',  key: 'a' },
-  { value: 'tie',      label: 'Both are good', key: 't' },
-  { value: 'both_bad', label: 'Both are bad',  key: 'n' },
-  { value: 'right',    label: 'B is better',  key: 'b' },
+  { value: 'left',     label: 'A is better',  key: 'a', icon: null },
+  { value: 'tie',      label: 'Both are good', key: 't', icon: ArrowLeftRight },
+  { value: 'both_bad', label: 'Both are bad',  key: 'n', icon: Ban },
+  { value: 'right',    label: 'B is better',  key: 'b', icon: null },
 ];
 
 const samplePool = models.flatMap((model) =>
@@ -142,9 +144,24 @@ function samplePayload(s) {
 }
 
 /* ── App ──────────────────────────────────────────────────────── */
+function useMediaQuery(query) {
+  const [matches, setMatches] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(query).matches,
+  );
+  useEffect(() => {
+    const mql = window.matchMedia(query);
+    const onChange = (e) => setMatches(e.matches);
+    setMatches(mql.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, [query]);
+  return matches;
+}
+
 function App() { return <VotePage />; }
 
 function VotePage() {
+  const isDesktop        = useMediaQuery('(min-width: 768px)');
   const [voterId]        = useState(getVoterId);
   const [pair, setPair]  = useState(() => createPair());
   const [voteCount, setVoteCount] = useState(getVoteCount);
@@ -207,69 +224,202 @@ function VotePage() {
   }
 
   return (
-    <main
-      className="h-dvh flex flex-col overflow-hidden bg-background"
-      style={{ padding: '40px 48px 28px' }}
-    >
-      {/* ── Two panes in one rounded container ───────────── */}
-      <section
-        className="flex flex-1 min-h-0 rounded-xl border border-border overflow-hidden"
-        aria-label="Generated text samples"
-      >
-        <SamplePane label="A" sample={pair.left} />
-        <div className="w-px bg-border flex-shrink-0" aria-hidden="true" />
-        <SamplePane label="B" sample={pair.right} />
-      </section>
+    <main className="h-dvh flex flex-col overflow-hidden bg-background">
+      <div className="flex flex-col flex-1 min-h-0 w-full max-w-[1480px] mx-auto px-3 pt-3 pb-3 md:px-10 md:pt-9 md:pb-6 lg:px-16">
+        {isDesktop ? (
+          <DesktopDeck pair={pair} />
+        ) : (
+          <MobileDeck key={pair.id} pair={pair} />
+        )}
 
-      {/* ── 4 choice buttons — click = vote ──────────────── */}
-      <footer
-        className="flex-none flex items-center justify-center gap-3 pt-5 pb-0"
-        aria-label="Vote"
-      >
-        {CHOICES.map((opt) => (
-          <button
-            key={opt.value}
-            type="button"
-            disabled={isSubmitting}
-            onClick={() => submitChoice(opt.value)}
-            className={cn(
-              'inline-flex items-center justify-center rounded-lg border px-5 text-[13px] font-medium transition-colors',
-              'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
-              'disabled:pointer-events-none',
-              lastChoice === opt.value && isSubmitting
-                ? 'bg-primary border-primary text-primary-foreground opacity-80'
-                : 'bg-background border-input text-foreground/65 hover:bg-accent hover:border-[hsl(30_9%_83%)] hover:text-foreground disabled:opacity-35',
-            )}
-            style={{ height: 36 }}
-          >
-            {opt.label}
-          </button>
-        ))}
-      </footer>
+        <Choices
+          isDesktop={isDesktop}
+          lastChoice={lastChoice}
+          isSubmitting={isSubmitting}
+          onPick={submitChoice}
+        />
+      </div>
     </main>
   );
 }
 
-/* ── SamplePane ───────────────────────────────────────────────── */
-function SamplePane({ label, sample }) {
+/* ── Desktop: two cards side by side ───────────────────────────── */
+function DesktopDeck({ pair }) {
   return (
-    <article className="flex flex-col flex-1 min-w-0 min-h-0">
-      {/* Minimal pane header */}
-      <div className="flex-none h-10 flex items-center px-6 border-b border-border bg-background">
-        <span className="text-[11px] font-semibold tracking-[0.1em] uppercase font-mono text-muted-foreground/50">
-          Sample {label}
-        </span>
+    <section className="flex flex-1 min-h-0 gap-4" aria-label="Generated text samples">
+      <SampleCard label="A" sample={pair.left} />
+      <SampleCard label="B" sample={pair.right} />
+    </section>
+  );
+}
+
+/* ── Mobile: swipeable carousel (A ⇄ B) ────────────────────────── */
+function MobileDeck({ pair }) {
+  const scrollerRef = useRef(null);
+  const [active, setActive] = useState(0);
+
+  const handleScroll = useCallback(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const idx = Math.round(el.scrollLeft / el.clientWidth);
+    setActive((prev) => (prev === idx ? prev : idx));
+  }, []);
+
+  const goTo = useCallback((idx) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    el.scrollTo({ left: idx * el.clientWidth, behavior: 'smooth' });
+  }, []);
+
+  return (
+    <section className="relative flex flex-1 min-h-0 flex-col" aria-label="Generated text samples">
+      <div
+        ref={scrollerRef}
+        onScroll={handleScroll}
+        className="flex flex-1 min-h-0 overflow-x-auto overflow-y-hidden snap-x snap-mandatory no-scrollbar"
+      >
+        <div className="w-full shrink-0 snap-center flex min-w-0">
+          <SampleCard label="A" sample={pair.left} />
+        </div>
+        <div className="w-full shrink-0 snap-center flex min-w-0">
+          <SampleCard label="B" sample={pair.right} />
+        </div>
       </div>
 
-      {/* Independently scrollable body */}
-      <div className="flex-1 min-h-0 overflow-y-auto bg-background">
-        <div className="px-8 py-7 pb-12">
-          <p className="text-[14.5px] leading-[1.78] text-foreground/78 whitespace-pre-wrap">
+      {/* Swipe-to-B hint — fades once you reach B */}
+      <div
+        aria-hidden="true"
+        className={cn(
+          'pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 grid place-items-center',
+          'h-7 w-7 rounded-full bg-card/90 border border-border shadow-sm text-muted-foreground',
+          'transition-opacity duration-300',
+          active === 0 ? 'opacity-100' : 'opacity-0',
+        )}
+      >
+        <ChevronRight className="h-4 w-4" strokeWidth={2} />
+      </div>
+
+      {/* Pagination dots */}
+      <div className="flex-none flex items-center justify-center gap-1.5 pt-2.5">
+        {[0, 1].map((i) => (
+          <button
+            key={i}
+            type="button"
+            aria-label={`View sample ${i === 0 ? 'A' : 'B'}`}
+            onClick={() => goTo(i)}
+            className={cn(
+              'h-1.5 rounded-full transition-all duration-200',
+              active === i ? 'w-5 bg-foreground/70' : 'w-1.5 bg-foreground/25',
+            )}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ── SampleCard — shared by desktop + mobile ───────────────────── */
+function SampleCard({ label, sample }) {
+  return (
+    <article className="flex flex-1 min-w-0 min-h-0 flex-col rounded-xl border border-border bg-card overflow-hidden">
+      <header className="flex-none flex items-center justify-between h-10 md:h-11 pl-5 pr-2 border-b border-border">
+        <span className="text-[11px] font-semibold tracking-[0.12em] uppercase font-mono text-muted-foreground/60">
+          Sample {label}
+        </span>
+        <CopyButton text={sample.text} />
+      </header>
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <div className="px-5 py-5 pb-10 md:px-8 md:py-7 md:pb-12">
+          <p className="text-[14.5px] leading-[1.78] text-foreground/80 whitespace-pre-wrap">
             {sample.text}
           </p>
         </div>
       </div>
     </article>
+  );
+}
+
+function CopyButton({ text }) {
+  const [copied, setCopied] = useState(false);
+  const timer = useRef(null);
+  const onCopy = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(text || '');
+      setCopied(true);
+      clearTimeout(timer.current);
+      timer.current = setTimeout(() => setCopied(false), 1400);
+    } catch { /* clipboard unavailable */ }
+  }, [text]);
+  useEffect(() => () => clearTimeout(timer.current), []);
+  return (
+    <button
+      type="button"
+      onClick={onCopy}
+      aria-label="Copy sample text"
+      className="grid place-items-center h-7 w-7 rounded-md text-muted-foreground/45 hover:text-foreground hover:bg-accent transition-colors"
+    >
+      {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+    </button>
+  );
+}
+
+/* ── Choices — 4 text pills on desktop, compact icons on mobile ── */
+function Choices({ isDesktop, lastChoice, isSubmitting, onPick }) {
+  if (isDesktop) {
+    return (
+      <footer className="flex-none flex items-center justify-center gap-2.5 pt-5" aria-label="Vote">
+        {CHOICES.map((opt) => {
+          const selected = lastChoice === opt.value && isSubmitting;
+          return (
+            <button
+              key={opt.value}
+              type="button"
+              disabled={isSubmitting}
+              onClick={() => onPick(opt.value)}
+              className={cn(
+                'inline-flex items-center justify-center rounded-lg border h-9 px-5 text-[13px] font-medium transition-colors',
+                'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none',
+                selected
+                  ? 'bg-primary border-primary text-primary-foreground opacity-80'
+                  : 'bg-background border-input text-foreground/65 hover:bg-accent hover:border-[hsl(30_9%_83%)] hover:text-foreground disabled:opacity-35',
+              )}
+            >
+              {opt.label}
+            </button>
+          );
+        })}
+      </footer>
+    );
+  }
+
+  // Mobile: "A is better" / "B is better" expand to fill; tie + both-bad are icon-only.
+  return (
+    <footer className="flex-none flex items-stretch justify-center gap-2 pt-3" aria-label="Vote">
+      {CHOICES.map((opt) => {
+        const selected = lastChoice === opt.value && isSubmitting;
+        const Icon = opt.icon;
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            disabled={isSubmitting}
+            onClick={() => onPick(opt.value)}
+            aria-label={opt.label}
+            title={opt.label}
+            className={cn(
+              'inline-flex items-center justify-center rounded-lg border h-11 text-[13px] font-medium transition-colors',
+              'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none',
+              Icon ? 'w-11 shrink-0' : 'flex-1 px-3',
+              selected
+                ? 'bg-primary border-primary text-primary-foreground opacity-80'
+                : 'bg-background border-input text-foreground/70 hover:bg-accent active:bg-accent disabled:opacity-35',
+            )}
+          >
+            {Icon ? <Icon className="h-[18px] w-[18px]" strokeWidth={1.75} /> : opt.label}
+          </button>
+        );
+      })}
+    </footer>
   );
 }
 

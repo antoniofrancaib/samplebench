@@ -114,3 +114,7 @@
     border-radius: 9px;
   }
 }
+
+/* Hide scrollbar on the mobile sample carousel (still scrollable) */
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
