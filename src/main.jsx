@@ -219,6 +219,8 @@ function App() {
     setPath(to);
   }
   if (path.startsWith('/leaderboard')) return <LeaderboardPage onNavigate={navigate} />;
+  if (path.startsWith('/samples/')) return <SamplesModelPage modelId={path.slice('/samples/'.length)} onNavigate={navigate} />;
+  if (path === '/samples') return <SamplesIndexPage onNavigate={navigate} />;
   return <VotePage onNavigate={navigate} />;
 }
 
@@ -313,13 +315,18 @@ function VotePage({ onNavigate }) {
         </div>
       </div>
       <RevealOverlay reveal={reveal} fading={revealFading} />
-      <a
-        href="/leaderboard"
-        onClick={(e) => { e.preventDefault(); onNavigate('/leaderboard'); }}
-        className="fixed top-3 right-3 z-40 text-[11px] text-muted-foreground/40 hover:text-muted-foreground transition-colors select-none"
-      >
-        Leaderboard →
-      </a>
+      <nav className="fixed top-3 right-3 z-40 flex items-center gap-3">
+        {[['Samples', '/samples'], ['Leaderboard', '/leaderboard']].map(([label, href]) => (
+          <a
+            key={href}
+            href={href}
+            onClick={(e) => { e.preventDefault(); onNavigate(href); }}
+            className="text-[11px] text-muted-foreground/40 hover:text-muted-foreground transition-colors select-none"
+          >
+            {label} →
+          </a>
+        ))}
+      </nav>
     </main>
   );
 }
@@ -502,6 +509,137 @@ function Choices({ isDesktop, lastChoice, isSubmitting, onPick }) {
         );
       })}
     </footer>
+  );
+}
+
+/* ── Samples browser ─────────────────────────────────────────── */
+const FAMILY_ORDER = ['mdlm', 'sedd', 'flm', 'fmlm', 'duo'];
+const FAMILY_LABELS = { mdlm: 'MDLM', sedd: 'SEDD', flm: 'FLM', fmlm: 'FMLM', duo: 'DUO' };
+
+function NavBar({ left, right }) {
+  return (
+    <header className="flex-none flex items-center h-11 px-5 border-b border-border shrink-0">
+      <div className="flex items-center gap-4 flex-1">{left}</div>
+      <div className="flex items-center gap-4">{right}</div>
+    </header>
+  );
+}
+
+function NavLink({ href, children, onNavigate }) {
+  return (
+    <a
+      href={href}
+      onClick={(e) => { e.preventDefault(); onNavigate(href); }}
+      className="text-[12px] text-muted-foreground/60 hover:text-foreground transition-colors"
+    >
+      {children}
+    </a>
+  );
+}
+
+function SamplesIndexPage({ onNavigate }) {
+  const grouped = FAMILY_ORDER.reduce((acc, fam) => {
+    const items = models.filter((m) => (m.family || '').toLowerCase().startsWith(fam));
+    if (items.length) acc.push({ family: fam, items });
+    return acc;
+  }, []);
+  // catch any families not in the order list
+  const covered = new Set(FAMILY_ORDER);
+  const rest = models.filter((m) => !FAMILY_ORDER.some((f) => (m.family || '').toLowerCase().startsWith(f)));
+  if (rest.length) grouped.push({ family: 'other', items: rest });
+
+  return (
+    <main className="h-dvh flex flex-col overflow-hidden bg-background">
+      <NavBar
+        left={<NavLink href="/" onNavigate={onNavigate}>← Arena</NavLink>}
+        right={<NavLink href="/leaderboard" onNavigate={onNavigate}>Leaderboard →</NavLink>}
+      />
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <div className="max-w-2xl mx-auto px-5 py-8">
+          <h1 className="text-[15px] font-semibold text-foreground/80 mb-6">
+            Sample browser — {models.length} models
+          </h1>
+          {grouped.map(({ family, items }) => (
+            <div key={family} className="mb-7">
+              <div className="text-[10px] font-semibold tracking-widest uppercase text-muted-foreground/40 mb-2 pl-1">
+                {FAMILY_LABELS[family] ?? family}
+              </div>
+              <div className="rounded-xl border border-border overflow-hidden">
+                {items.map((model, i) => (
+                  <a
+                    key={model.id}
+                    href={`/samples/${model.id}`}
+                    onClick={(e) => { e.preventDefault(); onNavigate(`/samples/${model.id}`); }}
+                    className={cn(
+                      'flex items-center justify-between px-4 py-3 hover:bg-accent/40 transition-colors cursor-pointer',
+                      i < items.length - 1 && 'border-b border-border/50',
+                    )}
+                  >
+                    <span className="text-[13px] text-foreground/80 font-medium">{model.name}</span>
+                    <div className="flex items-center gap-4 text-[12px] text-muted-foreground/40">
+                      <span>{(model.samples || []).length} samples</span>
+                      <span className="text-muted-foreground/25">›</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function SamplesModelPage({ modelId, onNavigate }) {
+  const model = models.find((m) => m.id === modelId);
+
+  if (!model) {
+    return (
+      <main className="h-dvh flex flex-col overflow-hidden bg-background">
+        <NavBar left={<NavLink href="/samples" onNavigate={onNavigate}>← Samples</NavLink>} />
+        <div className="flex-1 grid place-items-center text-muted-foreground/50 text-sm">
+          Model not found: {modelId}
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="h-dvh flex flex-col overflow-hidden bg-background">
+      <NavBar
+        left={
+          <>
+            <NavLink href="/samples" onNavigate={onNavigate}>← Samples</NavLink>
+            <span className="text-[12px] font-medium text-foreground/70">{model.name}</span>
+          </>
+        }
+        right={
+          <span className="text-[11px] text-muted-foreground/35 tabular-nums">
+            {(model.samples || []).length} samples
+          </span>
+        }
+      />
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <div className="max-w-3xl mx-auto px-5 py-8 flex flex-col gap-5">
+          {(model.samples || []).map((sample, i) => (
+            <article key={sample.id} className="rounded-xl border border-border bg-card overflow-hidden">
+              <header className="flex items-center justify-between h-9 px-4 border-b border-border/60">
+                <span className="text-[10px] font-mono text-muted-foreground/40 tracking-wide">
+                  #{String(i + 1).padStart(2, '0')} · {sample.id}
+                </span>
+                <CopyButton text={sample.text} />
+              </header>
+              <div className="px-5 py-4">
+                <p className="text-[13.5px] leading-[1.75] text-foreground/75 whitespace-pre-wrap">
+                  {truncateText(sample.text)}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </main>
   );
 }
 
