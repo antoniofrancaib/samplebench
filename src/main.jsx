@@ -134,6 +134,55 @@ function samplePayload(s) {
   };
 }
 
+/* ── Reveal overlay ───────────────────────────────────────────── */
+function revealText(choice, lName, rName) {
+  if (choice === 'left')     return { headline: lName, sub: `is better than ${rName}` };
+  if (choice === 'right')    return { headline: rName, sub: `is better than ${lName}` };
+  if (choice === 'tie')      return { headline: 'Equally good', sub: `${lName} · ${rName}` };
+  if (choice === 'both_bad') return { headline: 'Both bad', sub: `${lName} · ${rName}` };
+  return null;
+}
+
+function RevealOverlay({ reveal, fading }) {
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    setShown(false);
+    if (!reveal) return;
+    const id1 = requestAnimationFrame(() => {
+      const id2 = requestAnimationFrame(() => setShown(true));
+      return () => cancelAnimationFrame(id2);
+    });
+    return () => cancelAnimationFrame(id1);
+  }, [reveal]);
+
+  if (!reveal) return null;
+  const visible = shown && !fading;
+  const { pair, choice } = reveal;
+  const txt = revealText(choice, pair.left.modelName, pair.right.modelName);
+  if (!txt) return null;
+
+  return (
+    <div
+      aria-live="polite"
+      className={cn(
+        'fixed inset-0 z-50 grid place-items-center pointer-events-none',
+        'transition-opacity duration-300',
+        visible ? 'opacity-100' : 'opacity-0',
+      )}
+    >
+      <div className={cn(
+        'flex flex-col items-center gap-1 px-8 py-5 rounded-2xl max-w-xs w-[calc(100vw-3rem)] text-center',
+        'bg-card border border-border shadow-2xl',
+        'transition-transform duration-300',
+        visible ? 'scale-100' : 'scale-95',
+      )}>
+        <span className="text-[15px] font-semibold text-foreground leading-snug">{txt.headline}</span>
+        <span className="text-[12px] text-muted-foreground/70 leading-snug">{txt.sub}</span>
+      </div>
+    </div>
+  );
+}
+
 /* ── App ──────────────────────────────────────────────────────── */
 function useMediaQuery(query) {
   const [matches, setMatches] = useState(
@@ -158,6 +207,8 @@ function VotePage() {
   const [voteCount, setVoteCount] = useState(getVoteCount);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lastChoice, setLastChoice] = useState(null);
+  const [reveal, setReveal] = useState(null);   // { pair, choice }
+  const [revealFading, setRevealFading] = useState(false);
   const startedAt = useRef(performance.now());
 
   useEffect(() => {
@@ -170,29 +221,36 @@ function VotePage() {
     startedAt.current = performance.now();
   }, []);
 
-  const submitChoice = useCallback(async (choiceValue) => {
+  // Reveal lifecycle: hold 1700ms → fade 400ms → advance
+  useEffect(() => {
+    if (!reveal) return;
+    const fadeId    = setTimeout(() => setRevealFading(true), 1700);
+    const advanceId = setTimeout(() => {
+      const pairId = reveal.pair.id;
+      setReveal(null);
+      setRevealFading(false);
+      setIsSubmitting(false);
+      advancePair(pairId);
+    }, 2100);
+    return () => { clearTimeout(fadeId); clearTimeout(advanceId); };
+  }, [reveal, advancePair]);
+
+  const submitChoice = useCallback((choiceValue) => {
     if (!pair || isSubmitting) return;
     setIsSubmitting(true);
     setLastChoice(choiceValue);
+    const capturedPair = pair;
     const nextCount = voteCount + 1;
     const row = buildVoteRow({
-      pair, choice: choiceValue, voterId,
+      pair: capturedPair, choice: choiceValue, voterId,
       voteNumber: nextCount,
       responseTimeMs: Math.max(0, Math.round(performance.now() - startedAt.current)),
     });
-    try {
-      const result = await insertVote(row);
-      if (result.queued) queueVote(row);
-    } catch (err) {
-      queueVote(row);
-      console.error('SampleBench vote error', err);
-    } finally {
-      setStoredVoteCount(nextCount);
-      setVoteCount(nextCount);
-      setIsSubmitting(false);
-      advancePair(pair.id);
-    }
-  }, [advancePair, isSubmitting, pair, voteCount, voterId]);
+    setStoredVoteCount(nextCount);
+    setVoteCount(nextCount);
+    insertVote(row).catch(() => { queueVote(row); });
+    setReveal({ pair: capturedPair, choice: choiceValue });
+  }, [isSubmitting, pair, voteCount, voterId]);
 
   useEffect(() => {
     function onKey(e) {
@@ -230,6 +288,7 @@ function VotePage() {
           onPick={submitChoice}
         />
       </div>
+      <RevealOverlay reveal={reveal} fading={revealFading} />
     </main>
   );
 }
