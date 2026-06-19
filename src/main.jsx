@@ -134,6 +134,13 @@ function samplePayload(s) {
   };
 }
 
+// ~512 GPT-2 tokens ≈ 2200 chars; trim at word boundary
+function truncateText(text, maxChars = 2200) {
+  if (!text || text.length <= maxChars) return text;
+  const cut = text.lastIndexOf(' ', maxChars);
+  return (cut > maxChars * 0.75 ? text.slice(0, cut) : text.slice(0, maxChars)) + '…';
+}
+
 /* ── Reveal overlay ───────────────────────────────────────────── */
 function revealText(choice, lName, rName) {
   if (choice === 'left')     return { headline: lName, sub: `is better than ${rName}` };
@@ -198,9 +205,22 @@ function useMediaQuery(query) {
   return matches;
 }
 
-function App() { return <VotePage />; }
+function App() {
+  const [path, setPath] = useState(() => window.location.pathname);
+  useEffect(() => {
+    const onPop = () => setPath(window.location.pathname);
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+  function navigate(to) {
+    window.history.pushState(null, '', to);
+    setPath(to);
+  }
+  if (path.startsWith('/leaderboard')) return <LeaderboardPage onNavigate={navigate} />;
+  return <VotePage onNavigate={navigate} />;
+}
 
-function VotePage() {
+function VotePage({ onNavigate }) {
   const isDesktop        = useMediaQuery('(min-width: 768px)');
   const [voterId]        = useState(getVoterId);
   const [pair, setPair]  = useState(() => createPair());
@@ -289,6 +309,13 @@ function VotePage() {
         />
       </div>
       <RevealOverlay reveal={reveal} fading={revealFading} />
+      <a
+        href="/leaderboard"
+        onClick={(e) => { e.preventDefault(); onNavigate('/leaderboard'); }}
+        className="fixed top-3 right-3 z-40 text-[11px] text-muted-foreground/40 hover:text-muted-foreground transition-colors select-none"
+      >
+        Leaderboard →
+      </a>
     </main>
   );
 }
@@ -370,6 +397,7 @@ function MobileDeck({ pair }) {
 
 /* ── SampleCard — shared by desktop + mobile ───────────────────── */
 function SampleCard({ label, sample }) {
+  const displayText = truncateText(sample.text);
   return (
     <article className="flex flex-1 min-w-0 min-h-0 flex-col rounded-xl border border-border bg-card overflow-hidden">
       <header className="flex-none flex items-center justify-between h-10 md:h-11 pl-5 pr-2 border-b border-border">
@@ -381,7 +409,7 @@ function SampleCard({ label, sample }) {
       <div className="flex-1 min-h-0 overflow-y-auto">
         <div className="px-5 py-5 pb-10 md:px-8 md:py-7 md:pb-12">
           <p className="text-[14.5px] leading-[1.78] text-foreground/80 whitespace-pre-wrap">
-            {sample.text}
+            {displayText}
           </p>
         </div>
       </div>
@@ -470,6 +498,107 @@ function Choices({ isDesktop, lastChoice, isSubmitting, onPick }) {
         );
       })}
     </footer>
+  );
+}
+
+/* ── Leaderboard ──────────────────────────────────────────────── */
+function LeaderboardPage({ onNavigate }) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        setLoading(true);
+        const res = await fetch('/api/leaderboard');
+        if (!res.ok) throw new Error(`${res.status}`);
+        const payload = await res.json();
+        if (!cancelled) { setData(payload); setError(null); }
+      } catch (e) {
+        if (!cancelled) setError(e.message);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    load();
+    const id = setInterval(load, 30_000);
+    return () => { cancelled = true; clearInterval(id); };
+  }, []);
+
+  const rows = (data?.models ?? []).map((m) => {
+    const model = models.find((x) => x.id === m.model_id);
+    return { ...m, label: model?.name ?? m.model_id };
+  });
+
+  return (
+    <main className="h-dvh flex flex-col overflow-hidden bg-background">
+      <header className="flex-none flex items-center gap-4 h-11 px-5 border-b border-border shrink-0">
+        <a
+          href="/"
+          onClick={(e) => { e.preventDefault(); onNavigate('/'); }}
+          className="text-[12px] text-muted-foreground/60 hover:text-foreground transition-colors"
+        >
+          ← Arena
+        </a>
+        <span className="text-[12px] font-medium text-foreground/70">Leaderboard</span>
+        {data && (
+          <span className="ml-auto text-[11px] text-muted-foreground/40 tabular-nums">
+            {data.total_votes.toLocaleString()} votes
+          </span>
+        )}
+        {loading && data && (
+          <span className="text-[11px] text-muted-foreground/30 ml-1">↻</span>
+        )}
+      </header>
+
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        {loading && !data && (
+          <div className="h-full grid place-items-center text-muted-foreground/50 text-sm">Loading…</div>
+        )}
+        {error && !data && (
+          <div className="h-full grid place-items-center text-destructive/70 text-sm">Error: {error}</div>
+        )}
+        {!loading && !error && rows.length === 0 && (
+          <div className="h-full grid place-items-center text-muted-foreground/50 text-sm">No votes yet.</div>
+        )}
+
+        {rows.length > 0 && (
+          <table className="w-full text-[13px]">
+            <thead className="sticky top-0 bg-background border-b border-border z-10">
+              <tr className="text-muted-foreground/40 text-[10px] tracking-widest uppercase">
+                <th className="text-left pl-5 pr-2 py-3 w-9 font-medium">#</th>
+                <th className="text-left px-2 py-3 font-medium">Model</th>
+                <th className="text-right px-3 py-3 font-medium">Win rate</th>
+                <th className="text-right px-3 py-3 font-medium">Wins</th>
+                <th className="text-right px-3 py-3 font-medium">Losses</th>
+                <th className="text-right px-3 py-3 font-medium hidden sm:table-cell">Ties</th>
+                <th className="text-right pr-5 pl-3 py-3 font-medium">Battles</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, i) => (
+                <tr
+                  key={row.model_id}
+                  className="border-b border-border/40 hover:bg-accent/30 transition-colors"
+                >
+                  <td className="text-muted-foreground/30 pl-5 pr-2 py-2.5 tabular-nums">{i + 1}</td>
+                  <td className="px-2 py-2.5 text-foreground/80 font-medium">{row.label}</td>
+                  <td className="text-right px-3 py-2.5 tabular-nums font-semibold text-foreground/70">
+                    {row.win_rate !== null ? `${(row.win_rate * 100).toFixed(1)}%` : '—'}
+                  </td>
+                  <td className="text-right px-3 py-2.5 tabular-nums text-foreground/50">{row.wins}</td>
+                  <td className="text-right px-3 py-2.5 tabular-nums text-foreground/50">{row.losses}</td>
+                  <td className="text-right px-3 py-2.5 tabular-nums text-muted-foreground/35 hidden sm:table-cell">{row.ties}</td>
+                  <td className="text-right pr-5 pl-3 py-2.5 tabular-nums text-muted-foreground/35">{row.battles}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </main>
   );
 }
 
