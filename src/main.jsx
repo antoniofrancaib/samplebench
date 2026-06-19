@@ -134,11 +134,13 @@ function samplePayload(s) {
   };
 }
 
-// ~512 GPT-2 tokens ≈ 2200 chars; trim at word boundary
+// ~512 GPT-2 tokens ≈ 2200 chars; strip BPE decode artifacts; trim at word boundary
 function truncateText(text, maxChars = 2200) {
-  if (!text || text.length <= maxChars) return text;
-  const cut = text.lastIndexOf(' ', maxChars);
-  return (cut > maxChars * 0.75 ? text.slice(0, cut) : text.slice(0, maxChars)) + '…';
+  if (!text) return text;
+  const clean = text.replace(/�/g, '');
+  if (clean.length <= maxChars) return clean;
+  const cut = clean.lastIndexOf(' ', maxChars);
+  return (cut > maxChars * 0.75 ? clean.slice(0, cut) : clean.slice(0, maxChars)) + '…';
 }
 
 /* ── Reveal overlay ───────────────────────────────────────────── */
@@ -325,7 +327,7 @@ function VotePage({ onNavigate }) {
 /* ── Desktop: two cards side by side ───────────────────────────── */
 function DesktopDeck({ pair }) {
   return (
-    <section className="flex gap-4 h-[56vh]" aria-label="Generated text samples">
+    <section className="flex gap-4 h-[68vh]" aria-label="Generated text samples">
       <SampleCard label="A" sample={pair.left} />
       <SampleCard label="B" sample={pair.right} />
     </section>
@@ -351,7 +353,7 @@ function MobileDeck({ pair }) {
   }, []);
 
   return (
-    <section className="relative flex flex-col h-[54vh]" aria-label="Generated text samples">
+    <section className="relative flex flex-col h-[65vh]" aria-label="Generated text samples">
       <div
         ref={scrollerRef}
         onScroll={handleScroll}
