@@ -676,24 +676,10 @@ function LeaderboardPage({ onNavigate }) {
 
   return (
     <main className="h-dvh flex flex-col overflow-hidden bg-background">
-      <header className="flex-none flex items-center gap-4 h-11 px-5 border-b border-border shrink-0">
-        <a
-          href="/"
-          onClick={(e) => { e.preventDefault(); onNavigate('/'); }}
-          className="text-[12px] text-muted-foreground/60 hover:text-foreground transition-colors"
-        >
-          ← Arena
-        </a>
-        <span className="text-[12px] font-medium text-foreground/70">Leaderboard</span>
-        {data && (
-          <span className="ml-auto text-[11px] text-muted-foreground/40 tabular-nums">
-            {data.total_votes.toLocaleString()} votes
-          </span>
-        )}
-        {loading && data && (
-          <span className="text-[11px] text-muted-foreground/30 ml-1">↻</span>
-        )}
-      </header>
+      <NavBar
+        left={<NavLink href="/" onNavigate={onNavigate}>← Arena</NavLink>}
+        right={<NavLink href="/samples" onNavigate={onNavigate}>Samples →</NavLink>}
+      />
 
       <div className="flex-1 min-h-0 overflow-y-auto">
         {loading && !data && (
@@ -707,37 +693,45 @@ function LeaderboardPage({ onNavigate }) {
         )}
 
         {rows.length > 0 && (
-          <table className="w-full text-[13px]">
-            <thead className="sticky top-0 bg-background border-b border-border z-10">
-              <tr className="text-muted-foreground/40 text-[10px] tracking-widest uppercase">
-                <th className="text-left pl-5 pr-2 py-3 w-9 font-medium">#</th>
-                <th className="text-left px-2 py-3 font-medium">Model</th>
-                <th className="text-right px-3 py-3 font-medium">Win rate</th>
-                <th className="text-right px-3 py-3 font-medium">Wins</th>
-                <th className="text-right px-3 py-3 font-medium">Losses</th>
-                <th className="text-right px-3 py-3 font-medium hidden sm:table-cell">Ties</th>
-                <th className="text-right pr-5 pl-3 py-3 font-medium">Battles</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row, i) => (
-                <tr
-                  key={row.model_id}
-                  className="border-b border-border/40 hover:bg-accent/30 transition-colors"
-                >
-                  <td className="text-muted-foreground/30 pl-5 pr-2 py-2.5 tabular-nums">{i + 1}</td>
-                  <td className="px-2 py-2.5 text-foreground/80 font-medium">{row.label}</td>
-                  <td className="text-right px-3 py-2.5 tabular-nums font-semibold text-foreground/70">
-                    {row.win_rate !== null ? `${(row.win_rate * 100).toFixed(1)}%` : '—'}
-                  </td>
-                  <td className="text-right px-3 py-2.5 tabular-nums text-foreground/50">{row.wins}</td>
-                  <td className="text-right px-3 py-2.5 tabular-nums text-foreground/50">{row.losses}</td>
-                  <td className="text-right px-3 py-2.5 tabular-nums text-muted-foreground/35 hidden sm:table-cell">{row.ties}</td>
-                  <td className="text-right pr-5 pl-3 py-2.5 tabular-nums text-muted-foreground/35">{row.battles}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="max-w-2xl mx-auto px-5 py-8">
+            <h1 className="text-[15px] font-semibold text-foreground/80 mb-1">Leaderboard</h1>
+            <p className="text-[12px] text-muted-foreground/40 mb-6 tabular-nums">
+              {data.total_votes.toLocaleString()} votes{loading && ' · refreshing…'}
+            </p>
+            <div className="rounded-xl border border-border overflow-hidden">
+              <table className="w-full text-[13px]">
+                <thead>
+                  <tr className="text-muted-foreground/40 text-[10px] tracking-widest uppercase border-b border-border bg-card">
+                    <th className="text-left pl-4 pr-2 py-3 w-9 font-medium">#</th>
+                    <th className="text-left px-2 py-3 font-medium">Model</th>
+                    <th className="text-right px-3 py-3 font-medium">Win rate</th>
+                    <th className="text-right px-3 py-3 font-medium">Wins</th>
+                    <th className="text-right px-3 py-3 font-medium">Losses</th>
+                    <th className="text-right px-3 py-3 font-medium hidden sm:table-cell">Ties</th>
+                    <th className="text-right pr-4 pl-3 py-3 font-medium">Battles</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((row, i) => (
+                    <tr
+                      key={row.model_id}
+                      className={cn('hover:bg-accent/30 transition-colors', i < rows.length - 1 && 'border-b border-border/50')}
+                    >
+                      <td className="text-muted-foreground/30 pl-4 pr-2 py-2.5 tabular-nums">{i + 1}</td>
+                      <td className="px-2 py-2.5 text-foreground/80 font-medium">{row.label}</td>
+                      <td className="text-right px-3 py-2.5 tabular-nums font-semibold text-foreground/70">
+                        {row.win_rate !== null ? `${(row.win_rate * 100).toFixed(1)}%` : '—'}
+                      </td>
+                      <td className="text-right px-3 py-2.5 tabular-nums text-foreground/50">{row.wins}</td>
+                      <td className="text-right px-3 py-2.5 tabular-nums text-foreground/50">{row.losses}</td>
+                      <td className="text-right px-3 py-2.5 tabular-nums text-muted-foreground/35 hidden sm:table-cell">{row.ties}</td>
+                      <td className="text-right pr-4 pl-3 py-2.5 tabular-nums text-muted-foreground/35">{row.battles}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         )}
       </div>
     </main>
