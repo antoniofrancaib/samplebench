@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """Pull real collected votes from Supabase into samplebench.db.
 
-The web UI writes votes to the Supabase REST table (see src/main.jsx). This
-snapshots them into the local analytical DB so correlate.py runs on real data
-exactly as it does on the simulated votes.
+The web UI writes votes via /api/vote (server-side proxy). This script snapshots
+them into the local analytical DB so correlate.py runs on real data exactly as
+it does on the simulated votes.
 
-Env:  VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, VITE_SUPABASE_TABLE (default sample_votes)
+Env (prefer service-role for full read access past RLS):
+  SUPABASE_URL              Supabase project URL (same as api/vote.js)
+  SUPABASE_SERVICE_ROLE_KEY Service-role key for unrestricted reads
+  SUPABASE_TABLE            Table name (default: sample_votes)
 Run:  python3 bench/pipeline/pull_votes.py   (after build_db.py)
 """
 from __future__ import annotations
@@ -19,9 +22,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import connect  # noqa: E402
 
-URL = (os.environ.get("VITE_SUPABASE_URL") or "").rstrip("/")
-KEY = os.environ.get("VITE_SUPABASE_ANON_KEY") or ""
-TABLE = os.environ.get("VITE_SUPABASE_TABLE", "sample_votes")
+URL = (os.environ.get("SUPABASE_URL") or "").rstrip("/")
+KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or ""
+TABLE = os.environ.get("SUPABASE_TABLE", "sample_votes")
 
 
 def fetch_all(page=1000):
@@ -40,7 +43,7 @@ def fetch_all(page=1000):
 
 def main() -> None:
     if not (URL and KEY):
-        print("Supabase not configured (VITE_SUPABASE_URL / _ANON_KEY). Nothing pulled.")
+        print("Supabase not configured (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY). Nothing pulled.")
         return
     rows = fetch_all()
     out = []

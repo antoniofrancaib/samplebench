@@ -17,6 +17,7 @@ from pathlib import Path
 HOME = Path(os.path.expanduser("~"))
 LM_BENCH = HOME / "lm-bench"
 LM_SAMPLES = LM_BENCH / "results" / "samples"
+LM_SAMPLES_V2 = LM_SAMPLES / "v2"          # v2 study: results/samples/v2/
 LM_CKPT_CFG = LM_BENCH / "configs" / "checkpoints.yaml"
 LM_SUITE_CFG = LM_BENCH / "configs" / "sample_suites"
 LM_FINAL_REPORT = LM_BENCH / "results" / "metrics" / "final_metrics" / "report"
@@ -24,7 +25,8 @@ LM_FINAL_REPORT = LM_BENCH / "results" / "metrics" / "final_metrics" / "report"
 REPO = Path(__file__).resolve().parents[2]          # .../samplebench
 BENCH = REPO / "bench"
 REGISTRY_DIR = BENCH / "registry"                   # synced yaml + parsed snapshot
-SAMPLES_DIR = BENCH / "samples"                     # curated sample pool
+SAMPLES_DIR = BENCH / "samples"                     # curated sample pool (v1)
+SAMPLES_DIR_V2 = BENCH / "samples_v2"               # curated sample pool (v2 study)
 ANALYSIS_DIR = BENCH / "analysis"
 DB_PATH = BENCH / "db" / "samplebench.db"
 SCHEMA_PATH = BENCH / "db" / "schema.sql"
@@ -33,13 +35,17 @@ FRONTEND_DATA = REPO / "src" / "data.js"
 # ── Config ───────────────────────────────────────────────────────────────
 DATASET = "owt"
 SUITES = ["owt_L1024_paper", "owt_L1024_naive"]
+SUITES_V2 = ["owt_L1024_diffusion_v2"]      # v2 study (diffusion-vs-diffusion only)
 REFERENCE_MODEL = "owt_data_train"
 CURATE_K = 64                  # curated pool per model (serving + analysis)
 FRONTEND_K = 40                # samples per model shipped to the browser
 CURATE_SEED = 1234
 MIN_CHARS = 200
 
-FRONTEND_SUITES = ["owt_L1024_paper"]
+# v1 study (AR + diffusion). Empty = v2-only deployment.
+FRONTEND_SUITES = []
+# v2 study (pure diffusion-vs-diffusion, 28 generators).
+FRONTEND_SUITES_V2 = ["owt_L1024_diffusion_v2"]
 FRONTEND_EXCLUDE = {REFERENCE_MODEL}
 
 DIFFUSION_FAMILIES = {"mdlm", "sedd", "duo", "flm", "fmlm", "sdtt", "di4c",

@@ -23,7 +23,8 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import (  # noqa: E402
     CURATE_K, CURATE_SEED, DATASET, LM_BENCH, LM_CKPT_CFG, LM_FINAL_REPORT,
-    LM_SAMPLES, LM_SUITE_CFG, MIN_CHARS, REGISTRY_DIR, SAMPLES_DIR, SUITES,
+    LM_SAMPLES, LM_SAMPLES_V2, LM_SUITE_CFG, MIN_CHARS, REGISTRY_DIR,
+    SAMPLES_DIR, SAMPLES_DIR_V2, SUITES, SUITES_V2,
     iter_model_dirs, manifest_summary, normalize_text, read_jsonl, write_json,
     write_jsonl,
 )
@@ -44,7 +45,7 @@ def snapshot_configs() -> dict:
     checkpoints = yaml.safe_load(LM_CKPT_CFG.read_text()).get("checkpoints", [])
 
     suites = {}
-    for suite in SUITES:
+    for suite in SUITES + SUITES_V2:
         cfg = LM_SUITE_CFG / f"{suite}.yaml"
         if cfg.exists():
             shutil.copy(cfg, REGISTRY_DIR / "suites" / f"{suite}.yaml")
@@ -62,13 +63,13 @@ def snapshot_metrics() -> Path | None:
     return dst
 
 
-def curate_samples() -> dict:
-    """Seeded K-per-model subsample of usable generations; preserve sample_id."""
+def _curate_suite_group(suites: list, lm_root, out_root) -> dict:
+    """Seeded K-per-model subsample for a group of suites. Returns {suite/model: k}."""
     stats = {}
-    if SAMPLES_DIR.exists():
-        shutil.rmtree(SAMPLES_DIR)
-    for suite in SUITES:
-        for model_id, d in iter_model_dirs(suite, root=LM_SAMPLES):
+    if out_root.exists():
+        shutil.rmtree(out_root)
+    for suite in suites:
+        for model_id, d in iter_model_dirs(suite, root=lm_root):
             manifest = json.loads((d / "manifest.json").read_text())
             rng = random.Random(f"{CURATE_SEED}:{model_id}")
             usable = []
@@ -80,11 +81,17 @@ def curate_samples() -> dict:
                                "suite_id": suite, "text": norm, "char_len": len(norm)})
             k = min(CURATE_K, len(usable))
             picked = sorted(rng.sample(usable, k), key=lambda r: r["sample_id"]) if usable else []
-            out = SAMPLES_DIR / suite / model_id
+            out = out_root / suite / model_id
             write_jsonl(out / "samples.jsonl", picked)
             write_json(out / "manifest.json",
                        {**manifest_summary(manifest), "suite": suite, "curated_k": k})
             stats[f"{suite}/{model_id}"] = k
+    return stats
+
+
+def curate_samples() -> dict:
+    stats = _curate_suite_group(SUITES, LM_SAMPLES, SAMPLES_DIR)
+    stats.update(_curate_suite_group(SUITES_V2, LM_SAMPLES_V2, SAMPLES_DIR_V2))
     return stats
 
 
@@ -99,6 +106,7 @@ def main() -> None:
         "lm_bench_path": str(LM_BENCH),
         "dataset": DATASET,
         "suites": SUITES,
+        "suites_v2": SUITES_V2,
         "n_checkpoints": len(cfg["checkpoints"]),
         "metrics_csv": str(metrics_csv) if metrics_csv else None,
         "curated_models": len(stats),

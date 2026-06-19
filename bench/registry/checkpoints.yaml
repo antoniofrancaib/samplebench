@@ -321,13 +321,13 @@ checkpoints:
       - --noise-removal
       - ancestral
       - --extra-override
-      - algo.gumbel_tau_log10_start=-3.0
+      - ++algo.gumbel_tau_log10_start=-3.0
       - --extra-override
-      - algo.gumbel_tau_log10_end=-3.0
+      - ++algo.gumbel_tau_log10_end=-3.0
       - --extra-override
-      - algo.gamma_min=-3.55
+      - ++algo.gamma_min=-3.55
       - --extra-override
-      - algo.gamma_max=-1.85
+      - ++algo.gamma_max=-1.85
 
   - id: lm1b_candi_1024_nfe
     label: CANDI LM1B 1024-NFE
@@ -777,3 +777,1455 @@ checkpoints:
       - "1024"
       - --eval-batch-size
       - "8"
+
+  # =========================================================================
+  # SampleBench v2 — owt_L1024_diffusion_v2 — Tier-R generators
+  # Pure diffusion-vs-diffusion; full NFE sweep; seed=1; n_samples=1024.
+  # =========================================================================
+
+  # -------------------------------------------------------------------------
+  # MDLM OWT v2  (source: kuleshov-group/mdlm-owt)
+  # Checkpoint: checkpoints/owt/mdlm/base/model.ckpt  (duo-codebase .ckpt,
+  # production-tested with flm-hydra; HF safetensors at owt/mdlm/hf/ needs
+  # weight conversion to be loadable by Lightning — left for future work)
+  # -------------------------------------------------------------------------
+  - id: owt_v2_mdlm_8_nfe
+    label: "MDLM 8-NFE"
+    dataset: owt
+    family: mdlm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/mdlm/base/model.ckpt
+    source: https://huggingface.co/kuleshov-group/mdlm-owt
+    generation:
+      backend: flm-hydra
+      algo: mdlm
+      nfe: 8
+      predictor: ancestral_cache
+      noise_removal: ancestral
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - mdlm
+      - --steps
+      - "8"
+      - --nfe
+      - "8"
+      - --eval-batch-size
+      - "16"
+      - --predictor
+      - ancestral_cache
+      - --noise-removal
+      - ancestral
+
+  - id: owt_v2_mdlm_32_nfe
+    label: "MDLM 32-NFE"
+    dataset: owt
+    family: mdlm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/mdlm/base/model.ckpt
+    source: https://huggingface.co/kuleshov-group/mdlm-owt
+    generation:
+      backend: flm-hydra
+      algo: mdlm
+      nfe: 32
+      predictor: ancestral_cache
+      noise_removal: ancestral
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - mdlm
+      - --steps
+      - "32"
+      - --nfe
+      - "32"
+      - --eval-batch-size
+      - "16"
+      - --predictor
+      - ancestral_cache
+      - --noise-removal
+      - ancestral
+
+  - id: owt_v2_mdlm_128_nfe
+    label: "MDLM 128-NFE"
+    dataset: owt
+    family: mdlm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/mdlm/base/model.ckpt
+    source: https://huggingface.co/kuleshov-group/mdlm-owt
+    generation:
+      backend: flm-hydra
+      algo: mdlm
+      nfe: 128
+      predictor: ancestral_cache
+      noise_removal: ancestral
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - mdlm
+      - --steps
+      - "128"
+      - --nfe
+      - "128"
+      - --eval-batch-size
+      - "16"
+      - --predictor
+      - ancestral_cache
+      - --noise-removal
+      - ancestral
+
+  - id: owt_v2_mdlm_512_nfe
+    label: "MDLM 512-NFE"
+    dataset: owt
+    family: mdlm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/mdlm/base/model.ckpt
+    source: https://huggingface.co/kuleshov-group/mdlm-owt
+    generation:
+      backend: flm-hydra
+      algo: mdlm
+      nfe: 512
+      predictor: ancestral_cache
+      noise_removal: ancestral
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - mdlm
+      - --steps
+      - "512"
+      - --nfe
+      - "512"
+      - --eval-batch-size
+      - "16"
+      - --predictor
+      - ancestral_cache
+      - --noise-removal
+      - ancestral
+
+  - id: owt_v2_mdlm_1024_nfe
+    label: "MDLM 1024-NFE"
+    dataset: owt
+    family: mdlm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/mdlm/base/model.ckpt
+    source: https://huggingface.co/kuleshov-group/mdlm-owt
+    generation:
+      backend: flm-hydra
+      algo: mdlm
+      nfe: 1024
+      predictor: ancestral_cache
+      noise_removal: ancestral
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - mdlm
+      - --steps
+      - "1024"
+      - --nfe
+      - "1024"
+      - --eval-batch-size
+      - "16"
+      - --predictor
+      - ancestral_cache
+      - --noise-removal
+      - ancestral
+
+  # -------------------------------------------------------------------------
+  # SEDD OWT v2  (source: louaaron/sedd-medium; .ckpt via flm-hydra)
+  # -------------------------------------------------------------------------
+  - id: owt_v2_sedd_8_nfe
+    label: "SEDD 8-NFE"
+    dataset: owt
+    family: sedd
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/sedd/base/model.ckpt
+    source: https://huggingface.co/louaaron/sedd-medium
+    generation:
+      backend: flm-hydra
+      algo: sedd
+      nfe: 8
+      predictor: analytic
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - sedd
+      - --steps
+      - "8"
+      - --nfe
+      - "8"
+      - --eval-batch-size
+      - "8"
+      - --predictor
+      - analytic
+
+  - id: owt_v2_sedd_32_nfe
+    label: "SEDD 32-NFE"
+    dataset: owt
+    family: sedd
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/sedd/base/model.ckpt
+    source: https://huggingface.co/louaaron/sedd-medium
+    generation:
+      backend: flm-hydra
+      algo: sedd
+      nfe: 32
+      predictor: analytic
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - sedd
+      - --steps
+      - "32"
+      - --nfe
+      - "32"
+      - --eval-batch-size
+      - "8"
+      - --predictor
+      - analytic
+
+  - id: owt_v2_sedd_128_nfe
+    label: "SEDD 128-NFE"
+    dataset: owt
+    family: sedd
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/sedd/base/model.ckpt
+    source: https://huggingface.co/louaaron/sedd-medium
+    generation:
+      backend: flm-hydra
+      algo: sedd
+      nfe: 128
+      predictor: analytic
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - sedd
+      - --steps
+      - "128"
+      - --nfe
+      - "128"
+      - --eval-batch-size
+      - "8"
+      - --predictor
+      - analytic
+
+  - id: owt_v2_sedd_512_nfe
+    label: "SEDD 512-NFE"
+    dataset: owt
+    family: sedd
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/sedd/base/model.ckpt
+    source: https://huggingface.co/louaaron/sedd-medium
+    generation:
+      backend: flm-hydra
+      algo: sedd
+      nfe: 512
+      predictor: analytic
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - sedd
+      - --steps
+      - "512"
+      - --nfe
+      - "512"
+      - --eval-batch-size
+      - "8"
+      - --predictor
+      - analytic
+
+  - id: owt_v2_sedd_1024_nfe
+    label: "SEDD 1024-NFE"
+    dataset: owt
+    family: sedd
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/sedd/base/model.ckpt
+    source: https://huggingface.co/louaaron/sedd-medium
+    generation:
+      backend: flm-hydra
+      algo: sedd
+      nfe: 1024
+      predictor: analytic
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - sedd
+      - --steps
+      - "1024"
+      - --nfe
+      - "1024"
+      - --eval-batch-size
+      - "8"
+      - --predictor
+      - analytic
+
+  # -------------------------------------------------------------------------
+  # FLM OWT v2  (source: david3684/flm; checkpoint: david3684/FLM-B-OWT)
+  # NFE sweep 8→1024; double_temb=false (base model, not distilled)
+  # -------------------------------------------------------------------------
+  - id: owt_v2_flm_8_nfe
+    label: "FLM 8-NFE"
+    dataset: owt
+    family: flm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/flm/base/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: flm
+      nfe: 8
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - flm
+      - --steps
+      - "8"
+      - --nfe
+      - "8"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "false"
+      - --disable-ema
+      - "false"
+
+  - id: owt_v2_flm_32_nfe
+    label: "FLM 32-NFE"
+    dataset: owt
+    family: flm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/flm/base/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: flm
+      nfe: 32
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - flm
+      - --steps
+      - "32"
+      - --nfe
+      - "32"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "false"
+      - --disable-ema
+      - "false"
+
+  - id: owt_v2_flm_128_nfe
+    label: "FLM 128-NFE"
+    dataset: owt
+    family: flm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/flm/base/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: flm
+      nfe: 128
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - flm
+      - --steps
+      - "128"
+      - --nfe
+      - "128"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "false"
+      - --disable-ema
+      - "false"
+
+  - id: owt_v2_flm_512_nfe
+    label: "FLM 512-NFE"
+    dataset: owt
+    family: flm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/flm/base/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: flm
+      nfe: 512
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - flm
+      - --steps
+      - "512"
+      - --nfe
+      - "512"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "false"
+      - --disable-ema
+      - "false"
+
+  - id: owt_v2_flm_1024_nfe
+    label: "FLM 1024-NFE"
+    dataset: owt
+    family: flm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/flm/base/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: flm
+      nfe: 1024
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - flm
+      - --steps
+      - "1024"
+      - --nfe
+      - "1024"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "false"
+      - --disable-ema
+      - "false"
+
+  # -------------------------------------------------------------------------
+  # FMLM OWT v2  (source: david3684/flm; checkpoint: david3684/FMLM-B-OWT)
+  # gamma=1.0 is the OWT paper value (LM1B uses 0.8).
+  # Featured low-NFE flow-matching sweep: 1 → 4 → 8 → 16 → 32 steps.
+  # -------------------------------------------------------------------------
+  - id: owt_v2_fmlm_1_nfe
+    label: "FMLM 1-NFE"
+    dataset: owt
+    family: fmlm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/fmlm/distilled/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: fmlm
+      nfe: 1
+      gamma: 1.0
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - fmlm
+      - --steps
+      - "1"
+      - --nfe
+      - "1"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "true"
+      - --learnable-loss-weighting
+      - "false"
+      - --disable-ema
+      - "false"
+      - --gamma
+      - "1.0"
+
+  - id: owt_v2_fmlm_4_nfe
+    label: "FMLM 4-NFE"
+    dataset: owt
+    family: fmlm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/fmlm/distilled/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: fmlm
+      nfe: 4
+      gamma: 1.0
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - fmlm
+      - --steps
+      - "4"
+      - --nfe
+      - "4"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "true"
+      - --learnable-loss-weighting
+      - "false"
+      - --disable-ema
+      - "false"
+      - --gamma
+      - "1.0"
+
+  - id: owt_v2_fmlm_8_nfe
+    label: "FMLM 8-NFE"
+    dataset: owt
+    family: fmlm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/fmlm/distilled/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: fmlm
+      nfe: 8
+      gamma: 1.0
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - fmlm
+      - --steps
+      - "8"
+      - --nfe
+      - "8"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "true"
+      - --learnable-loss-weighting
+      - "false"
+      - --disable-ema
+      - "false"
+      - --gamma
+      - "1.0"
+
+  - id: owt_v2_fmlm_16_nfe
+    label: "FMLM 16-NFE"
+    dataset: owt
+    family: fmlm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/fmlm/distilled/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: fmlm
+      nfe: 16
+      gamma: 1.0
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - fmlm
+      - --steps
+      - "16"
+      - --nfe
+      - "16"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "true"
+      - --learnable-loss-weighting
+      - "false"
+      - --disable-ema
+      - "false"
+      - --gamma
+      - "1.0"
+
+  - id: owt_v2_fmlm_32_nfe
+    label: "FMLM 32-NFE"
+    dataset: owt
+    family: fmlm
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/fmlm/distilled/model.ckpt
+    source: https://github.com/david3684/flm
+    generation:
+      backend: flm-hydra
+      algo: fmlm
+      nfe: 32
+      gamma: 1.0
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - fmlm
+      - --steps
+      - "32"
+      - --nfe
+      - "32"
+      - --eval-batch-size
+      - "16"
+      - --double-temb
+      - "true"
+      - --learnable-loss-weighting
+      - "false"
+      - --disable-ema
+      - "false"
+      - --gamma
+      - "1.0"
+
+  # -------------------------------------------------------------------------
+  # DUO base OWT v2  (source: s-sahoo/duo)
+  # Gumbel tau log10 ∈ {-3.0} and gamma ∈ {-3.55, -1.85} from DUO paper.
+  # -------------------------------------------------------------------------
+  - id: owt_v2_duo_base_8_nfe
+    label: "DUO Base 8-NFE"
+    dataset: owt
+    family: duo
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/duo/base/model.ckpt
+    source: https://github.com/s-sahoo/duo
+    generation:
+      backend: flm-hydra
+      algo: duo_base
+      nfe: 8
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - duo_base
+      - --steps
+      - "8"
+      - --nfe
+      - "8"
+      - --eval-batch-size
+      - "8"
+      - --predictor
+      - ancestral
+      - --noise-removal
+      - ancestral
+      - --extra-override
+      - ++algo.gumbel_tau_log10_start=-3.0
+      - --extra-override
+      - ++algo.gumbel_tau_log10_end=-3.0
+      - --extra-override
+      - ++algo.gamma_min=-3.55
+      - --extra-override
+      - ++algo.gamma_max=-1.85
+
+  - id: owt_v2_duo_base_32_nfe
+    label: "DUO Base 32-NFE"
+    dataset: owt
+    family: duo
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/duo/base/model.ckpt
+    source: https://github.com/s-sahoo/duo
+    generation:
+      backend: flm-hydra
+      algo: duo_base
+      nfe: 32
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - duo_base
+      - --steps
+      - "32"
+      - --nfe
+      - "32"
+      - --eval-batch-size
+      - "8"
+      - --predictor
+      - ancestral
+      - --noise-removal
+      - ancestral
+      - --extra-override
+      - ++algo.gumbel_tau_log10_start=-3.0
+      - --extra-override
+      - ++algo.gumbel_tau_log10_end=-3.0
+      - --extra-override
+      - ++algo.gamma_min=-3.55
+      - --extra-override
+      - ++algo.gamma_max=-1.85
+
+  - id: owt_v2_duo_base_128_nfe
+    label: "DUO Base 128-NFE"
+    dataset: owt
+    family: duo
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/duo/base/model.ckpt
+    source: https://github.com/s-sahoo/duo
+    generation:
+      backend: flm-hydra
+      algo: duo_base
+      nfe: 128
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - duo_base
+      - --steps
+      - "128"
+      - --nfe
+      - "128"
+      - --eval-batch-size
+      - "8"
+      - --predictor
+      - ancestral
+      - --noise-removal
+      - ancestral
+      - --extra-override
+      - ++algo.gumbel_tau_log10_start=-3.0
+      - --extra-override
+      - ++algo.gumbel_tau_log10_end=-3.0
+      - --extra-override
+      - ++algo.gamma_min=-3.55
+      - --extra-override
+      - ++algo.gamma_max=-1.85
+
+  - id: owt_v2_duo_base_512_nfe
+    label: "DUO Base 512-NFE"
+    dataset: owt
+    family: duo
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/duo/base/model.ckpt
+    source: https://github.com/s-sahoo/duo
+    generation:
+      backend: flm-hydra
+      algo: duo_base
+      nfe: 512
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - duo_base
+      - --steps
+      - "512"
+      - --nfe
+      - "512"
+      - --eval-batch-size
+      - "8"
+      - --predictor
+      - ancestral
+      - --noise-removal
+      - ancestral
+      - --extra-override
+      - ++algo.gumbel_tau_log10_start=-3.0
+      - --extra-override
+      - ++algo.gumbel_tau_log10_end=-3.0
+      - --extra-override
+      - ++algo.gamma_min=-3.55
+      - --extra-override
+      - ++algo.gamma_max=-1.85
+
+  - id: owt_v2_duo_base_1024_nfe
+    label: "DUO Base 1024-NFE"
+    dataset: owt
+    family: duo
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/duo/base/model.ckpt
+    source: https://github.com/s-sahoo/duo
+    generation:
+      backend: flm-hydra
+      algo: duo_base
+      nfe: 1024
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - duo_base
+      - --steps
+      - "1024"
+      - --nfe
+      - "1024"
+      - --eval-batch-size
+      - "8"
+      - --predictor
+      - ancestral
+      - --noise-removal
+      - ancestral
+      - --extra-override
+      - ++algo.gumbel_tau_log10_start=-3.0
+      - --extra-override
+      - ++algo.gumbel_tau_log10_end=-3.0
+      - --extra-override
+      - ++algo.gamma_min=-3.55
+      - --extra-override
+      - ++algo.gamma_max=-1.85
+
+  # -------------------------------------------------------------------------
+  # DUO distilled OWT v2  (source: s-sahoo/duo; algo: distillation)
+  # Uses distillation.yaml defaults from flm configs/algo/.
+  # Verify gumbel_tau / gamma against paper before scaling to full 1024.
+  # -------------------------------------------------------------------------
+  - id: owt_v2_duo_distilled_8_nfe
+    label: "DUO Distilled 8-NFE"
+    dataset: owt
+    family: duo
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/duo/distilled/model.ckpt
+    source: https://github.com/s-sahoo/duo
+    generation:
+      backend: flm-hydra
+      algo: distillation
+      nfe: 8
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - distillation
+      - --steps
+      - "8"
+      - --nfe
+      - "8"
+      - --eval-batch-size
+      - "8"
+      - --predictor
+      - ancestral
+      - --noise-removal
+      - ancestral
+      - --extra-override
+      - +algo.double_temb=false
+
+  - id: owt_v2_duo_distilled_16_nfe
+    label: "DUO Distilled 16-NFE"
+    dataset: owt
+    family: duo
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/duo/distilled/model.ckpt
+    source: https://github.com/s-sahoo/duo
+    generation:
+      backend: flm-hydra
+      algo: distillation
+      nfe: 16
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - distillation
+      - --steps
+      - "16"
+      - --nfe
+      - "16"
+      - --eval-batch-size
+      - "8"
+      - --predictor
+      - ancestral
+      - --noise-removal
+      - ancestral
+      - --extra-override
+      - +algo.double_temb=false
+
+  - id: owt_v2_duo_distilled_32_nfe
+    label: "DUO Distilled 32-NFE"
+    dataset: owt
+    family: duo
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/duo/distilled/model.ckpt
+    source: https://github.com/s-sahoo/duo
+    generation:
+      backend: flm-hydra
+      algo: distillation
+      nfe: 32
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_corpus.py
+      - flm-hydra
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+      - --algo
+      - distillation
+      - --steps
+      - "32"
+      - --nfe
+      - "32"
+      - --eval-batch-size
+      - "8"
+      - --predictor
+      - ancestral
+      - --noise-removal
+      - ancestral
+      - --extra-override
+      - +algo.double_temb=false

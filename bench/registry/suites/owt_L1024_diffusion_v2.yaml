@@ -1,0 +1,13 @@
+id: owt_L1024_diffusion_v2
+dataset: owt
+seq_len: 1024
+n_samples: 1024
+seed: 1
+sampling:
+  protocol: paper_gen_ppl
+  tokenizer: gpt2
+  study: samplebench_v2
+  note: >
+    Pure diffusion-vs-diffusion preference study (SampleBench v2).
+    Samples standardized to ~256-token excerpt window before human
+    display and metric computation to neutralize length confounds.

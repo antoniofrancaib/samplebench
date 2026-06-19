@@ -13,9 +13,6 @@ const STORAGE_KEYS = {
 
 const APP_VERSION = 'samplebench-web/core-feedback-2026-06-11';
 const RUBRIC_VERSION = 'preference-strength-v1';
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL?.replace(/\/$/, '');
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const SUPABASE_TABLE = import.meta.env.VITE_SUPABASE_TABLE || 'sample_votes';
 
 /* 4 choices — matches arena.ai battle UX.
    On mobile the two middle choices collapse to icon-only buttons (image copy 2). */
@@ -79,21 +76,16 @@ function getVoteCount() {
 function setStoredVoteCount(count) {
   try { window.localStorage.setItem(STORAGE_KEYS.voteCount, String(count)); } catch {}
 }
-function hasSupabaseConfig() { return Boolean(SUPABASE_URL && SUPABASE_ANON_KEY); }
-
 async function insertVote(row) {
-  if (!hasSupabaseConfig()) return { queued: true };
-  const response = await fetch(`${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`, {
+  const response = await fetch('/api/vote', {
     method: 'POST',
-    headers: {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-      'Content-Type': 'application/json',
-      Prefer: 'return=minimal',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(row),
   });
-  if (!response.ok) { const d = await response.text(); throw new Error(d || `Supabase ${response.status}`); }
+  // 4xx = intentional rejection (dupe, rate-limit, bad input) — don't retry
+  if (response.status >= 400 && response.status < 500) return { queued: false };
+  // 5xx / network error → throw → caller queues for retry
+  if (!response.ok) throw new Error(`vote API ${response.status}`);
   return { queued: false };
 }
 
@@ -102,7 +94,6 @@ function writeQueuedVotes(votes) { safeWriteJson(STORAGE_KEYS.queuedVotes, votes
 function queueVote(row) { writeQueuedVotes([...readQueuedVotes(), row]); }
 
 async function flushQueuedVotes() {
-  if (!hasSupabaseConfig()) return;
   const queued = readQueuedVotes();
   if (!queued.length) return;
   const remaining = [];

@@ -1,0 +1,11 @@
+{
+  "model_id": "owt_v2_duo_distilled_8_nfe",
+  "label": "DUO Distilled 8-NFE",
+  "family": "duo",
+  "algo": "distillation",
+  "nfe": 8,
+  "n_samples": 1024,
+  "source_type": "checkpoint",
+  "suite": "owt_L1024_diffusion_v2",
+  "curated_k": 64
+}

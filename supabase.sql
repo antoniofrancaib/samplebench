@@ -55,3 +55,16 @@ with check (
 create index if not exists sample_votes_created_at_idx on public.sample_votes (created_at desc);
 create index if not exists sample_votes_battle_id_idx on public.sample_votes (battle_id);
 create index if not exists sample_votes_models_idx on public.sample_votes (winner_model_id, loser_model_id);
+create index if not exists sample_votes_session_idx on public.sample_votes (session_id);
+
+-- Dedup: one vote per (session, battle) pair — enforced at the DB level by api/vote.js
+create unique index if not exists sample_votes_session_battle_uniq
+  on public.sample_votes (session_id, battle_id);
+
+-- Allow service_role (used by pull_votes.py locally) to select all rows.
+drop policy if exists "sample_votes_select_service" on public.sample_votes;
+create policy "sample_votes_select_service"
+on public.sample_votes
+for select
+to service_role
+using (true);

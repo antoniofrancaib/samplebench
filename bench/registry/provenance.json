@@ -6,8 +6,11 @@
     "owt_L1024_paper",
     "owt_L1024_naive"
   ],
-  "n_checkpoints": 15,
+  "suites_v2": [
+    "owt_L1024_diffusion_v2"
+  ],
+  "n_checkpoints": 43,
   "metrics_csv": "/mnt/storage01/home/afranca/samplebench/bench/registry/metrics.csv",
-  "curated_models": 13,
-  "curated_samples": 832
+  "curated_models": 41,
+  "curated_samples": 2624
 }

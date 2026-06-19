@@ -18,9 +18,9 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import (  # noqa: E402
-    DB_PATH, FRONTEND_EXCLUDE, FRONTEND_SUITES, METRIC_COLUMNS, REFERENCE_MODEL,
-    REGISTRY_DIR, SAMPLES_DIR, SUITES, connect, init_db, iter_model_dirs,
-    method_for, read_jsonl,
+    DB_PATH, FRONTEND_EXCLUDE, FRONTEND_SUITES, FRONTEND_SUITES_V2,
+    METRIC_COLUMNS, REFERENCE_MODEL, REGISTRY_DIR, SAMPLES_DIR, SAMPLES_DIR_V2,
+    SUITES, SUITES_V2, connect, init_db, iter_model_dirs, method_for, read_jsonl,
 )
 
 
@@ -44,7 +44,7 @@ def load_checkpoints(con):
 
 def load_suites(con):
     n = 0
-    for suite in SUITES:
+    for suite in SUITES + SUITES_V2:
         cfg_path = REGISTRY_DIR / "suites" / f"{suite}.yaml"
         cfg = yaml.safe_load(cfg_path.read_text()) if cfg_path.exists() else {}
         con.execute(
@@ -55,17 +55,26 @@ def load_suites(con):
     return n
 
 
+def _iter_all_suite_dirs():
+    """Yield (suite, model_id, dir, samples_root) for v1 and v2 suites."""
+    for suite in SUITES:
+        for model_id, d in iter_model_dirs(suite, root=SAMPLES_DIR):
+            yield suite, model_id, d, SAMPLES_DIR
+    for suite in SUITES_V2:
+        for model_id, d in iter_model_dirs(suite, root=SAMPLES_DIR_V2):
+            yield suite, model_id, d, SAMPLES_DIR_V2
+
+
 def load_models(con):
     served = served_model_ids()
     rows = []
-    for suite in SUITES:
-        for model_id, d in iter_model_dirs(suite, root=SAMPLES_DIR):
-            m = json.loads((d / "manifest.json").read_text())
-            method = method_for(m.get("family"), m.get("algo"), m.get("source_type"))
-            rows.append((model_id, suite, m.get("label", model_id), method,
-                         m.get("family"), m.get("algo"), m.get("nfe"),
-                         int(model_id == REFERENCE_MODEL),
-                         int((suite, model_id) in served)))
+    for suite, model_id, d, _ in _iter_all_suite_dirs():
+        m = json.loads((d / "manifest.json").read_text())
+        method = method_for(m.get("family"), m.get("algo"), m.get("source_type"))
+        rows.append((model_id, suite, m.get("label", model_id), method,
+                     m.get("family"), m.get("algo"), m.get("nfe"),
+                     int(model_id == REFERENCE_MODEL),
+                     int((suite, model_id) in served)))
     con.executemany("INSERT OR REPLACE INTO models VALUES (?,?,?,?,?,?,?,?,?)", rows)
     return len(rows)
 
@@ -76,28 +85,38 @@ def served_model_ids() -> set:
         for model_id, _ in iter_model_dirs(suite, root=SAMPLES_DIR):
             if model_id not in FRONTEND_EXCLUDE:
                 out.add((suite, model_id))
+    for suite in FRONTEND_SUITES_V2:
+        for model_id, _ in iter_model_dirs(suite, root=SAMPLES_DIR_V2):
+            if model_id not in FRONTEND_EXCLUDE:
+                out.add((suite, model_id))
     return out
 
 
 def load_samples(con):
     served_ids = served_sample_ids()
     rows = []
-    for suite in SUITES:
-        for model_id, d in iter_model_dirs(suite, root=SAMPLES_DIR):
-            for rec in read_jsonl(d / "samples.jsonl"):
-                rows.append((rec["sample_id"], suite, model_id, rec["text"],
-                             rec["char_len"], int(rec["sample_id"] in served_ids)))
+    for suite, model_id, d, _ in _iter_all_suite_dirs():
+        for rec in read_jsonl(d / "samples.jsonl"):
+            rows.append((rec["sample_id"], suite, model_id, rec["text"],
+                         rec["char_len"], int(rec["sample_id"] in served_ids)))
     con.executemany("INSERT OR REPLACE INTO samples VALUES (?,?,?,?,?,?)", rows)
     return len(rows)
 
 
 def served_sample_ids() -> set:
-    """Sample ids that build_frontend would ship (paper suite, real models)."""
     import random
     from common import CURATE_SEED, FRONTEND_K
     ids = set()
     for suite in FRONTEND_SUITES:
         for model_id, d in iter_model_dirs(suite, root=SAMPLES_DIR):
+            if model_id in FRONTEND_EXCLUDE:
+                continue
+            recs = list(read_jsonl(d / "samples.jsonl"))
+            rng = random.Random(f"frontend:{CURATE_SEED}:{model_id}")
+            for r in rng.sample(recs, min(FRONTEND_K, len(recs))):
+                ids.add(r["sample_id"])
+    for suite in FRONTEND_SUITES_V2:
+        for model_id, d in iter_model_dirs(suite, root=SAMPLES_DIR_V2):
             if model_id in FRONTEND_EXCLUDE:
                 continue
             recs = list(read_jsonl(d / "samples.jsonl"))
@@ -120,8 +139,11 @@ def load_metrics(con):
     with open(csv_path, newline="", encoding="utf-8") as fh:
         for row in csv.DictReader(fh):
             model_id = row["Generator"]
-            # Suite column is either "paper" or a full suite id; map to the real suite.
-            suite = next((s for s in SUITES if model_id_in_suite(model_id, s)), SUITES[0])
+            # Suite column is either "paper"/"v2" or a full suite id; search v1 then v2.
+            suite = next(
+                (s for s in SUITES + SUITES_V2 if model_id_in_suite(model_id, s)),
+                SUITES[0]
+            )
             for col, (key, _, _) in METRIC_COLUMNS.items():
                 raw = (row.get(col) or "").strip()
                 if raw in ("", "—", "-", "nan", "None"):
@@ -137,8 +159,10 @@ def load_metrics(con):
 
 
 def model_id_in_suite(model_id: str, suite: str) -> bool:
-    d = SAMPLES_DIR / suite / model_id
-    return (d / "manifest.json").exists()
+    for root in (SAMPLES_DIR, SAMPLES_DIR_V2):
+        if (root / suite / model_id / "manifest.json").exists():
+            return True
+    return False
 
 
 def main() -> None:
