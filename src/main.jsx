@@ -294,19 +294,21 @@ function VotePage({ onNavigate }) {
 
   return (
     <main className="h-dvh flex flex-col overflow-hidden bg-background">
-      <div className="flex flex-col flex-1 min-h-0 w-full max-w-[1480px] mx-auto px-3 pt-3 pb-3 md:px-10 md:pt-9 md:pb-6 lg:px-16">
-        {isDesktop ? (
-          <DesktopDeck pair={pair} />
-        ) : (
-          <MobileDeck key={pair.id} pair={pair} />
-        )}
+      <div className="flex flex-col flex-1 items-center justify-center w-full px-3 md:px-10 lg:px-16">
+        <div className="flex flex-col w-full max-w-[1480px] gap-5 md:gap-6">
+          {isDesktop ? (
+            <DesktopDeck pair={pair} />
+          ) : (
+            <MobileDeck key={pair.id} pair={pair} />
+          )}
 
-        <Choices
-          isDesktop={isDesktop}
-          lastChoice={lastChoice}
-          isSubmitting={isSubmitting}
-          onPick={submitChoice}
-        />
+          <Choices
+            isDesktop={isDesktop}
+            lastChoice={lastChoice}
+            isSubmitting={isSubmitting}
+            onPick={submitChoice}
+          />
+        </div>
       </div>
       <RevealOverlay reveal={reveal} fading={revealFading} />
       <a
@@ -323,7 +325,7 @@ function VotePage({ onNavigate }) {
 /* ── Desktop: two cards side by side ───────────────────────────── */
 function DesktopDeck({ pair }) {
   return (
-    <section className="flex flex-1 min-h-0 gap-4" aria-label="Generated text samples">
+    <section className="flex gap-4 h-[56vh]" aria-label="Generated text samples">
       <SampleCard label="A" sample={pair.left} />
       <SampleCard label="B" sample={pair.right} />
     </section>
@@ -349,7 +351,7 @@ function MobileDeck({ pair }) {
   }, []);
 
   return (
-    <section className="relative flex flex-1 min-h-0 flex-col" aria-label="Generated text samples">
+    <section className="relative flex flex-col h-[54vh]" aria-label="Generated text samples">
       <div
         ref={scrollerRef}
         onScroll={handleScroll}
