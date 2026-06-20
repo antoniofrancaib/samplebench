@@ -17,12 +17,13 @@ export default async function handler() {
     Authorization: `Bearer ${SERVICE_KEY}`,
   };
 
+  const ROW_CAP = 20000;
   let rows;
   try {
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/sample_votes` +
         `?select=winner_model_id,loser_model_id,left_model_id,right_model_id,choice` +
-        `&limit=50000`,
+        `&limit=${ROW_CAP}`,
       { headers },
     );
     if (!res.ok) return json({ error: 'upstream error' }, 502);

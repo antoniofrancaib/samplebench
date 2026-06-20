@@ -58,6 +58,22 @@ export default async function handler(request) {
       return json({ error: 'invalid response_time_ms' }, 400);
     if (!left_model_id || !right_model_id || !left_sample_id || !right_sample_id)
       return json({ error: 'missing model or sample fields' }, 400);
+    const MAX_ID = 128;
+    for (const [name, val] of [
+      ['left_model_id', left_model_id], ['right_model_id', right_model_id],
+      ['left_sample_id', left_sample_id], ['right_sample_id', right_sample_id],
+      ['winner_model_id', winner_model_id], ['loser_model_id', loser_model_id],
+    ]) {
+      if (val !== null && val !== undefined && (typeof val !== 'string' || val.length > MAX_ID))
+        return json({ error: `invalid ${name}` }, 400);
+    }
+    if (typeof app_version === 'string' && app_version.length > 128)
+      return json({ error: 'invalid app_version' }, 400);
+    if (typeof rubric_version === 'string' && rubric_version.length > 64)
+      return json({ error: 'invalid rubric_version' }, 400);
+    if (payload !== null && typeof payload === 'object' &&
+        JSON.stringify(payload).length > 4096)
+      return json({ error: 'payload too large' }, 400);
     if (
       preference_strength !== null &&
       (typeof preference_strength !== 'number' ||

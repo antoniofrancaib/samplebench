@@ -3,7 +3,7 @@
 Generated 2026-06-17.  
 Suite: `owt_L1024_diffusion_v2` · Dataset: OpenWebText · Length: 1 024 tokens · Seed: 1  
 Cluster: AITHYRA h100 partition (H100 NVL, sm_90, driver 595) · `--exclude=H100Azure04`  
-Venv: `/mnt/nfs/vol8t/home/afranca/venvs/lm-bench-cu130` (PyTorch 2.11.0+cu130)  
+Venv: `$LM_BENCH_VENV` (PyTorch 2.11.0+cu130)  
 Output root: `~/lm-bench/results/samples/v2/`
 
 ---

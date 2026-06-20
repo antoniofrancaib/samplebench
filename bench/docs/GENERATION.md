@@ -89,7 +89,7 @@ Symlinks under `checkpoints/owt/` resolve to `checkpoints/raw/local_pc/*.ckpt`
 - Partition: `h100` (H100 NVL, sm_90, CUDA 13.0 forward-compatible with driver 595)
 - Node exclusion: `--exclude=H100Azure04` (broken module system, exit 127)
 - QOS: `normal` (max 4 concurrent GPUs)
-- venv: `/mnt/nfs/vol8t/home/afranca/venvs/lm-bench-cu130`
+- venv: `$LM_BENCH_VENV`
 - Wall time: 12 h (sufficient for all NFE levels)
 
 The RTX PRO 6000 Blackwell (`gpu` partition) cannot initialize CUDA 13.0 (`cudaErrorUnknown`
@@ -108,7 +108,7 @@ cd ~/lm-bench
 sbatch --partition=h100 --exclude=H100Azure04 \
   --export=SUITE_CONFIG=configs/sample_suites/owt_L1024_diffusion_v2_debug.yaml,\
 MODEL_ID=owt_v2_fmlm_1_nfe,SAMPLES_ROOT=results/samples/v2,\
-LM_BENCH_GENERATE_PYTHON=/mnt/nfs/vol8t/home/afranca/venvs/lm-bench-cu130/bin/python \
+LM_BENCH_GENERATE_PYTHON=$LM_BENCH_VENV/bin/python \
   workflows/slurm/generate.sbatch
 
 # Full fan-out (28 jobs)
@@ -116,7 +116,7 @@ for MODEL_ID in <...28 IDs...>; do
   sbatch --partition=h100 --exclude=H100Azure04 \
     --export=SUITE_CONFIG=configs/sample_suites/owt_L1024_diffusion_v2.yaml,\
 MODEL_ID=${MODEL_ID},SAMPLES_ROOT=results/samples/v2,\
-LM_BENCH_GENERATE_PYTHON=/mnt/nfs/vol8t/home/afranca/venvs/lm-bench-cu130/bin/python \
+LM_BENCH_GENERATE_PYTHON=$LM_BENCH_VENV/bin/python \
     workflows/slurm/generate.sbatch
 done
 ```

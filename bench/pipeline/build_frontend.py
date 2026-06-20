@@ -47,8 +47,6 @@ def main() -> None:
     ))
     payload = (
         HEADER
-        + f"export const sampleRoot = {json.dumps(str(LM_SAMPLES))};\n"
-        + f"export const checkpointRoot = {json.dumps(str(LM_BENCH / 'checkpoints'))};\n"
         + f"export const checkpointFamilies = {json.dumps(sorted(f for f in families if f))};\n"
         + f"export const studyVersion = {json.dumps('v2' if is_v2 else 'v1')};\n"
         + "export const models = "

@@ -364,7 +364,7 @@ checkpoints:
       - --seed
       - "{seed}"
       - --repo
-      - /mnt/nfs/vol8t/home/afranca/latent-transport-lm/third_party/candi-diffusion
+      - "${CANDI_DIFFUSION_REPO}"
       - --backend-label
       - candi-hydra
       - --algo
