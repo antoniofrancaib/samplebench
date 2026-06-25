@@ -6,3 +6,6 @@ dist
 .DS_Store
 cluster.md
 image.png
+slurm/logs/*.out
+slurm/logs/*.err
+data/metrics/

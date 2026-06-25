@@ -1,0 +1,21 @@
+version: 1
+
+# Extra backend-specific args for the maintained paper metrics.
+metrics:
+  gen_ppl:
+    args: ["--batch-size", "8"]
+
+  mauve:
+    args: ["--batch-size", "16", "--max-text-length", "512"]
+
+  grad_moment:
+    args: ["--batch-size", "4"]
+
+  energy_mmd:
+    args: []
+
+  htesting:
+    args: []
+
+  rep4:
+    args: []

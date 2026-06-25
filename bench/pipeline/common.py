@@ -1,32 +1,21 @@
-"""Shared paths, config, canonical-metric mapping, and DB helpers.
-
-~/lm-bench is the single source of truth (checkpoint registry, generated samples,
-and the paper metrics in results/metrics/final_metrics). Everything under bench/
-is a regenerable mirror: sync.py snapshots lm-bench, build_db.py loads the snapshot
-into samplebench.db, and the rest read that DB.
-"""
+"""Shared paths, config, canonical-metric mapping, and DB helpers."""
 from __future__ import annotations
 
 import json
-import os
 import re
 import sqlite3
 from pathlib import Path
 
 # ── Paths ────────────────────────────────────────────────────────────────
-HOME = Path(os.path.expanduser("~"))
-LM_BENCH = HOME / "lm-bench"
-LM_SAMPLES = LM_BENCH / "results" / "samples"
-LM_SAMPLES_V2 = LM_SAMPLES / "v2"          # v2 study: results/samples/v2/
-LM_CKPT_CFG = LM_BENCH / "configs" / "checkpoints.yaml"
-LM_SUITE_CFG = LM_BENCH / "configs" / "sample_suites"
-LM_FINAL_REPORT = LM_BENCH / "results" / "metrics" / "final_metrics" / "report"
-
 REPO = Path(__file__).resolve().parents[2]          # .../samplebench
 BENCH = REPO / "bench"
-REGISTRY_DIR = BENCH / "registry"                   # synced yaml + parsed snapshot
-SAMPLES_DIR = BENCH / "samples"                     # curated sample pool (v1)
-SAMPLES_DIR_V2 = BENCH / "samples_v2"               # curated sample pool (v2 study)
+DATA_DIR = REPO / "data"
+RAW_SAMPLES_DIR = DATA_DIR / "samples"              # full 1024/model JSONL (v2)
+METRICS_DIR = DATA_DIR / "metrics"                  # metric outputs from Slurm
+CONFIGS_DIR = DATA_DIR / "configs"                  # suite/checkpoint/metric YAMLs
+
+REGISTRY_DIR = BENCH / "registry"                   # curated snapshot + provenance
+SAMPLES_DIR_V2 = BENCH / "samples_v2"               # curated 40/model for frontend
 ANALYSIS_DIR = BENCH / "analysis"
 DB_PATH = BENCH / "db" / "samplebench.db"
 SCHEMA_PATH = BENCH / "db" / "schema.sql"
@@ -34,7 +23,6 @@ FRONTEND_DATA = REPO / "src" / "data.js"
 
 # ── Config ───────────────────────────────────────────────────────────────
 DATASET = "owt"
-SUITES = ["owt_L1024_paper", "owt_L1024_naive"]
 SUITES_V2 = ["owt_L1024_diffusion_v2"]      # v2 study (diffusion-vs-diffusion only)
 REFERENCE_MODEL = "owt_data_train"
 CURATE_K = 64                  # curated pool per model (serving + analysis)
