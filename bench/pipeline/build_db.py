@@ -142,7 +142,7 @@ def load_metrics(con):
             # Suite column is either "paper"/"v2" or a full suite id; search v1 then v2.
             suite = next(
                 (s for s in SUITES + SUITES_V2 if model_id_in_suite(model_id, s)),
-                SUITES[0]
+                (SUITES + SUITES_V2)[0]
             )
             for col, (key, _, _) in METRIC_COLUMNS.items():
                 raw = (row.get(col) or "").strip()

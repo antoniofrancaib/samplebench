@@ -15,6 +15,7 @@ METRICS_DIR = DATA_DIR / "metrics"                  # metric outputs from Slurm
 CONFIGS_DIR = DATA_DIR / "configs"                  # suite/checkpoint/metric YAMLs
 
 REGISTRY_DIR = BENCH / "registry"                   # curated snapshot + provenance
+SAMPLES_DIR    = BENCH / "samples"                  # v1 curated pool (empty in v2-only deploy)
 SAMPLES_DIR_V2 = BENCH / "samples_v2"               # curated 40/model for frontend
 ANALYSIS_DIR = BENCH / "analysis"
 DB_PATH = BENCH / "db" / "samplebench.db"
@@ -23,6 +24,7 @@ FRONTEND_DATA = REPO / "src" / "data.js"
 
 # ── Config ───────────────────────────────────────────────────────────────
 DATASET = "owt"
+SUITES    = []                               # v1 study suites (empty in v2-only deploy)
 SUITES_V2 = ["owt_L1024_diffusion_v2"]      # v2 study (diffusion-vs-diffusion only)
 REFERENCE_MODEL = "owt_data_train"
 CURATE_K = 64                  # curated pool per model (serving + analysis)

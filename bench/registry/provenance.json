@@ -1,15 +1,8 @@
 {
-  "lm_bench_sha": "90aee5a761f4662bb44eaae452530946f7e6ad2a",
-  "dataset": "owt",
-  "suites": [
-    "owt_L1024_paper",
-    "owt_L1024_naive"
-  ],
+  "source": "data/samples",
   "suites_v2": [
     "owt_L1024_diffusion_v2"
   ],
-  "n_checkpoints": 43,
-  "metrics_csv": "bench/registry/metrics.csv",
-  "curated_models": 41,
-  "curated_samples": 2624
+  "curated_models": 28,
+  "curated_samples": 1792
 }
