@@ -513,8 +513,17 @@ function Choices({ isDesktop, lastChoice, isSubmitting, onPick }) {
 }
 
 /* ── Samples browser ─────────────────────────────────────────── */
-const FAMILY_ORDER = ['mdlm', 'sedd', 'flm', 'fmlm', 'duo'];
-const FAMILY_LABELS = { mdlm: 'MDLM', sedd: 'SEDD', flm: 'FLM', fmlm: 'FMLM', duo: 'DUO' };
+const FAMILY_ORDER = ['mdlm', 'sedd', 'flm', 'fmlm', 'duo', 'elf', 'cobit', 'plaid'];
+const FAMILY_LABELS = {
+  mdlm: 'MDLM',
+  sedd: 'SEDD',
+  flm: 'FLM',
+  fmlm: 'FMLM',
+  duo: 'DUO',
+  elf: 'ELF',
+  cobit: 'CoBit',
+  plaid: 'Plaid',
+};
 
 function NavBar({ left, right }) {
   return (
