@@ -513,17 +513,38 @@ function Choices({ isDesktop, lastChoice, isSubmitting, onPick }) {
 }
 
 /* ── Samples browser ─────────────────────────────────────────── */
-const FAMILY_ORDER = ['mdlm', 'sedd', 'flm', 'fmlm', 'duo', 'elf', 'cobit', 'plaid'];
-const FAMILY_LABELS = {
-  mdlm: 'MDLM',
-  sedd: 'SEDD',
-  flm: 'FLM',
-  fmlm: 'FMLM',
-  duo: 'DUO',
-  elf: 'ELF',
-  cobit: 'CoBit',
-  plaid: 'Plaid',
-};
+const FLM_PAPER_MODEL_ID = 'owt_v2_flm_1024_nfe';
+
+function modelFamily(model) {
+  return (model.family || '').toLowerCase();
+}
+
+function modelNfe(model) {
+  return Number(model.nfe || 0);
+}
+
+function isFlmAblation(model) {
+  return modelFamily(model).startsWith('flm') && model.id !== FLM_PAPER_MODEL_ID;
+}
+
+const SAMPLE_GROUPS = [
+  { key: 'mdlm', label: 'MDLM', match: (m) => modelFamily(m).startsWith('mdlm') },
+  { key: 'sedd', label: 'SEDD', match: (m) => modelFamily(m).startsWith('sedd') },
+  {
+    key: 'flm_fmlm',
+    label: 'FLM / FMLM',
+    match: (m) => m.id === FLM_PAPER_MODEL_ID || modelFamily(m).startsWith('fmlm'),
+    sort: (a, b) => {
+      const rankA = a.id === FLM_PAPER_MODEL_ID ? 0 : 1;
+      const rankB = b.id === FLM_PAPER_MODEL_ID ? 0 : 1;
+      return rankA - rankB || modelNfe(a) - modelNfe(b);
+    },
+  },
+  { key: 'duo', label: 'DUO', match: (m) => modelFamily(m).startsWith('duo') },
+  { key: 'elf', label: 'ELF', match: (m) => modelFamily(m).startsWith('elf') },
+  { key: 'cobit', label: 'CoBit', match: (m) => modelFamily(m).startsWith('cobit') },
+  { key: 'plaid', label: 'Plaid', match: (m) => modelFamily(m).startsWith('plaid') },
+];
 
 function NavBar({ left, right }) {
   return (
@@ -547,15 +568,18 @@ function NavLink({ href, children, onNavigate }) {
 }
 
 function SamplesIndexPage({ onNavigate }) {
-  const grouped = FAMILY_ORDER.reduce((acc, fam) => {
-    const items = models.filter((m) => (m.family || '').toLowerCase().startsWith(fam));
-    if (items.length) acc.push({ family: fam, items });
+  const coveredModelIds = new Set();
+  const grouped = SAMPLE_GROUPS.reduce((acc, group) => {
+    const items = models.filter(group.match);
+    items.forEach((model) => coveredModelIds.add(model.id));
+    const sorted = group.sort ? [...items].sort(group.sort) : items;
+    if (sorted.length) acc.push({ key: group.key, label: group.label, items: sorted });
     return acc;
   }, []);
   // catch any families not in the order list
-  const covered = new Set(FAMILY_ORDER);
-  const rest = models.filter((m) => !FAMILY_ORDER.some((f) => (m.family || '').toLowerCase().startsWith(f)));
-  if (rest.length) grouped.push({ family: 'other', items: rest });
+  const rest = models.filter((m) => !coveredModelIds.has(m.id) && !isFlmAblation(m));
+  if (rest.length) grouped.push({ key: 'other', label: 'Other', items: rest });
+  const visibleModelCount = grouped.reduce((total, group) => total + group.items.length, 0);
 
   return (
     <main className="h-dvh flex flex-col overflow-hidden bg-background">
@@ -566,12 +590,12 @@ function SamplesIndexPage({ onNavigate }) {
       <div className="flex-1 min-h-0 overflow-y-auto">
         <div className="max-w-2xl mx-auto px-5 py-8">
           <h1 className="text-[15px] font-semibold text-foreground/80 mb-6">
-            Sample browser — {models.length} models
+            Sample browser — {visibleModelCount} models
           </h1>
-          {grouped.map(({ family, items }) => (
-            <div key={family} className="mb-7">
+          {grouped.map(({ key, label, items }) => (
+            <div key={key} className="mb-7">
               <div className="text-[10px] font-semibold tracking-widest uppercase text-muted-foreground/40 mb-2 pl-1">
-                {FAMILY_LABELS[family] ?? family}
+                {label}
               </div>
               <div className="rounded-xl border border-border overflow-hidden">
                 {items.map((model, i) => (
