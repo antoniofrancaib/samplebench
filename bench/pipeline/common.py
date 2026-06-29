@@ -39,7 +39,7 @@ FRONTEND_SUITES_V2 = ["owt_L1024_diffusion_v2"]
 FRONTEND_EXCLUDE = {REFERENCE_MODEL}
 
 DIFFUSION_FAMILIES = {"mdlm", "sedd", "duo", "flm", "fmlm", "sdtt", "di4c",
-                      "elf", "langflow"}
+                      "elf", "langflow", "cobit", "plaid"}
 EOT = "<|endoftext|>"
 
 # Canonical metrics: final-table CSV column -> (key, label, higher_is_better).

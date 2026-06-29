@@ -1,0 +1,11 @@
+{
+  "model_id": "owt_v2_plaid_4096_nfe",
+  "label": "Plaid 1B 4096-NFE",
+  "family": "plaid",
+  "algo": "plaid",
+  "nfe": 4096,
+  "n_samples": 1024,
+  "source_type": "checkpoint",
+  "suite": "owt_L1024_diffusion_v2",
+  "curated_k": 64
+}

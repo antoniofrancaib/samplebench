@@ -2229,3 +2229,804 @@ checkpoints:
       - ancestral
       - --extra-override
       - +algo.double_temb=false
+
+  # ---------------------------------------------------------------------------
+  # ELF (Embedded Language Flows) — B/M/L sizes
+  # ---------------------------------------------------------------------------
+
+  - id: owt_v2_elf_b_8_nfe
+    label: "ELF-B 8-NFE"
+    dataset: owt
+    family: elf
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/elf/elf_b_owt
+    source: https://github.com/lillian039/ELF
+    generation:
+      backend: elf
+      algo: elf
+      nfe: 8
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_elf.py
+      - --hf-id
+      - embedded-language-flows/ELF-B-owt
+      - --nfe
+      - "8"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_elf_b_32_nfe
+    label: "ELF-B 32-NFE"
+    dataset: owt
+    family: elf
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/elf/elf_b_owt
+    source: https://github.com/lillian039/ELF
+    generation:
+      backend: elf
+      algo: elf
+      nfe: 32
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_elf.py
+      - --hf-id
+      - embedded-language-flows/ELF-B-owt
+      - --nfe
+      - "32"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_elf_b_64_nfe
+    label: "ELF-B 64-NFE"
+    dataset: owt
+    family: elf
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/elf/elf_b_owt
+    source: https://github.com/lillian039/ELF
+    generation:
+      backend: elf
+      algo: elf
+      nfe: 64
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_elf.py
+      - --hf-id
+      - embedded-language-flows/ELF-B-owt
+      - --nfe
+      - "64"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_elf_b_128_nfe
+    label: "ELF-B 128-NFE"
+    dataset: owt
+    family: elf
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/elf/elf_b_owt
+    source: https://github.com/lillian039/ELF
+    generation:
+      backend: elf
+      algo: elf
+      nfe: 128
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_elf.py
+      - --hf-id
+      - embedded-language-flows/ELF-B-owt
+      - --nfe
+      - "128"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_elf_m_8_nfe
+    label: "ELF-M 8-NFE"
+    dataset: owt
+    family: elf
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/elf/elf_m_owt
+    source: https://github.com/lillian039/ELF
+    generation:
+      backend: elf
+      algo: elf
+      nfe: 8
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_elf.py
+      - --hf-id
+      - embedded-language-flows/ELF-M-owt
+      - --nfe
+      - "8"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_elf_m_32_nfe
+    label: "ELF-M 32-NFE"
+    dataset: owt
+    family: elf
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/elf/elf_m_owt
+    source: https://github.com/lillian039/ELF
+    generation:
+      backend: elf
+      algo: elf
+      nfe: 32
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_elf.py
+      - --hf-id
+      - embedded-language-flows/ELF-M-owt
+      - --nfe
+      - "32"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_elf_m_64_nfe
+    label: "ELF-M 64-NFE"
+    dataset: owt
+    family: elf
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/elf/elf_m_owt
+    source: https://github.com/lillian039/ELF
+    generation:
+      backend: elf
+      algo: elf
+      nfe: 64
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_elf.py
+      - --hf-id
+      - embedded-language-flows/ELF-M-owt
+      - --nfe
+      - "64"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_elf_m_128_nfe
+    label: "ELF-M 128-NFE"
+    dataset: owt
+    family: elf
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/elf/elf_m_owt
+    source: https://github.com/lillian039/ELF
+    generation:
+      backend: elf
+      algo: elf
+      nfe: 128
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_elf.py
+      - --hf-id
+      - embedded-language-flows/ELF-M-owt
+      - --nfe
+      - "128"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_elf_l_8_nfe
+    label: "ELF-L 8-NFE"
+    dataset: owt
+    family: elf
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/elf/elf_l_owt
+    source: https://github.com/lillian039/ELF
+    generation:
+      backend: elf
+      algo: elf
+      nfe: 8
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_elf.py
+      - --hf-id
+      - embedded-language-flows/ELF-L-owt
+      - --nfe
+      - "8"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_elf_l_32_nfe
+    label: "ELF-L 32-NFE"
+    dataset: owt
+    family: elf
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/elf/elf_l_owt
+    source: https://github.com/lillian039/ELF
+    generation:
+      backend: elf
+      algo: elf
+      nfe: 32
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_elf.py
+      - --hf-id
+      - embedded-language-flows/ELF-L-owt
+      - --nfe
+      - "32"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_elf_l_64_nfe
+    label: "ELF-L 64-NFE"
+    dataset: owt
+    family: elf
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/elf/elf_l_owt
+    source: https://github.com/lillian039/ELF
+    generation:
+      backend: elf
+      algo: elf
+      nfe: 64
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_elf.py
+      - --hf-id
+      - embedded-language-flows/ELF-L-owt
+      - --nfe
+      - "64"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_elf_l_128_nfe
+    label: "ELF-L 128-NFE"
+    dataset: owt
+    family: elf
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/elf/elf_l_owt
+    source: https://github.com/lillian039/ELF
+    generation:
+      backend: elf
+      algo: elf
+      nfe: 128
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_elf.py
+      - --hf-id
+      - embedded-language-flows/ELF-L-owt
+      - --nfe
+      - "128"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  # ---------------------------------------------------------------------------
+  # CoBit — S/M sizes
+  # ---------------------------------------------------------------------------
+
+  - id: owt_v2_cobit_s_128_nfe
+    label: "CoBit-S 128-NFE"
+    dataset: owt
+    family: cobit
+    enabled: true
+    adapter: command
+    path: third_party/cobit/runs/paper/unconditional_text/owt/continuous_rate_raw_binary_bits_1M/checkpoints/step=000750000.pt
+    source: https://github.com/GBATZOLIS/BitstreamDiffusion
+    generation:
+      backend: cobit
+      algo: cobit
+      nfe: 128
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_cobit.py
+      - --config
+      - configs/owt/eval_750K.py
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --nfe
+      - "128"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_cobit_s_256_nfe
+    label: "CoBit-S 256-NFE"
+    dataset: owt
+    family: cobit
+    enabled: true
+    adapter: command
+    path: third_party/cobit/runs/paper/unconditional_text/owt/continuous_rate_raw_binary_bits_1M/checkpoints/step=000750000.pt
+    source: https://github.com/GBATZOLIS/BitstreamDiffusion
+    generation:
+      backend: cobit
+      algo: cobit
+      nfe: 256
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_cobit.py
+      - --config
+      - configs/owt/eval_750K.py
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --nfe
+      - "256"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_cobit_s_512_nfe
+    label: "CoBit-S 512-NFE"
+    dataset: owt
+    family: cobit
+    enabled: true
+    adapter: command
+    path: third_party/cobit/runs/paper/unconditional_text/owt/continuous_rate_raw_binary_bits_1M/checkpoints/step=000750000.pt
+    source: https://github.com/GBATZOLIS/BitstreamDiffusion
+    generation:
+      backend: cobit
+      algo: cobit
+      nfe: 512
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_cobit.py
+      - --config
+      - configs/owt/eval_750K.py
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --nfe
+      - "512"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_cobit_m_128_nfe
+    label: "CoBit-M 128-NFE"
+    dataset: owt
+    family: cobit
+    enabled: true
+    adapter: command
+    path: third_party/cobit/runs/paper/unconditional_text/owt/continuous_rate_raw_binary_bits_medium_24x1024/checkpoints/step=000750000.pt
+    source: https://github.com/GBATZOLIS/BitstreamDiffusion
+    generation:
+      backend: cobit
+      algo: cobit
+      nfe: 128
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_cobit.py
+      - --config
+      - configs/owt/eval_cobit_m_750K.py
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --nfe
+      - "128"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_cobit_m_256_nfe
+    label: "CoBit-M 256-NFE"
+    dataset: owt
+    family: cobit
+    enabled: true
+    adapter: command
+    path: third_party/cobit/runs/paper/unconditional_text/owt/continuous_rate_raw_binary_bits_medium_24x1024/checkpoints/step=000750000.pt
+    source: https://github.com/GBATZOLIS/BitstreamDiffusion
+    generation:
+      backend: cobit
+      algo: cobit
+      nfe: 256
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_cobit.py
+      - --config
+      - configs/owt/eval_cobit_m_750K.py
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --nfe
+      - "256"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_cobit_m_512_nfe
+    label: "CoBit-M 512-NFE"
+    dataset: owt
+    family: cobit
+    enabled: true
+    adapter: command
+    path: third_party/cobit/runs/paper/unconditional_text/owt/continuous_rate_raw_binary_bits_medium_24x1024/checkpoints/step=000750000.pt
+    source: https://github.com/GBATZOLIS/BitstreamDiffusion
+    generation:
+      backend: cobit
+      algo: cobit
+      nfe: 512
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_cobit.py
+      - --config
+      - configs/owt/eval_cobit_m_750K.py
+      - --checkpoint
+      - "{checkpoint_path}"
+      - --nfe
+      - "512"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  # ---------------------------------------------------------------------------
+  # Plaid 1B
+  # ---------------------------------------------------------------------------
+
+  - id: owt_v2_plaid_256_nfe
+    label: "Plaid 1B 256-NFE"
+    dataset: owt
+    family: plaid
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/plaid/plaid1b_weights
+    source: https://github.com/igul222/plaid
+    generation:
+      backend: plaid
+      algo: plaid
+      nfe: 256
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_plaid.py
+      - --weights-path
+      - "{checkpoint_path}"
+      - --nfe
+      - "256"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_plaid_1024_nfe
+    label: "Plaid 1B 1024-NFE"
+    dataset: owt
+    family: plaid
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/plaid/plaid1b_weights
+    source: https://github.com/igul222/plaid
+    generation:
+      backend: plaid
+      algo: plaid
+      nfe: 1024
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_plaid.py
+      - --weights-path
+      - "{checkpoint_path}"
+      - --nfe
+      - "1024"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"
+
+  - id: owt_v2_plaid_4096_nfe
+    label: "Plaid 1B 4096-NFE"
+    dataset: owt
+    family: plaid
+    enabled: true
+    adapter: command
+    path: checkpoints/owt/plaid/plaid1b_weights
+    source: https://github.com/igul222/plaid
+    generation:
+      backend: plaid
+      algo: plaid
+      nfe: 4096
+      paper_aligned: true
+    command:
+      - python3
+      - scripts/generate_plaid.py
+      - --weights-path
+      - "{checkpoint_path}"
+      - --nfe
+      - "4096"
+      - --output
+      - "{output}"
+      - --dataset
+      - "{dataset}"
+      - --suite-id
+      - "{suite_id}"
+      - --model-id
+      - "{model_id}"
+      - --label
+      - "{label}"
+      - --seq-len
+      - "{seq_len}"
+      - --n-samples
+      - "{n_samples}"
+      - --seed
+      - "{seed}"

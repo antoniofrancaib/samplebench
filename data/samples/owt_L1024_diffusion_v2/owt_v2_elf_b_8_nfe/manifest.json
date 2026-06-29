@@ -1,0 +1,54 @@
+{
+  "checkpoint": {
+    "adapter": "command",
+    "family": "elf",
+    "path": "checkpoints/owt/elf/elf_b_owt"
+  },
+  "dataset": "owt",
+  "generation": {
+    "algo": "elf",
+    "backend": "elf",
+    "nfe": 8,
+    "paper_aligned": true
+  },
+  "generation_command": [
+    "python3",
+    "scripts/generate_elf.py",
+    "--hf-id",
+    "embedded-language-flows/ELF-B-owt",
+    "--nfe",
+    "8",
+    "--output",
+    "{output}",
+    "--dataset",
+    "{dataset}",
+    "--suite-id",
+    "{suite_id}",
+    "--model-id",
+    "{model_id}",
+    "--label",
+    "{label}",
+    "--seq-len",
+    "{seq_len}",
+    "--n-samples",
+    "{n_samples}",
+    "--seed",
+    "{seed}"
+  ],
+  "label": "ELF-B 8-NFE",
+  "model_id": "owt_v2_elf_b_8_nfe",
+  "n_samples": 1024,
+  "sample_path": "samples.jsonl",
+  "sampling": {
+    "note": "Pure diffusion-vs-diffusion preference study (SampleBench v2). Samples standardized to ~256-token excerpt window before human display and metric computation to neutralize length confounds.\n",
+    "protocol": "paper_gen_ppl",
+    "study": "samplebench_v2",
+    "tokenizer": "gpt2"
+  },
+  "schema_version": "lm-bench-samples-v1",
+  "seed": 1,
+  "seq_len": 1024,
+  "source": "https://github.com/lillian039/ELF",
+  "source_type": "checkpoint",
+  "suite_id": "owt_L1024_diffusion_v2"
+}

@@ -1,0 +1,56 @@
+{
+  "checkpoint": {
+    "adapter": "command",
+    "family": "cobit",
+    "path": "third_party/cobit/runs/paper/unconditional_text/owt/continuous_rate_raw_binary_bits_1M/checkpoints/step=000750000.pt"
+  },
+  "dataset": "owt",
+  "generation": {
+    "algo": "cobit",
+    "backend": "cobit",
+    "nfe": 512,
+    "paper_aligned": true
+  },
+  "generation_command": [
+    "python3",
+    "scripts/generate_cobit.py",
+    "--config",
+    "configs/owt/eval_750K.py",
+    "--checkpoint",
+    "{checkpoint_path}",
+    "--nfe",
+    "512",
+    "--output",
+    "{output}",
+    "--dataset",
+    "{dataset}",
+    "--suite-id",
+    "{suite_id}",
+    "--model-id",
+    "{model_id}",
+    "--label",
+    "{label}",
+    "--seq-len",
+    "{seq_len}",
+    "--n-samples",
+    "{n_samples}",
+    "--seed",
+    "{seed}"
+  ],
+  "label": "CoBit-S 512-NFE",
+  "model_id": "owt_v2_cobit_s_512_nfe",
+  "n_samples": 1024,
+  "sample_path": "samples.jsonl",
+  "sampling": {
+    "note": "Pure diffusion-vs-diffusion preference study (SampleBench v2). Samples standardized to ~256-token excerpt window before human display and metric computation to neutralize length confounds.\n",
+    "protocol": "paper_gen_ppl",
+    "study": "samplebench_v2",
+    "tokenizer": "gpt2"
+  },
+  "schema_version": "lm-bench-samples-v1",
+  "seed": 1,
+  "seq_len": 1024,
+  "source": "https://github.com/GBATZOLIS/BitstreamDiffusion",
+  "source_type": "checkpoint",
+  "suite_id": "owt_L1024_diffusion_v2"
+}

@@ -1,0 +1,11 @@
+{
+  "model_id": "owt_v2_elf_m_64_nfe",
+  "label": "ELF-M 64-NFE",
+  "family": "elf",
+  "algo": "elf",
+  "nfe": 64,
+  "n_samples": 1024,
+  "source_type": "checkpoint",
+  "suite": "owt_L1024_diffusion_v2",
+  "curated_k": 64
+}
