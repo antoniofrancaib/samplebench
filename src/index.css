@@ -1,0 +1,120 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+
+@theme inline {
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'Cascadia Code', Menlo, monospace;
+  --font-heading: var(--font-sans);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+/* Arena.ai light mode — exact design tokens */
+:root {
+  /* Surfaces */
+  --surface-primary:   hsl(36 45% 98%);   /* warm cream — page bg */
+  --surface-secondary: hsl(0 0% 100%);    /* white — card bg */
+  --surface-tertiary:  hsl(33 31% 94%);   /* warm tint — hover / accent */
+  --surface-raised:    hsl(33 28% 92%);
+  --surface-raised-alt:hsl(33 20% 87%);
+
+  /* Text */
+  --text-primary:   hsl(24 6% 17%);   /* rgb(46,43,41) — main text */
+  --text-secondary: hsl(30 7% 24%);
+  --text-tertiary:  hsl(35 6% 38%);
+  --text-muted:     hsl(37 5% 52%);
+
+  /* Borders */
+  --border-faint:  hsl(30 5% 93%);   /* very subtle warm border */
+  --border-medium: hsl(30 9% 87%);
+  --border-strong: hsl(30 9% 83%);
+
+  /* Interactive */
+  --interactive-cta:           hsl(60 3% 14%);   /* near-black */
+  --interactive-on-cta:        hsl(36 45% 98%);  /* cream text on CTA */
+  --interactive-cta-secondary: hsl(0 0% 100%);
+  --interactive-cta-secondary-hover: hsl(34 23% 89%);
+
+  /* shadcn semantic tokens */
+  --background:          var(--surface-primary);
+  --foreground:          var(--text-primary);
+  --card:                var(--surface-secondary);
+  --card-foreground:     var(--text-primary);
+  --popover:             var(--surface-tertiary);
+  --popover-foreground:  var(--text-primary);
+
+  --primary:             hsl(60 5% 14%);            /* CTA near-black */
+  --primary-foreground:  var(--interactive-on-cta); /* cream */
+
+  --secondary:           var(--interactive-cta-secondary);
+  --secondary-foreground:var(--text-primary);
+
+  --muted:               var(--surface-raised-alt);
+  --muted-foreground:    var(--text-muted);
+
+  --accent:              var(--surface-tertiary);
+  --accent-foreground:   var(--text-secondary);
+
+  --destructive:         hsl(2 63% 54%);
+
+  --border:              var(--border-faint);
+  --input:               var(--border-medium);
+  --ring:                hsl(208 77% 52%);
+
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50 box-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow: hidden;
+  }
+  html, body, #root {
+    height: 100%;
+  }
+  button {
+    font: inherit;
+    cursor: pointer;
+  }
+  /* Light-mode scrollbar */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(30 9% 87%);
+    border-radius: 9px;
+  }
+}
+
+/* Hide scrollbar on the mobile sample carousel (still scrollable) */
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
