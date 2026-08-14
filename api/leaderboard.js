@@ -38,7 +38,13 @@ export default async function handler(request, response) {
     }
     rows = await res.json();
   } catch (error) {
-    console.error('Supabase leaderboard fetch failed', error instanceof Error ? error.message : error);
+    const cause = error instanceof Error ? error.cause : null;
+    console.error('Supabase leaderboard fetch failed', {
+      name: error instanceof Error ? error.name : typeof error,
+      message: error instanceof Error ? error.message : String(error),
+      causeCode: cause && typeof cause === 'object' && 'code' in cause ? cause.code : null,
+      causeMessage: cause instanceof Error ? cause.message : null,
+    });
     return json(response, { error: 'fetch failed' }, 502);
   }
 
