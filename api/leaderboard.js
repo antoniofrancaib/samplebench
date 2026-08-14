@@ -3,21 +3,19 @@ import { getSupabaseConfig } from '../server/supabase.js';
 const ACTIVE_APP_VERSION = 'samplebench-web/dlmbench-canonical-20260814-r1';
 const VALID_DATASETS = new Set(['lm1b', 'owt']);
 
-export const config = { runtime: 'edge' };
-
-function json(data, status = 200) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json' },
-  });
+function json(response, data, status = 200, headers = {}) {
+  response.statusCode = status;
+  response.setHeader('Content-Type', 'application/json');
+  for (const [name, value] of Object.entries(headers)) response.setHeader(name, value);
+  response.end(JSON.stringify(data));
 }
 
-export default async function handler(request) {
+export default async function handler(request, response) {
   const supabase = getSupabaseConfig();
-  if (!supabase) return json({ error: 'service not configured' }, 503);
+  if (!supabase) return json(response, { error: 'service not configured' }, 503);
 
-  const dataset = new URL(request.url).searchParams.get('dataset') || 'owt';
-  if (!VALID_DATASETS.has(dataset)) return json({ error: 'invalid dataset' }, 400);
+  const dataset = new URL(request.url, 'http://localhost').searchParams.get('dataset') || 'owt';
+  if (!VALID_DATASETS.has(dataset)) return json(response, { error: 'invalid dataset' }, 400);
 
   const headers = {
     apikey: supabase.serviceKey,
@@ -36,12 +34,12 @@ export default async function handler(request) {
     );
     if (!res.ok) {
       console.error('Supabase leaderboard request failed', res.status);
-      return json({ error: 'upstream error' }, 502);
+      return json(response, { error: 'upstream error' }, 502);
     }
     rows = await res.json();
   } catch (error) {
     console.error('Supabase leaderboard fetch failed', error instanceof Error ? error.message : error);
-    return json({ error: 'fetch failed' }, 502);
+    return json(response, { error: 'fetch failed' }, 502);
   }
 
   const stats = new Map();
@@ -83,11 +81,10 @@ export default async function handler(request) {
       return b.win_rate - a.win_rate || b.battles - a.battles;
     });
 
-  return new Response(JSON.stringify({ total_votes: datasetRows.length, dataset, study_version: ACTIVE_APP_VERSION, models }), {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60',
-    },
-  });
+  return json(
+    response,
+    { total_votes: datasetRows.length, dataset, study_version: ACTIVE_APP_VERSION, models },
+    200,
+    { 'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60' },
+  );
 }
