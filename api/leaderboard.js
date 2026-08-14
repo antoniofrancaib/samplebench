@@ -30,7 +30,7 @@ export default async function handler(request) {
     const res = await fetch(
       `${supabase.baseUrl}/rest/v1/sample_votes` +
         `?select=winner_model_id,loser_model_id,left_model_id,right_model_id,choice` +
-        `&app_version=eq.${encodeURIComponent(ACTIVE_APP_VERSION)}` +
+        `&app_version=eq.${ACTIVE_APP_VERSION}` +
         `&limit=${ROW_CAP}`,
       { headers },
     );
