@@ -3,7 +3,7 @@ import { getSupabaseConfig } from '../server/supabase.js';
 const VALID_CHOICES = new Set(['left', 'right', 'tie', 'both_bad', 'skip']);
 const MAX_VOTES_PER_SESSION_24H = 200;
 const MIN_DWELL_MS = 1000;
-const ACTIVE_APP_VERSION = 'samplebench-web/dlmbench-canonical-20260814-r1';
+const ACTIVE_APP_VERSION = 'samplebench-web/dlmbench-canonical-20260814-r2';
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {

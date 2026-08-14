@@ -6,6 +6,7 @@
       "generation_code_commit": "f16ec0350d515d964255530f6161c9db434577b8",
       "generator_id": "lm1b_duo_1024_nfe",
       "label": "Duo LM1B 1024-NFE",
+      "provider": null,
       "samples_sha256": "7e104b093dd42bd9c8584dc083290fb359691ccb192361bc25a3b3aa2d56abee",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -50,6 +51,7 @@
         1008,
         1022
       ],
+      "source_bundle_digest": "8c170cdc977460d4e7f4d5b5efd558eeeaac353f898f0eb34b335a872a1f6207",
       "source_manifest_sha256": "d392cb1ce351bbf0cf489b8d9c2c6795b47253193992f7931980fb64e28599bd",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -60,6 +62,7 @@
       "generation_code_commit": "f16ec0350d515d964255530f6161c9db434577b8",
       "generator_id": "lm1b_flm_1024_nfe",
       "label": "FLM 1024-NFE",
+      "provider": null,
       "samples_sha256": "a60278722293876b31ccd5e3f5db2d4b07a7adae5f144609beb85c46991e1649",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -104,6 +107,7 @@
         991,
         1019
       ],
+      "source_bundle_digest": "8c170cdc977460d4e7f4d5b5efd558eeeaac353f898f0eb34b335a872a1f6207",
       "source_manifest_sha256": "589fc41493a8efea0acc0e1a97eca9f724befebcccb4ffaee0be45c20a2a728d",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -114,6 +118,7 @@
       "generation_code_commit": "f16ec0350d515d964255530f6161c9db434577b8",
       "generator_id": "lm1b_fmlm_1_nfe",
       "label": "FMLM 1-NFE",
+      "provider": null,
       "samples_sha256": "fe851292fdb01a34e7025db2fa440789b0f6760a6b3093c4b395337aa06ea355",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -158,6 +163,7 @@
         941,
         947
       ],
+      "source_bundle_digest": "8c170cdc977460d4e7f4d5b5efd558eeeaac353f898f0eb34b335a872a1f6207",
       "source_manifest_sha256": "26535f668153943516af676a6aa329fe72968db72decdf7d692cafe118cd2ee0",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -168,6 +174,7 @@
       "generation_code_commit": "f16ec0350d515d964255530f6161c9db434577b8",
       "generator_id": "lm1b_fmlm_32_nfe",
       "label": "FMLM 32-NFE",
+      "provider": null,
       "samples_sha256": "b2d0217629df8f5b9aaca838b2d2c312ababd9e98ae6188614965a788f5c9f87",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -212,6 +219,7 @@
         983,
         1023
       ],
+      "source_bundle_digest": "8c170cdc977460d4e7f4d5b5efd558eeeaac353f898f0eb34b335a872a1f6207",
       "source_manifest_sha256": "340403dd67c0cacaf3d13bb0805c1d8f2a4e2d5a142c0800be9d85fcb4c33875",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -222,6 +230,7 @@
       "generation_code_commit": "f16ec0350d515d964255530f6161c9db434577b8",
       "generator_id": "lm1b_fmlm_4_nfe",
       "label": "FMLM 4-NFE",
+      "provider": null,
       "samples_sha256": "95fe064644c8a5cef01f3505e69a2f9165bbdc9e73969ec779f194f617c79769",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -266,6 +275,7 @@
         931,
         967
       ],
+      "source_bundle_digest": "8c170cdc977460d4e7f4d5b5efd558eeeaac353f898f0eb34b335a872a1f6207",
       "source_manifest_sha256": "1b919d771b5fb8ef0372bb91e6d6c5322ce4f4b6b6a6c8e08dadebc840bdd0c0",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -276,6 +286,7 @@
       "generation_code_commit": "f16ec0350d515d964255530f6161c9db434577b8",
       "generator_id": "lm1b_langflow_1024_nfe",
       "label": "LangFlow LM1B 1024-NFE",
+      "provider": null,
       "samples_sha256": "9bf2d512b772a4ea7d5a4366332d272a4d2272f77246386bdb403da5e6670e80",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -320,6 +331,7 @@
         994,
         1000
       ],
+      "source_bundle_digest": "8c170cdc977460d4e7f4d5b5efd558eeeaac353f898f0eb34b335a872a1f6207",
       "source_manifest_sha256": "141a522cae173a544255ffaf4dd8a0a3342972534cdc61322813309edcae8313",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -330,6 +342,7 @@
       "generation_code_commit": "f16ec0350d515d964255530f6161c9db434577b8",
       "generator_id": "lm1b_mdlm_1024_nfe",
       "label": "MDLM LM1B 1024-NFE",
+      "provider": null,
       "samples_sha256": "3b5b278cbcf4fa7cf803502112c1cb2e5355902ae6dca750f8d0240661236a7a",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -374,6 +387,7 @@
         924,
         944
       ],
+      "source_bundle_digest": "8c170cdc977460d4e7f4d5b5efd558eeeaac353f898f0eb34b335a872a1f6207",
       "source_manifest_sha256": "bcfed42f1ff485a0cb482679c13fd56d9de016ac793e95175d13254e13335bfe",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -384,6 +398,7 @@
       "generation_code_commit": "3bfb9a613a259fe0f32f2f3627c6c449dd6d2476",
       "generator_id": "lm1b_rdlm_1000_nfe",
       "label": "RDLM LM1B 1000-NFE",
+      "provider": null,
       "samples_sha256": "cf760a62da314639072d51570d23a897e4f5a2bed48ce0c5b3f4e484e60225ae",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -428,6 +443,7 @@
         976,
         981
       ],
+      "source_bundle_digest": "d677a0bc1928267c08fea54ac0435eac8127fc182a4ddd69a17ed6658eeee315",
       "source_manifest_sha256": "f3e9b4095cbc224c8fd8af06ff5715d78a570e5025c81e01033a2e072d4ecf54",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -438,6 +454,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_ar_base",
       "label": "AR OWT",
+      "provider": null,
       "samples_sha256": "7a533df5bd765f86e040cf8b62f219d06e69e6316bbd310d8300eea68dc0a58b",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -482,6 +499,7 @@
         1009,
         1010
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "db78f5fd96433cc97d22996074decc3a1b309b158b7222cb9ca667db08cd1b82",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -492,6 +510,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_di4c_sdtt6_16_nfe",
       "label": "DI4C SDTT6 16-NFE",
+      "provider": null,
       "samples_sha256": "1c83ed74f40d3afe8697b8700ad058facee18c9df29e60fcb7bfeff326b7a498",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -536,6 +555,7 @@
         1003,
         1016
       ],
+      "source_bundle_digest": "7b994cd5606b8eac0382aa3dc2f1ef41c6d815fc0dfa38d270345e55fbc050a0",
       "source_manifest_sha256": "3f036deb3c64ad40ae1e462ca973feb517bdf2a6a47c39aa74ddf32c57ad1890",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -546,6 +566,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_di4c_sdtt7_16_nfe",
       "label": "DI4C SDTT7 16-NFE",
+      "provider": null,
       "samples_sha256": "9dde3de08a5beffb36cd7c3d96b3f9dce4d1e0754e7d6464cdb099a842adc22b",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -590,6 +611,7 @@
         982,
         1008
       ],
+      "source_bundle_digest": "7b994cd5606b8eac0382aa3dc2f1ef41c6d815fc0dfa38d270345e55fbc050a0",
       "source_manifest_sha256": "0b9f6a9395bae488af681200ead9ccf8ef13d2d869c2eb9966a8549ef7c1bb90",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -600,6 +622,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_duo_base_1024_nfe",
       "label": "Duo OWT 1024-NFE",
+      "provider": null,
       "samples_sha256": "581f702bae92041ea7eaa746eefba893e199f31a276a0104e4ab990f14817f24",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -644,6 +667,7 @@
         931,
         978
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "a182d5e9c41f05b14028777303627209bd8b94a0aab007b7628d33d6e8db83f7",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -654,6 +678,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_flm_1024_nfe",
       "label": "FLM 1024-NFE",
+      "provider": null,
       "samples_sha256": "34b405717a098608ec51c675137622e43b0f6b492028dd5a30fa195b9fc40a95",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -698,6 +723,7 @@
         985,
         1019
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "ee6bb10d6c4e338f787287373ce432a87c83bf499bc7d35906350d5cee98c697",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -708,6 +734,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_fmlm_1_nfe",
       "label": "FMLM 1-NFE",
+      "provider": null,
       "samples_sha256": "2f2e3cc5059e589fb7186d5c98daf5766237f784183cb2681b2021502bcd606d",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -752,6 +779,7 @@
         976,
         1012
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "dbffdf757d183b414af9a84d463addd0b59b4c49baaad7de954621b64c218156",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -762,6 +790,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_fmlm_32_nfe",
       "label": "FMLM 32-NFE",
+      "provider": null,
       "samples_sha256": "eae0e16c5579c0285320091c941ad8d5140dad68c04f6b678f9995bc8fe143ce",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -806,6 +835,7 @@
         1007,
         1012
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "62d6b7adc27f10159d05952160017089e67b4316ea68bfba735b44c91895207f",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -816,6 +846,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_fmlm_4_nfe",
       "label": "FMLM 4-NFE",
+      "provider": null,
       "samples_sha256": "17508b201f080170389f56660a3e2304c549861cee61f3a388724cf43da996a4",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -860,6 +891,7 @@
         989,
         1001
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "f2dc04bb90f43e0b4835269973e6eafda25c6790bfa9d9da6bb2745bb31b170d",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -870,6 +902,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_langflow_1024_nfe",
       "label": "LangFlow OWT 1024-NFE",
+      "provider": null,
       "samples_sha256": "d907c2d665174f0ef2145edc03bce4527541396e9828b052fd37c104ffe6a698",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -914,6 +947,7 @@
         971,
         985
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "a6302e7692501aec76dea6f3948a487033a5450af12359804e40ca7ec40fe04b",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -924,6 +958,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_mdlm_1024_nfe",
       "label": "MDLM OWT 1024-NFE",
+      "provider": null,
       "samples_sha256": "1b79aca4bd23115f4504c022380106ced37244bc9982761ad16b089f836f4131",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -968,6 +1003,7 @@
         915,
         933
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "e8011cecc72e1f86b7b09f3062c296de1f6910f65de26d53163249271b756402",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -978,6 +1014,7 @@
       "generation_code_commit": "3bfb9a613a259fe0f32f2f3627c6c449dd6d2476",
       "generator_id": "owt_sdtt_kld_r7_8_nfe",
       "label": "SDTT Student 8-step",
+      "provider": null,
       "samples_sha256": "2fade1f632bbb5e7e343f841fc7dc3c79cc0d31ebcf49d292a44da5ac8ea092f",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1022,6 +1059,7 @@
         969,
         971
       ],
+      "source_bundle_digest": "d677a0bc1928267c08fea54ac0435eac8127fc182a4ddd69a17ed6658eeee315",
       "source_manifest_sha256": "62416158f86f3e314457f14564449544c896b7ac269a6520b04205405ab095b5",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1032,6 +1070,7 @@
       "generation_code_commit": "3bfb9a613a259fe0f32f2f3627c6c449dd6d2476",
       "generator_id": "owt_sdtt_mdlm_teacher_1024_nfe",
       "label": "SDTT Teacher 1024-step",
+      "provider": null,
       "samples_sha256": "317ff091896d23dc44cea771aae33475fec1fc89f25d172ffb1d4acfd4dad933",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1076,6 +1115,7 @@
         941,
         1020
       ],
+      "source_bundle_digest": "d677a0bc1928267c08fea54ac0435eac8127fc182a4ddd69a17ed6658eeee315",
       "source_manifest_sha256": "1dd7816057cd38fd41aeb729d68c533455d839a9d85183ced0c5e14bb6c0ee02",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1086,6 +1126,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_sedd_1024_nfe",
       "label": "SEDD OWT 1024-NFE",
+      "provider": null,
       "samples_sha256": "b8c55ee56ca2e01261f7adf0cd45fad85445ff2bc74e9825064670527a46ea41",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1130,6 +1171,7 @@
         963,
         989
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "eb4c7123a0b1a823d0c60f75f1bdbcc3f5f188504452a4669860303149e0a76f",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1140,6 +1182,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_cobit_m_256_nfe",
       "label": "CoBit-M OWT 256-NFE",
+      "provider": null,
       "samples_sha256": "0482d3b8b886f29f17ab9141b2302a635b54b2f3523fb2d523be18d36e89c2ee",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1184,6 +1227,7 @@
         929,
         937
       ],
+      "source_bundle_digest": "7b994cd5606b8eac0382aa3dc2f1ef41c6d815fc0dfa38d270345e55fbc050a0",
       "source_manifest_sha256": "d587a804a1037059e2a6ba5b5937f6f94eaafe5f472d0d13da83abf26c9e9cd6",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1194,6 +1238,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_cobit_m_512_nfe",
       "label": "CoBit-M OWT 512-NFE",
+      "provider": null,
       "samples_sha256": "af81d01bef3c03554afa370330e12067b900c45d2b2f583525accecd670d37fe",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1238,6 +1283,7 @@
         994,
         1016
       ],
+      "source_bundle_digest": "7b994cd5606b8eac0382aa3dc2f1ef41c6d815fc0dfa38d270345e55fbc050a0",
       "source_manifest_sha256": "81ba0f73fe9c92dae70760c7b0a60d594de353117f54575d9c2c35328f74db4b",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1248,6 +1294,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_cobit_s_256_nfe",
       "label": "CoBit-S OWT 256-NFE",
+      "provider": null,
       "samples_sha256": "5c5ba9572ff0cc3072edebae3c2d55ac094d3da602c045f42788b63d9b1453c6",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1292,6 +1339,7 @@
         968,
         1003
       ],
+      "source_bundle_digest": "7b994cd5606b8eac0382aa3dc2f1ef41c6d815fc0dfa38d270345e55fbc050a0",
       "source_manifest_sha256": "4c66e247ef9ee32399605089e64afe08e278a0d9eceae3effc74e0b1b573d5da",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1302,6 +1350,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_duo_base_1024_nfe",
       "label": "DUO Base 1024-NFE",
+      "provider": null,
       "samples_sha256": "581f702bae92041ea7eaa746eefba893e199f31a276a0104e4ab990f14817f24",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1346,6 +1395,7 @@
         931,
         978
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "11b214bcf5aaf4abec61adf8409901f9641a4ec4be493d47fa9d1fc2c385d42a",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1356,6 +1406,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_duo_base_128_nfe",
       "label": "DUO Base 128-NFE",
+      "provider": null,
       "samples_sha256": "a28f4050c65c09e64b595d6959435d15e00322cb0490646eded96e6b62845691",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1400,6 +1451,7 @@
         973,
         989
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "84026748ea90d6c6d971b6986792cd6cd37f7730d75033b7191d5ba54377a340",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1410,6 +1462,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_duo_base_32_nfe",
       "label": "DUO Base 32-NFE",
+      "provider": null,
       "samples_sha256": "b70f9fa7da98ac94196d1a1584828a20ee62ffb1751f8a1a8bfaebf9b6af043a",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1454,6 +1507,7 @@
         1009,
         1019
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "9c078569828b593ffa8bbab37999c879f938a902f07abf9732336008ab6822c7",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1464,6 +1518,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_duo_base_512_nfe",
       "label": "DUO Base 512-NFE",
+      "provider": null,
       "samples_sha256": "f446670e86d1ce2e5d97a3747e243f229d6ccca655915d89464658e66f5c9414",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1508,6 +1563,7 @@
         966,
         967
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "dd51bbe7a80faedbf7a4cff11321fdbbefeb21cbf5fd9c88cda19cc57520fdf4",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1518,6 +1574,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_duo_base_8_nfe",
       "label": "DUO Base 8-NFE",
+      "provider": null,
       "samples_sha256": "627c0f0939e36d7ba937a00b9dc67e7e170a891d9db3b770224da74cf4a1be22",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1562,6 +1619,7 @@
         950,
         998
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "9bad56d368ff36ff80c70d577c394cf20ec91903a8a319be02b388eb3d288206",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1572,6 +1630,7 @@
       "generation_code_commit": "98d68d47c24982d4902be10fad419658abf212cc",
       "generator_id": "owt_v2_duo_distilled_16_nfe",
       "label": "DUO Distilled 16-NFE",
+      "provider": null,
       "samples_sha256": "e2c60095f98b4138093d596afc29e2e444614ae299e70249757bafc0e345044f",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1616,6 +1675,7 @@
         967,
         972
       ],
+      "source_bundle_digest": "80a96c9a4b2cf4961b71cb671b28c9ea4ef9d8426518ab202d60b0378f4221c1",
       "source_manifest_sha256": "869d3f2cbf61aa9115194e31ac50a75bb57670d83ff8df6f3dd5c4025b0fa413",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1626,6 +1686,7 @@
       "generation_code_commit": "98d68d47c24982d4902be10fad419658abf212cc",
       "generator_id": "owt_v2_duo_distilled_32_nfe",
       "label": "DUO Distilled 32-NFE",
+      "provider": null,
       "samples_sha256": "21d6b6f40e1fd4dfe734368fea0f51a23170f1692dce005a0202b38f056d98d7",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1670,6 +1731,7 @@
         1010,
         1021
       ],
+      "source_bundle_digest": "80a96c9a4b2cf4961b71cb671b28c9ea4ef9d8426518ab202d60b0378f4221c1",
       "source_manifest_sha256": "4d76602b77c3545444a96f887918fd1282dcde8dd9661bdf9aaef5fb94a18372",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1680,6 +1742,7 @@
       "generation_code_commit": "98d68d47c24982d4902be10fad419658abf212cc",
       "generator_id": "owt_v2_duo_distilled_8_nfe",
       "label": "DUO Distilled 8-NFE",
+      "provider": null,
       "samples_sha256": "39f1b77e726be785a8d4f13ce9e4769a5bda7eeccd7b5b6485d0765ed91967d1",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1724,6 +1787,7 @@
         955,
         966
       ],
+      "source_bundle_digest": "80a96c9a4b2cf4961b71cb671b28c9ea4ef9d8426518ab202d60b0378f4221c1",
       "source_manifest_sha256": "3a04156cfb4e24e6cb3befbdd459a2690551fcb3b288b9bed3d9b40da45f3374",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1734,6 +1798,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_elf_b_128_nfe",
       "label": "ELF-B OWT 128-NFE",
+      "provider": null,
       "samples_sha256": "beec89c849828c1e489c6aff8ef0ce53b60f31831c2f8d54eb43a8510c562986",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1778,6 +1843,7 @@
         947,
         977
       ],
+      "source_bundle_digest": "aadc6589ffb999fa986856ebb6004d2a29bfab11a878a3e1f33cec1d28ab914f",
       "source_manifest_sha256": "2bfbcc634277b6b449ed2dfbf6bb03f28a3cc2d9f9049e7ac8ac870351584436",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1788,6 +1854,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_elf_b_32_nfe",
       "label": "ELF-B OWT 32-NFE",
+      "provider": null,
       "samples_sha256": "155dd4b33bc8b270a9b13964beedfc8e840d4604397bf4052b0301a59a5654ca",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1832,6 +1899,7 @@
         962,
         982
       ],
+      "source_bundle_digest": "aadc6589ffb999fa986856ebb6004d2a29bfab11a878a3e1f33cec1d28ab914f",
       "source_manifest_sha256": "822f5f0b1618c676172c9f58ffc8e45668506527d036972e82f828f7901359c7",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1842,6 +1910,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_elf_b_64_nfe",
       "label": "ELF-B OWT 64-NFE",
+      "provider": null,
       "samples_sha256": "fa6173e5b9c28e3eec32f62e81a133dfaa47b456d1f5ad632146c458faf2d337",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1886,6 +1955,7 @@
         957,
         997
       ],
+      "source_bundle_digest": "aadc6589ffb999fa986856ebb6004d2a29bfab11a878a3e1f33cec1d28ab914f",
       "source_manifest_sha256": "316a5677cbdcc6ce3df2c0dd737ec0e7ffaaeedd9f5370de1d323ae219eb5342",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1896,6 +1966,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_elf_b_8_nfe",
       "label": "ELF-B OWT 8-NFE",
+      "provider": null,
       "samples_sha256": "db2a238660d1607d839fe7c15dd133ab21c4815ad0ad6ec4b5d840b88ae0a80f",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1940,6 +2011,7 @@
         1005,
         1020
       ],
+      "source_bundle_digest": "aadc6589ffb999fa986856ebb6004d2a29bfab11a878a3e1f33cec1d28ab914f",
       "source_manifest_sha256": "7aa0a209c957ecf519b89a870801058036f6b3f9c66522456b9574226c939e83",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -1950,6 +2022,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_elf_l_128_nfe",
       "label": "ELF-L OWT 128-NFE",
+      "provider": null,
       "samples_sha256": "5c96eee660c82a0b8038a3970de93a8909052abb41b8a9f27c51b39f5fea2e87",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -1994,6 +2067,7 @@
         1005,
         1012
       ],
+      "source_bundle_digest": "aadc6589ffb999fa986856ebb6004d2a29bfab11a878a3e1f33cec1d28ab914f",
       "source_manifest_sha256": "8cccb63c4d07aeae65953d20947213998e3251c02d0b9ea2a005a6ff191c486e",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2004,6 +2078,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_elf_l_32_nfe",
       "label": "ELF-L OWT 32-NFE",
+      "provider": null,
       "samples_sha256": "f504867cdffc377552ad236e813a3b831e6728e1d6c3f54c8c01022f1795391d",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2048,6 +2123,7 @@
         979,
         1019
       ],
+      "source_bundle_digest": "aadc6589ffb999fa986856ebb6004d2a29bfab11a878a3e1f33cec1d28ab914f",
       "source_manifest_sha256": "3ab78deaa5850ecbe34b8bc72f9f37221f84c5863ac887d7f5cc2b2aa5dfed1a",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2058,6 +2134,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_elf_l_64_nfe",
       "label": "ELF-L OWT 64-NFE",
+      "provider": null,
       "samples_sha256": "1fe61aa34fa6d4c2800490d0a347658ce6bc7a4385b4f743d19e091aeeb47325",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2102,6 +2179,7 @@
         983,
         1013
       ],
+      "source_bundle_digest": "aadc6589ffb999fa986856ebb6004d2a29bfab11a878a3e1f33cec1d28ab914f",
       "source_manifest_sha256": "65ea0c1966251282b4f972dad7fb6f71011b5fe8fc1bd6eb252b426543f61e54",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2112,6 +2190,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_elf_l_8_nfe",
       "label": "ELF-L OWT 8-NFE",
+      "provider": null,
       "samples_sha256": "0d5c54c8b96ed75348e2842524d3dbffe6e03ba5c2c42f408ba1cfc1dc2ac55e",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2156,6 +2235,7 @@
         962,
         992
       ],
+      "source_bundle_digest": "aadc6589ffb999fa986856ebb6004d2a29bfab11a878a3e1f33cec1d28ab914f",
       "source_manifest_sha256": "0f16413ce6f647ae6b835da333f7399cafcc5cfde94df7c902c2a1bb6f396cf1",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2166,6 +2246,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_elf_m_128_nfe",
       "label": "ELF-M OWT 128-NFE",
+      "provider": null,
       "samples_sha256": "16ea6daeb24fc3613828cc5076979e371f9365519fdc3577db162eb308ee7180",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2210,6 +2291,7 @@
         929,
         956
       ],
+      "source_bundle_digest": "aadc6589ffb999fa986856ebb6004d2a29bfab11a878a3e1f33cec1d28ab914f",
       "source_manifest_sha256": "46a4f61087c3ffdbcc0d52a090c36217940de88dcdbb5a112d2811d4c011fb7e",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2220,6 +2302,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_elf_m_32_nfe",
       "label": "ELF-M OWT 32-NFE",
+      "provider": null,
       "samples_sha256": "3fc2041f8ad3dfe36713c7b4d86cc407032b4d1de760e49a9eaf6fdce8e1cec3",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2264,6 +2347,7 @@
         987,
         993
       ],
+      "source_bundle_digest": "aadc6589ffb999fa986856ebb6004d2a29bfab11a878a3e1f33cec1d28ab914f",
       "source_manifest_sha256": "8b42592c79542cfcdcc057c12598146da1baec8ca502368d8c379772dce0bb6a",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2274,6 +2358,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_elf_m_64_nfe",
       "label": "ELF-M OWT 64-NFE",
+      "provider": null,
       "samples_sha256": "5663500f2d51c7b3673dc80aeec1509c87a734bfd40dc1c6c08bb174976f148c",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2318,6 +2403,7 @@
         979,
         1006
       ],
+      "source_bundle_digest": "aadc6589ffb999fa986856ebb6004d2a29bfab11a878a3e1f33cec1d28ab914f",
       "source_manifest_sha256": "51970130b56ec03c15826b61419cb81fff903e3d3a0a1ba9f7c3cda8fa8f7cbb",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2328,6 +2414,7 @@
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_elf_m_8_nfe",
       "label": "ELF-M OWT 8-NFE",
+      "provider": null,
       "samples_sha256": "e85143e9831c124109f486caec7f5dff1aec12dfefec8c8ea9f3db1aafb0d3f1",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2372,6 +2459,7 @@
         987,
         1007
       ],
+      "source_bundle_digest": "aadc6589ffb999fa986856ebb6004d2a29bfab11a878a3e1f33cec1d28ab914f",
       "source_manifest_sha256": "804a4cc957822d16da23ed475fa59d15c0a538d7957a842f48b7fcc0f60239c8",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2382,6 +2470,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_flm_1024_nfe",
       "label": "FLM 1024-NFE",
+      "provider": null,
       "samples_sha256": "34b405717a098608ec51c675137622e43b0f6b492028dd5a30fa195b9fc40a95",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2426,6 +2515,7 @@
         985,
         1019
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "9c63160047e9af2fc50de17fd229b7271552146eafea0bee518394a0877392d7",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2436,6 +2526,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_flm_128_nfe",
       "label": "FLM 128-NFE",
+      "provider": null,
       "samples_sha256": "7bed33430ea92906c36083f16a864a8deca323fba3a80e1cb757e494257b52a7",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2480,6 +2571,7 @@
         897,
         990
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "93e36421ae57d1eb57defda76e3ea13ad5def17c2e3c21e14f4a599cd8369c40",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2490,6 +2582,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_flm_32_nfe",
       "label": "FLM 32-NFE",
+      "provider": null,
       "samples_sha256": "dc586e84dbc97ca339fd96e51fc61f94ff14112b0b577e8479526094a9272ac4",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2534,6 +2627,7 @@
         984,
         985
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "2ddad0724d41b00b1f6e8daf5f42140bd100e3ad9bb624f1bb71db555707ea53",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2544,6 +2638,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_flm_512_nfe",
       "label": "FLM 512-NFE",
+      "provider": null,
       "samples_sha256": "d76aabf70d5d42cf9b9fb3672c524ff99df18b8d7fcfbba77d07a387c9f8a97d",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2588,6 +2683,7 @@
         960,
         1005
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "92ad9c55135f7de54ca1eeafd9b3bebff8330c35e5632cf53bc4538a8c34ac90",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2598,6 +2694,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_flm_8_nfe",
       "label": "FLM 8-NFE",
+      "provider": null,
       "samples_sha256": "f9649eded07bec5a28286762cfcd1719078ae6a672b0071c3d4052d64cdee767",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2642,6 +2739,7 @@
         981,
         989
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "3f86668f0db1e1d865f7892b1479aa827c121dcc418c638fc1a4b64796b3695f",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2652,6 +2750,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_fmlm_16_nfe",
       "label": "FMLM 16-NFE",
+      "provider": null,
       "samples_sha256": "bf347650a2616531075035547c200e359b7b7b24f0580e146881d7ce7f16706c",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2696,6 +2795,7 @@
         991,
         996
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "ede85254443fb83898059afbb757c94d8dc64ec2030001a4e1f811201b680efe",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2706,6 +2806,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_fmlm_1_nfe",
       "label": "FMLM 1-NFE",
+      "provider": null,
       "samples_sha256": "2f2e3cc5059e589fb7186d5c98daf5766237f784183cb2681b2021502bcd606d",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2750,6 +2851,7 @@
         976,
         1012
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "22918565b5926ca48e14ba1f8f2f56d232dc660da365de1cfe2c2fc504c5c0b0",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2760,6 +2862,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_fmlm_32_nfe",
       "label": "FMLM 32-NFE",
+      "provider": null,
       "samples_sha256": "eae0e16c5579c0285320091c941ad8d5140dad68c04f6b678f9995bc8fe143ce",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2804,6 +2907,7 @@
         1007,
         1012
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "74fa299d14c00b3715f6282b29256bea354f63549e542aa81307c42cb9949ce3",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2814,6 +2918,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_fmlm_4_nfe",
       "label": "FMLM 4-NFE",
+      "provider": null,
       "samples_sha256": "17508b201f080170389f56660a3e2304c549861cee61f3a388724cf43da996a4",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2858,6 +2963,7 @@
         989,
         1001
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "73a85d92562e4e6701d7e028ea469b73f0cfcf30f93d780c4d7bf65aed97bfb1",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2868,6 +2974,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_fmlm_8_nfe",
       "label": "FMLM 8-NFE",
+      "provider": null,
       "samples_sha256": "0caee3fa0cf6e48ebfdcf3a9472b5620a4e84b05c25e75cbec42920e40c93877",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2912,6 +3019,7 @@
         975,
         989
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "d9763066fd42615e91e53f6bf60e24d008cc80ac4a11d76711862ece8fa54bd8",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2922,6 +3030,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_mdlm_1024_nfe",
       "label": "MDLM 1024-NFE",
+      "provider": null,
       "samples_sha256": "1b79aca4bd23115f4504c022380106ced37244bc9982761ad16b089f836f4131",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -2966,6 +3075,7 @@
         915,
         933
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "9733a37d363d8f49c509b26c5a26956b8e679d74b131085a676644a570628591",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -2976,6 +3086,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_mdlm_128_nfe",
       "label": "MDLM 128-NFE",
+      "provider": null,
       "samples_sha256": "81f83d95d67d5cea93b8a17aac534ae0beecd796331299c778d9de7d234279fa",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -3020,6 +3131,7 @@
         989,
         990
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "fe4016a7ea708f70e9c0553f4b9ac4224aacab5132c1a083b50f350dd5c38932",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -3030,6 +3142,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_mdlm_32_nfe",
       "label": "MDLM 32-NFE",
+      "provider": null,
       "samples_sha256": "d09221aee642b65b043d2cd92aa0b95cbd5e134943bb6104dbb8431e1c436624",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -3074,6 +3187,7 @@
         945,
         960
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "2b882a6023a24b1699bfb91927ec828addcb0381c77a5eac4d0524bcc64e7819",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -3084,6 +3198,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_mdlm_512_nfe",
       "label": "MDLM 512-NFE",
+      "provider": null,
       "samples_sha256": "863daa4d1a584c8970e21831362b624fc4ac12cee5646e850e8a0defe85a224f",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -3128,6 +3243,7 @@
         942,
         964
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "5afddaedf6bb5f32088678e7d7e8857cf16e50c41eb72ff9075e6c65762bce75",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -3138,6 +3254,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_mdlm_8_nfe",
       "label": "MDLM 8-NFE",
+      "provider": null,
       "samples_sha256": "3e09ffa3a56ea80e406c6ec3364f4178e81d7b063b60a2da8c3afe6d36f01a47",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -3182,9 +3299,66 @@
         998,
         1007
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "0690787e9312e27767169b9db59002bb8de6ab346b8e32bff3712ad6b56cf82d",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
+    },
+    {
+      "dataset": "owt",
+      "family": "replaid",
+      "generation_code_commit": null,
+      "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+      "label": "RePlaid OWT no-SC DDPM 1024-step",
+      "provider": "Zhihan Yang",
+      "samples_sha256": "518d2d10ce436833160df99bb88e859fee5f2682a79fed3d7431625e5d4424ad",
+      "selected_sample_count": 40,
+      "selected_source_ids": [
+        38,
+        128,
+        156,
+        180,
+        241,
+        304,
+        328,
+        339,
+        360,
+        383,
+        396,
+        425,
+        441,
+        444,
+        455,
+        483,
+        505,
+        520,
+        529,
+        533,
+        582,
+        598,
+        623,
+        629,
+        663,
+        699,
+        704,
+        719,
+        727,
+        749,
+        776,
+        802,
+        803,
+        817,
+        820,
+        857,
+        886,
+        921,
+        931,
+        940
+      ],
+      "source_bundle_digest": "ab84a1f24d1aaa5c5897bdec7a5d4ed81ff69376cfabb251dabe6c2c8397639d",
+      "source_manifest_sha256": "be2193a70346af2c2780da68955d34f4db455b579deaee0d333923a41fe6cb47",
+      "source_sample_count": 1024,
+      "source_type": "dlmbench_author_provided"
     },
     {
       "dataset": "owt",
@@ -3192,6 +3366,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_sedd_1024_nfe",
       "label": "SEDD 1024-NFE",
+      "provider": null,
       "samples_sha256": "b8c55ee56ca2e01261f7adf0cd45fad85445ff2bc74e9825064670527a46ea41",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -3236,6 +3411,7 @@
         963,
         989
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "f42d19a37ac84ef50317a25e45d6f53905345ff250ec2e8a9ab8c2d6f94919a0",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -3246,6 +3422,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_sedd_128_nfe",
       "label": "SEDD 128-NFE",
+      "provider": null,
       "samples_sha256": "63ee598bea5bc3b0072fee3306a62a83094253d54062807aa20161c86a7a9441",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -3290,6 +3467,7 @@
         1012,
         1017
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "1d422bef4c66ff0d5a54726509d58821b7a3a78c7ccbe6abbc48604436cef751",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -3300,6 +3478,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_sedd_32_nfe",
       "label": "SEDD 32-NFE",
+      "provider": null,
       "samples_sha256": "39ca9e3b248c2176992ec403c52fe03dd51e9601334917b9a050428245ba88ac",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -3344,6 +3523,7 @@
         1003,
         1016
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "5ca0be7b659911071307d99354302db508924be8b5e11e80187ffad2f46d3fd1",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -3354,6 +3534,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_sedd_512_nfe",
       "label": "SEDD 512-NFE",
+      "provider": null,
       "samples_sha256": "f5579fd451d41f6ebe86b0974096ff5e6fda779c439915dde99e86a72d982c8a",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -3398,6 +3579,7 @@
         1013,
         1017
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "95cb8becb5ebefae930e26661c4c5d2a76e4da078d1b5502ee9c34f10f43b916",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -3408,6 +3590,7 @@
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_sedd_8_nfe",
       "label": "SEDD 8-NFE",
+      "provider": null,
       "samples_sha256": "0f59d5f7a5116efbaf8ecbaba818dc271c254c6b6b310b3d0b2cbb2a4a91d437",
       "selected_sample_count": 40,
       "selected_source_ids": [
@@ -3452,6 +3635,7 @@
         1004,
         1015
       ],
+      "source_bundle_digest": "8f23d2a86785dbf1dd06b91b3169e8a05a6635e963b4cba2ebb091f575e82f7b",
       "source_manifest_sha256": "dffc32dcad202ecc7bbe7d5f19399803a542a8624851952025b79286222bc3c6",
       "source_sample_count": 1024,
       "source_type": "dlmbench_replicated_generation"
@@ -3459,11 +3643,11 @@
   ],
   "dataset_counts": {
     "lm1b": 8,
-    "owt": 56
+    "owt": 57
   },
-  "model_count": 64,
-  "release_id": "dlmbench-canonical-20260814-r1",
-  "sample_count": 2560,
+  "model_count": 65,
+  "release_id": "dlmbench-canonical-20260814-r2",
+  "sample_count": 2600,
   "schema_version": "samplebench-data-release-v1",
   "selection": {
     "algorithm": "lowest SHA-256 ranks without replacement, then source-ID order",

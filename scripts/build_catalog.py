@@ -9,10 +9,13 @@ import json
 from pathlib import Path
 
 
-RELEASE_ID = "dlmbench-canonical-20260814-r1"
+# Keep the r1 selection seed so adding one corpus does not reshuffle the 64
+# previously deployed model subsets. The study version changes because the UI
+# now presents complete texts instead of truncated excerpts.
+RELEASE_ID = "dlmbench-canonical-20260814-r2"
 RELEASE_SEED = "samplebench-dlmbench-canonical-20260814-r1"
 SAMPLES_PER_MODEL = 40
-EXPECTED_DATASETS = {"lm1b": 8, "owt": 56}
+EXPECTED_DATASETS = {"lm1b": 8, "owt": 57}
 EXPECTED_FILES = {"samples.jsonl", "manifest.json", "checksums.sha256"}
 
 
@@ -26,6 +29,7 @@ def sha256_file(path: Path) -> str:
 
 def family_for(generator_id: str) -> str:
     checks = (
+        ("replaid", "replaid"),
         ("cobit", "cobit"),
         ("langflow", "langflow"),
         ("fmlm", "fmlm"),
@@ -67,10 +71,19 @@ def load_corpus(path: Path, dataset: str) -> tuple[dict, dict]:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     generator_id = path.name
     canonical = manifest.get("canonical") or {}
-    if manifest.get("schema_version") != "dlmbench-inference-v2":
-        raise ValueError(f"{path}: unsupported manifest schema")
-    if manifest.get("provenance_status") != "complete":
-        raise ValueError(f"{path}: provenance is not complete")
+    schema_version = manifest.get("schema_version")
+    if schema_version == "dlmbench-inference-v2":
+        if manifest.get("provenance_status") != "complete":
+            raise ValueError(f"{path}: replicated provenance is not complete")
+        source_type = "dlmbench_replicated_generation"
+    elif schema_version == "dlmbench-author-provided-v1":
+        if manifest.get("provenance_status") != "author-provided":
+            raise ValueError(f"{path}: author-provided provenance status is invalid")
+        if manifest.get("source_type") != "author-provided":
+            raise ValueError(f"{path}: author-provided source type is invalid")
+        source_type = "dlmbench_author_provided"
+    else:
+        raise ValueError(f"{path}: unsupported manifest schema {schema_version!r}")
     if manifest.get("sample_count") != 1024:
         raise ValueError(f"{path}: expected 1024 samples")
     if canonical.get("dataset") != dataset or canonical.get("generator_id") != generator_id:
@@ -94,15 +107,16 @@ def load_corpus(path: Path, dataset: str) -> tuple[dict, dict]:
 
     selected = select_rows(rows, corpus_digest)
     config = manifest.get("generation_config") or {}
+    sampling = manifest.get("sampling") or {}
     family = family_for(generator_id)
     model = {
         "id": generator_id,
-        "name": config.get("label") or generator_id,
+        "name": config.get("label") or manifest.get("label") or generator_id,
         "dataset": dataset,
         "method": "Autoregressive" if family == "ar" else "Diffusion",
         "family": family,
-        "algo": config.get("algo") or family,
-        "nfe": config.get("nfe"),
+        "algo": config.get("algo") or sampling.get("algorithm") or family,
+        "nfe": config.get("nfe") or sampling.get("benchmark_nfe_label"),
         "corpusSha256": corpus_digest,
         "samples": [
             {
@@ -124,7 +138,10 @@ def load_corpus(path: Path, dataset: str) -> tuple[dict, dict]:
         "samples_sha256": corpus_digest,
         "source_manifest_sha256": sha256_file(manifest_path),
         "generation_code_commit": manifest.get("code_commit"),
-        "source_type": "dlmbench_replicated_generation",
+        "source_bundle_digest": manifest.get("source_bundle_digest")
+        or (manifest.get("conversion") or {}).get("source_bundle_digest"),
+        "source_type": source_type,
+        "provider": (manifest.get("provider") or {}).get("name"),
     }
     return model, record
 

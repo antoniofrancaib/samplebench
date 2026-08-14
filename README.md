@@ -41,3 +41,8 @@ Updating `src/data.js` is an explicit website-data release. The committed
 `scripts/build_catalog.py` command validates the canonical dLMbench corpus
 contract and deterministically selects the deployment snapshot. Commit both
 `src/data.js` and `src/data-release.json` for every release.
+
+The comparison and sample-browser views render each selected decoded text in
+full. Whitespace, special-token strings, and decoding artifacts are preserved;
+the scrollable cards provide the presentation boundary instead of modifying
+the sample.

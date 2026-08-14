@@ -146,15 +146,6 @@ function samplePayload(s) {
   };
 }
 
-// ~512 GPT-2 tokens ≈ 2200 chars; strip BPE decode artifacts; trim at word boundary
-function truncateText(text, maxChars = 2200) {
-  if (!text) return text;
-  const clean = text.replace(/�/g, '');
-  if (clean.length <= maxChars) return clean;
-  const cut = clean.lastIndexOf(' ', maxChars);
-  return (cut > maxChars * 0.75 ? clean.slice(0, cut) : clean.slice(0, maxChars)) + '…';
-}
-
 /* ── Reveal overlay ───────────────────────────────────────────── */
 function revealText(choice, lName, rName) {
   if (choice === 'left')     return { headline: lName, sub: `is better than ${rName}` };
@@ -454,7 +445,6 @@ function MobileDeck({ pair }) {
 
 /* ── SampleCard — shared by desktop + mobile ───────────────────── */
 function SampleCard({ label, sample }) {
-  const displayText = truncateText(sample.text);
   return (
     <article className="flex flex-1 min-w-0 min-h-0 flex-col rounded-xl border border-border bg-card overflow-hidden">
       <header className="flex-none flex items-center justify-between h-10 md:h-11 pl-5 pr-2 border-b border-border">
@@ -466,7 +456,7 @@ function SampleCard({ label, sample }) {
       <div className="flex-1 min-h-0 overflow-y-auto">
         <div className="px-5 py-5 pb-10 md:px-8 md:py-7 md:pb-12">
           <p className="text-[14.5px] leading-[1.78] text-foreground/80 whitespace-pre-wrap">
-            {displayText}
+            {sample.text}
           </p>
         </div>
       </div>
@@ -716,7 +706,7 @@ function SamplesModelPage({ modelId, onNavigate }) {
               </header>
               <div className="px-5 py-4">
                 <p className="text-[13.5px] leading-[1.75] text-foreground/75 whitespace-pre-wrap">
-                  {truncateText(sample.text)}
+                  {sample.text}
                 </p>
               </div>
             </article>

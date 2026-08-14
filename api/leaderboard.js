@@ -1,6 +1,6 @@
 import { getSupabaseConfig } from '../server/supabase.js';
 
-const ACTIVE_APP_VERSION = 'samplebench-web/dlmbench-canonical-20260814-r1';
+const ACTIVE_APP_VERSION = 'samplebench-web/dlmbench-canonical-20260814-r2';
 const VALID_DATASETS = new Set(['lm1b', 'owt']);
 
 function json(response, data, status = 200, headers = {}) {
