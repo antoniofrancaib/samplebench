@@ -3,6 +3,7 @@ import { getSupabaseConfig } from '../server/supabase.js';
 const VALID_CHOICES = new Set(['left', 'right', 'tie', 'both_bad', 'skip']);
 const MAX_VOTES_PER_SESSION_24H = 200;
 const MIN_DWELL_MS = 1000;
+const ACTIVE_APP_VERSION = 'samplebench-web/dlmbench-canonical-20260814-r1';
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -83,6 +84,14 @@ export default async function handler(request) {
         preference_strength > 5)
     )
       return json({ error: 'invalid preference_strength' }, 400);
+
+    if (app_version === ACTIVE_APP_VERSION) {
+      const dataset = payload?.dataset;
+      if (!['lm1b', 'owt'].includes(dataset))
+        return json({ error: 'invalid dataset' }, 400);
+      if (!left_model_id.startsWith(`${dataset}_`) || !right_model_id.startsWith(`${dataset}_`))
+        return json({ error: 'cross-dataset battle' }, 400);
+    }
 
     // Minimum dwell time — catches rapid-fire scripts
     if (response_time_ms < MIN_DWELL_MS) {

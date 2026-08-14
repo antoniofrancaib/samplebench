@@ -37,5 +37,7 @@ Connect this repository directly to the SampleBench Vercel project with the
 repository root as its Root Directory. Configure `SUPABASE_URL` and
 `SUPABASE_SERVICE_ROLE_KEY` in Vercel; never commit their values.
 
-Updating `src/data.js` is an explicit website-data release. Generate and audit
-the replacement outside this repository, then commit the resulting snapshot.
+Updating `src/data.js` is an explicit website-data release. The committed
+`scripts/build_catalog.py` command validates the canonical dLMbench corpus
+contract and deterministically selects the deployment snapshot. Commit both
+`src/data.js` and `src/data-release.json` for every release.

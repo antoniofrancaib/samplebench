@@ -1,5 +1,8 @@
 import { getSupabaseConfig } from '../server/supabase.js';
 
+const ACTIVE_APP_VERSION = 'samplebench-web/dlmbench-canonical-20260814-r1';
+const VALID_DATASETS = new Set(['lm1b', 'owt']);
+
 export const config = { runtime: 'edge' };
 
 function json(data, status = 200) {
@@ -9,9 +12,12 @@ function json(data, status = 200) {
   });
 }
 
-export default async function handler() {
+export default async function handler(request) {
   const supabase = getSupabaseConfig();
   if (!supabase) return json({ error: 'service not configured' }, 503);
+
+  const dataset = new URL(request.url).searchParams.get('dataset') || 'owt';
+  if (!VALID_DATASETS.has(dataset)) return json({ error: 'invalid dataset' }, 400);
 
   const headers = {
     apikey: supabase.serviceKey,
@@ -24,6 +30,7 @@ export default async function handler() {
     const res = await fetch(
       `${supabase.baseUrl}/rest/v1/sample_votes` +
         `?select=winner_model_id,loser_model_id,left_model_id,right_model_id,choice` +
+        `&app_version=eq.${encodeURIComponent(ACTIVE_APP_VERSION)}` +
         `&limit=${ROW_CAP}`,
       { headers },
     );
@@ -44,7 +51,11 @@ export default async function handler() {
     return stats.get(id);
   }
 
-  for (const { winner_model_id, loser_model_id, left_model_id, right_model_id, choice } of rows) {
+  const datasetRows = rows.filter(({ left_model_id, right_model_id }) =>
+    left_model_id?.startsWith(`${dataset}_`) && right_model_id?.startsWith(`${dataset}_`)
+  );
+
+  for (const { winner_model_id, loser_model_id, left_model_id, right_model_id, choice } of datasetRows) {
     if (choice === 'left' || choice === 'right') {
       const w = get(winner_model_id), l = get(loser_model_id);
       if (w) { w.wins++; w.battles++; }
@@ -72,7 +83,7 @@ export default async function handler() {
       return b.win_rate - a.win_rate || b.battles - a.battles;
     });
 
-  return new Response(JSON.stringify({ total_votes: rows.length, models }), {
+  return new Response(JSON.stringify({ total_votes: datasetRows.length, dataset, study_version: ACTIVE_APP_VERSION, models }), {
     status: 200,
     headers: {
       'Content-Type': 'application/json',

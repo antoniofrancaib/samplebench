@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { models } from './data.js';
+import { availableDatasets, models, studyVersion } from './data.js';
 import './index.css';
 import { cn } from '@/lib/utils';
 import { ArrowLeftRight, Ban, ChevronRight, Copy, Check } from 'lucide-react';
@@ -9,9 +9,10 @@ const STORAGE_KEYS = {
   voterId: 'samplebench:voter_id',
   queuedVotes: 'samplebench:queued_votes',
   voteCount: 'samplebench:vote_count',
+  dataset: 'samplebench:dataset',
 };
 
-const APP_VERSION = 'samplebench-web/core-feedback-2026-06-11';
+const APP_VERSION = `samplebench-web/${studyVersion}`;
 const RUBRIC_VERSION = 'preference-strength-v1';
 
 /* 4 choices — matches arena.ai battle UX.
@@ -26,8 +27,8 @@ const CHOICES = [
 const samplePool = models.flatMap((model) =>
   (model.samples || []).map((sample, sampleIndex) => ({
     modelId: model.id, modelName: model.name, method: model.method,
-    family: model.family, nfe: model.nfe, sampleId: sample.id,
-    sampleIndex, text: sample.text, genPpl: sample.genPpl, entropy: sample.entropy,
+    family: model.family, dataset: model.dataset, nfe: model.nfe, sampleId: sample.id,
+    sourceId: sample.sourceId, sampleIndex, text: sample.text,
   })),
 ).filter((s) => s.text);
 
@@ -39,13 +40,14 @@ function getRandomIndex(max) {
   return Math.floor(Math.random() * max);
 }
 
-function createPair(previousPairId) {
-  if (samplePool.length < 2) return null;
-  let left = samplePool[getRandomIndex(samplePool.length)];
-  let right = samplePool[getRandomIndex(samplePool.length)];
+function createPair(previousPairId, dataset) {
+  const pool = samplePool.filter((sample) => sample.dataset === dataset);
+  if (pool.length < 2) return null;
+  let left = pool[getRandomIndex(pool.length)];
+  let right = pool[getRandomIndex(pool.length)];
   for (let i = 0; i < 80; i++) {
-    const l = samplePool[getRandomIndex(samplePool.length)];
-    const r = samplePool[getRandomIndex(samplePool.length)];
+    const l = pool[getRandomIndex(pool.length)];
+    const r = pool[getRandomIndex(pool.length)];
     const id = `${l.sampleId}__${r.sampleId}`;
     if (l.modelId !== r.modelId && id !== previousPairId) { left = l; right = r; break; }
   }
@@ -75,6 +77,15 @@ function getVoteCount() {
 }
 function setStoredVoteCount(count) {
   try { window.localStorage.setItem(STORAGE_KEYS.voteCount, String(count)); } catch {}
+}
+function getStoredDataset() {
+  try {
+    const value = window.localStorage.getItem(STORAGE_KEYS.dataset);
+    return availableDatasets.includes(value) ? value : 'owt';
+  } catch { return 'owt'; }
+}
+function setStoredDataset(dataset) {
+  try { window.localStorage.setItem(STORAGE_KEYS.dataset, dataset); } catch {}
 }
 async function insertVote(row) {
   const response = await fetch('/api/vote', {
@@ -118,6 +129,7 @@ function buildVoteRow({ pair, choice, voterId, responseTimeMs, voteNumber }) {
     response_time_ms: responseTimeMs, app_version: APP_VERSION,
     payload: {
       vote_number: voteNumber, client_time: new Date().toISOString(),
+      study_version: studyVersion, dataset: pair.left.dataset,
       page_url: window.location.href,
       viewport: { width: window.innerWidth, height: window.innerHeight },
       left: samplePayload(pair.left), right: samplePayload(pair.right),
@@ -129,8 +141,8 @@ function buildVoteRow({ pair, choice, voterId, responseTimeMs, voteNumber }) {
 function samplePayload(s) {
   return {
     model_id: s.modelId, model_name: s.modelName, sample_id: s.sampleId,
-    method: s.method, family: s.family, nfe: s.nfe, sample_index: s.sampleIndex,
-    gen_ppl: s.genPpl, entropy: s.entropy,
+    method: s.method, family: s.family, dataset: s.dataset, nfe: s.nfe,
+    sample_index: s.sampleIndex, source_id: s.sourceId,
   };
 }
 
@@ -227,7 +239,8 @@ function App() {
 function VotePage({ onNavigate }) {
   const isDesktop        = useMediaQuery('(min-width: 768px)');
   const [voterId]        = useState(getVoterId);
-  const [pair, setPair]  = useState(() => createPair());
+  const [dataset, setDataset] = useState(getStoredDataset);
+  const [pair, setPair]  = useState(() => createPair(null, getStoredDataset()));
   const [voteCount, setVoteCount] = useState(getVoteCount);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lastChoice, setLastChoice] = useState(null);
@@ -240,10 +253,19 @@ function VotePage({ onNavigate }) {
   }, []);
 
   const advancePair = useCallback((currentPairId) => {
-    setPair(createPair(currentPairId));
+    setPair(createPair(currentPairId, dataset));
     setLastChoice(null);
     startedAt.current = performance.now();
-  }, []);
+  }, [dataset]);
+
+  const changeDataset = useCallback((nextDataset) => {
+    if (nextDataset === dataset || isSubmitting) return;
+    setStoredDataset(nextDataset);
+    setDataset(nextDataset);
+    setPair(createPair(null, nextDataset));
+    setLastChoice(null);
+    startedAt.current = performance.now();
+  }, [dataset, isSubmitting]);
 
   // Reveal lifecycle: hold 1700ms → fade 400ms → advance
   useEffect(() => {
@@ -315,6 +337,9 @@ function VotePage({ onNavigate }) {
         </div>
       </div>
       <RevealOverlay reveal={reveal} fading={revealFading} />
+      <div className="fixed top-3 left-3 z-40">
+        <DatasetToggle value={dataset} onChange={changeDataset} disabled={isSubmitting} />
+      </div>
       <nav className="fixed top-3 right-3 z-40 flex items-center gap-3">
         {[['Samples', '/samples'], ['Leaderboard', '/leaderboard']].map(([label, href]) => (
           <a
@@ -328,6 +353,27 @@ function VotePage({ onNavigate }) {
         ))}
       </nav>
     </main>
+  );
+}
+
+function DatasetToggle({ value, onChange, disabled = false }) {
+  return (
+    <div className="inline-flex rounded-lg border border-border bg-card/90 p-0.5 shadow-sm" aria-label="Dataset">
+      {availableDatasets.map((dataset) => (
+        <button
+          key={dataset}
+          type="button"
+          disabled={disabled}
+          onClick={() => onChange(dataset)}
+          className={cn(
+            'rounded-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider transition-colors disabled:opacity-40',
+            value === dataset ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground',
+          )}
+        >
+          {dataset}
+        </button>
+      ))}
+    </div>
   );
 }
 
@@ -513,8 +559,6 @@ function Choices({ isDesktop, lastChoice, isSubmitting, onPick }) {
 }
 
 /* ── Samples browser ─────────────────────────────────────────── */
-const FLM_PAPER_MODEL_ID = 'owt_v2_flm_1024_nfe';
-
 function modelFamily(model) {
   return (model.family || '').toLowerCase();
 }
@@ -523,27 +567,25 @@ function modelNfe(model) {
   return Number(model.nfe || 0);
 }
 
-function isFlmAblation(model) {
-  return modelFamily(model).startsWith('flm') && model.id !== FLM_PAPER_MODEL_ID;
-}
-
 const SAMPLE_GROUPS = [
+  { key: 'ar', label: 'Autoregressive', match: (m) => modelFamily(m) === 'ar' },
   { key: 'mdlm', label: 'MDLM', match: (m) => modelFamily(m).startsWith('mdlm') },
   { key: 'sedd', label: 'SEDD', match: (m) => modelFamily(m).startsWith('sedd') },
   {
     key: 'flm_fmlm',
     label: 'FLM / FMLM',
-    match: (m) => m.id === FLM_PAPER_MODEL_ID || modelFamily(m).startsWith('fmlm'),
+    match: (m) => modelFamily(m).startsWith('flm') || modelFamily(m).startsWith('fmlm'),
     sort: (a, b) => {
-      const rankA = a.id === FLM_PAPER_MODEL_ID ? 0 : 1;
-      const rankB = b.id === FLM_PAPER_MODEL_ID ? 0 : 1;
-      return rankA - rankB || modelNfe(a) - modelNfe(b);
+      return modelFamily(a).localeCompare(modelFamily(b)) || modelNfe(a) - modelNfe(b);
     },
   },
   { key: 'duo', label: 'DUO', match: (m) => modelFamily(m).startsWith('duo') },
   { key: 'elf', label: 'ELF', match: (m) => modelFamily(m).startsWith('elf') },
   { key: 'cobit', label: 'CoBit', match: (m) => modelFamily(m).startsWith('cobit') },
-  { key: 'plaid', label: 'Plaid', match: (m) => modelFamily(m).startsWith('plaid') },
+  { key: 'di4c', label: 'DI4C', match: (m) => modelFamily(m).startsWith('di4c') },
+  { key: 'sdtt', label: 'SDTT', match: (m) => modelFamily(m).startsWith('sdtt') },
+  { key: 'langflow', label: 'LangFlow', match: (m) => modelFamily(m).startsWith('langflow') },
+  { key: 'rdlm', label: 'RDLM', match: (m) => modelFamily(m).startsWith('rdlm') },
 ];
 
 function NavBar({ left, right }) {
@@ -568,16 +610,22 @@ function NavLink({ href, children, onNavigate }) {
 }
 
 function SamplesIndexPage({ onNavigate }) {
+  const [dataset, setDataset] = useState(getStoredDataset);
+  const datasetModels = models.filter((model) => model.dataset === dataset);
+  const changeDataset = (nextDataset) => {
+    setStoredDataset(nextDataset);
+    setDataset(nextDataset);
+  };
   const coveredModelIds = new Set();
   const grouped = SAMPLE_GROUPS.reduce((acc, group) => {
-    const items = models.filter(group.match);
+    const items = datasetModels.filter(group.match);
     items.forEach((model) => coveredModelIds.add(model.id));
     const sorted = group.sort ? [...items].sort(group.sort) : items;
     if (sorted.length) acc.push({ key: group.key, label: group.label, items: sorted });
     return acc;
   }, []);
   // catch any families not in the order list
-  const rest = models.filter((m) => !coveredModelIds.has(m.id) && !isFlmAblation(m));
+  const rest = datasetModels.filter((m) => !coveredModelIds.has(m.id));
   if (rest.length) grouped.push({ key: 'other', label: 'Other', items: rest });
   const visibleModelCount = grouped.reduce((total, group) => total + group.items.length, 0);
 
@@ -589,9 +637,12 @@ function SamplesIndexPage({ onNavigate }) {
       />
       <div className="flex-1 min-h-0 overflow-y-auto">
         <div className="max-w-2xl mx-auto px-5 py-8">
-          <h1 className="text-[15px] font-semibold text-foreground/80 mb-6">
-            Sample browser — {visibleModelCount} models
-          </h1>
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-[15px] font-semibold text-foreground/80">
+              Sample browser — {visibleModelCount} models
+            </h1>
+            <DatasetToggle value={dataset} onChange={changeDataset} />
+          </div>
           {grouped.map(({ key, label, items }) => (
             <div key={key} className="mb-7">
               <div className="text-[10px] font-semibold tracking-widest uppercase text-muted-foreground/40 mb-2 pl-1">
@@ -678,6 +729,7 @@ function SamplesModelPage({ modelId, onNavigate }) {
 
 /* ── Leaderboard ──────────────────────────────────────────────── */
 function LeaderboardPage({ onNavigate }) {
+  const [dataset, setDataset] = useState(getStoredDataset);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -687,7 +739,7 @@ function LeaderboardPage({ onNavigate }) {
     async function load() {
       try {
         setLoading(true);
-        const res = await fetch('/api/leaderboard');
+        const res = await fetch(`/api/leaderboard?dataset=${encodeURIComponent(dataset)}`);
         if (!res.ok) throw new Error(`${res.status}`);
         const payload = await res.json();
         if (!cancelled) { setData(payload); setError(null); }
@@ -700,7 +752,13 @@ function LeaderboardPage({ onNavigate }) {
     load();
     const id = setInterval(load, 30_000);
     return () => { cancelled = true; clearInterval(id); };
-  }, []);
+  }, [dataset]);
+
+  const changeDataset = (nextDataset) => {
+    setStoredDataset(nextDataset);
+    setDataset(nextDataset);
+    setData(null);
+  };
 
   const rows = (data?.models ?? []).map((m) => {
     const model = models.find((x) => x.id === m.model_id);
@@ -727,7 +785,10 @@ function LeaderboardPage({ onNavigate }) {
 
         {rows.length > 0 && (
           <div className="max-w-2xl mx-auto px-5 py-8">
-            <h1 className="text-[15px] font-semibold text-foreground/80 mb-1">Leaderboard</h1>
+            <div className="flex items-center justify-between mb-1">
+              <h1 className="text-[15px] font-semibold text-foreground/80">Leaderboard</h1>
+              <DatasetToggle value={dataset} onChange={changeDataset} />
+            </div>
             <p className="text-[12px] text-muted-foreground/40 mb-6 tabular-nums">
               {data.total_votes.toLocaleString()} votes{loading && ' · refreshing…'}
             </p>
