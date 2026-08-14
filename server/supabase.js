@@ -3,7 +3,9 @@ function cleanEnvironmentValue(value) {
 }
 
 export function getSupabaseConfig() {
-  const serviceKey = cleanEnvironmentValue(process.env.SUPABASE_SERVICE_ROLE_KEY);
+  const serviceKey =
+    cleanEnvironmentValue(process.env.SUPABASE_SECRET_KEY) ||
+    cleanEnvironmentValue(process.env.SUPABASE_SERVICE_ROLE_KEY);
   const rawUrl = cleanEnvironmentValue(process.env.SUPABASE_URL);
 
   if (!rawUrl || !serviceKey) return null;
