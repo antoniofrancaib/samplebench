@@ -1,8 +1,8 @@
 // Generated from canonical dLMbench corpora. Do not edit by hand.
 export const checkpointFamilies = ["ar", "cobit", "di4c", "duo", "elf", "flm", "fmlm", "langflow", "mdlm", "rdlm", "replaid", "sdtt", "sedd"];
-export const studyVersion = "dlmbench-canonical-20260814-r2";
+export const studyVersion = "dlmbench-canonical-20260814-r3";
 export const availableDatasets = ["lm1b", "owt"];
-export const models = [
+const allModels = [
   {
     "id": "lm1b_duo_1024_nfe",
     "name": "Duo LM1B 1024-NFE",
@@ -13784,3 +13784,16 @@ export const models = [
     ]
   }
 ];
+
+const EXCLUDED_MODEL_IDS = new Set([
+  "owt_duo_base_1024_nfe",
+  "owt_flm_1024_nfe",
+  "owt_fmlm_1_nfe",
+  "owt_fmlm_4_nfe",
+  "owt_fmlm_32_nfe",
+  "owt_mdlm_1024_nfe",
+  "owt_sedd_1024_nfe",
+  "owt_v2_replaid_nosc_ddpm_1024_nfe",
+]);
+
+export const models = allModels.filter((model) => !EXCLUDED_MODEL_IDS.has(model.id));

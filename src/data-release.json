@@ -618,6 +618,7 @@
     },
     {
       "dataset": "owt",
+      "deployment_excluded": true,
       "family": "duo",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_duo_base_1024_nfe",
@@ -674,6 +675,7 @@
     },
     {
       "dataset": "owt",
+      "deployment_excluded": true,
       "family": "flm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_flm_1024_nfe",
@@ -730,6 +732,7 @@
     },
     {
       "dataset": "owt",
+      "deployment_excluded": true,
       "family": "fmlm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_fmlm_1_nfe",
@@ -786,6 +789,7 @@
     },
     {
       "dataset": "owt",
+      "deployment_excluded": true,
       "family": "fmlm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_fmlm_32_nfe",
@@ -842,6 +846,7 @@
     },
     {
       "dataset": "owt",
+      "deployment_excluded": true,
       "family": "fmlm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_fmlm_4_nfe",
@@ -954,6 +959,7 @@
     },
     {
       "dataset": "owt",
+      "deployment_excluded": true,
       "family": "mdlm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_mdlm_1024_nfe",
@@ -1122,6 +1128,7 @@
     },
     {
       "dataset": "owt",
+      "deployment_excluded": true,
       "family": "sedd",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_sedd_1024_nfe",
@@ -3306,6 +3313,7 @@
     },
     {
       "dataset": "owt",
+      "deployment_excluded": true,
       "family": "replaid",
       "generation_code_commit": null,
       "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
@@ -3643,16 +3651,33 @@
   ],
   "dataset_counts": {
     "lm1b": 8,
-    "owt": 57
+    "owt": 49
   },
-  "model_count": 65,
-  "release_id": "dlmbench-canonical-20260814-r2",
-  "sample_count": 2600,
+  "deployment_model_count": 57,
+  "deployment_sample_count": 2280,
+  "excluded_corpora": [
+    "owt_duo_base_1024_nfe",
+    "owt_flm_1024_nfe",
+    "owt_fmlm_1_nfe",
+    "owt_fmlm_32_nfe",
+    "owt_fmlm_4_nfe",
+    "owt_mdlm_1024_nfe",
+    "owt_sedd_1024_nfe",
+    "owt_v2_replaid_nosc_ddpm_1024_nfe"
+  ],
+  "model_count": 57,
+  "release_id": "dlmbench-canonical-20260814-r3",
+  "sample_count": 2280,
   "schema_version": "samplebench-data-release-v1",
   "selection": {
     "algorithm": "lowest SHA-256 ranks without replacement, then source-ID order",
     "samples_per_model": 40,
     "seed": "samplebench-dlmbench-canonical-20260814-r1"
   },
-  "source_type": "canonical_dlmbench_only"
+  "source_type": "canonical_dlmbench_only",
+  "source_corpus_count": 65,
+  "source_dataset_counts": {
+    "lm1b": 8,
+    "owt": 57
+  }
 }

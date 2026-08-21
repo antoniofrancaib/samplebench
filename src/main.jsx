@@ -10,18 +10,21 @@ const STORAGE_KEYS = {
   queuedVotes: 'samplebench:queued_votes',
   voteCount: 'samplebench:vote_count',
   dataset: 'samplebench:dataset',
+  consent: 'samplebench:consent-v1',
 };
 
 const APP_VERSION = `samplebench-web/${studyVersion}`;
-const RUBRIC_VERSION = 'preference-strength-v1';
+const RUBRIC_VERSION = 'categorical-overall-v1';
+const CONSENT_VERSION = 'study-consent-v1';
 
-/* 4 choices — matches arena.ai battle UX.
+/* Categorical choices for the blind study.
    On mobile the two middle choices collapse to icon-only buttons (image copy 2). */
 const CHOICES = [
   { value: 'left',     label: 'A is better',  key: 'a', icon: null },
   { value: 'tie',      label: 'Both are good', key: 't', icon: ArrowLeftRight },
   { value: 'both_bad', label: 'Both are bad',  key: 'n', icon: Ban },
   { value: 'right',    label: 'B is better',  key: 'b', icon: null },
+  { value: 'skip',     label: 'Skip',         key: 's', icon: null },
 ];
 
 const samplePool = models.flatMap((model) =>
@@ -61,7 +64,17 @@ function safeWriteJson(key, value) {
   try { window.localStorage.setItem(key, JSON.stringify(value)); } catch {}
 }
 function createId() {
-  return globalThis.crypto?.randomUUID?.() ?? `vote-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+  if (globalThis.crypto?.getRandomValues) {
+    const bytes = new Uint8Array(16);
+    globalThis.crypto.getRandomValues(bytes);
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    const hex = [...bytes].map((byte) => byte.toString(16).padStart(2, '0')).join('');
+    return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+  }
+  const random = () => Math.floor(Math.random() * 0xffffffff).toString(16).padStart(8, '0');
+  return `${random()}-${random().slice(0, 4)}-4${random().slice(0, 3)}-8${random().slice(0, 3)}-${random()}${random().slice(0, 4)}`;
 }
 function getVoterId() {
   try {
@@ -87,17 +100,34 @@ function getStoredDataset() {
 function setStoredDataset(dataset) {
   try { window.localStorage.setItem(STORAGE_KEYS.dataset, dataset); } catch {}
 }
+function hasAcceptedConsent() {
+  try { return window.localStorage.getItem(STORAGE_KEYS.consent) === CONSENT_VERSION; } catch { return false; }
+}
+function setAcceptedConsent() {
+  try { window.localStorage.setItem(STORAGE_KEYS.consent, CONSENT_VERSION); } catch {}
+}
 async function insertVote(row) {
-  const response = await fetch('/api/vote', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(row),
-  });
-  // 4xx = intentional rejection (dupe, rate-limit, bad input) — don't retry
-  if (response.status >= 400 && response.status < 500) return { queued: false };
-  // 5xx / network error → throw → caller queues for retry
-  if (!response.ok) throw new Error(`vote API ${response.status}`);
-  return { queued: false };
+  let response;
+  try {
+    response = await fetch('/api/vote', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(row),
+      keepalive: true,
+    });
+  } catch (error) {
+    error.retryable = true;
+    throw error;
+  }
+  let body = null;
+  try { body = await response.json(); } catch {}
+  if (!response.ok) {
+    const error = new Error(body?.error || `vote API ${response.status}`);
+    error.status = response.status;
+    error.retryable = response.status >= 500;
+    throw error;
+  }
+  return { duplicate: body?.duplicate === true };
 }
 
 function readQueuedVotes() { return safeReadJson(STORAGE_KEYS.queuedVotes, []); }
@@ -109,12 +139,15 @@ async function flushQueuedVotes() {
   if (!queued.length) return;
   const remaining = [];
   for (const vote of queued) {
-    try { await insertVote(vote); } catch (e) { console.error(e); remaining.push(vote); }
+    try {
+      await insertVote(vote);
+    } catch (e) {
+      console.error(e);
+      if (e.retryable) remaining.push(vote);
+    }
   }
   writeQueuedVotes(remaining);
 }
-
-function isBinaryChoice(choice) { return choice === 'left' || choice === 'right'; }
 
 function buildVoteRow({ pair, choice, voterId, responseTimeMs, voteNumber }) {
   const winner = choice === 'left' ? pair.left : choice === 'right' ? pair.right : null;
@@ -129,30 +162,17 @@ function buildVoteRow({ pair, choice, voterId, responseTimeMs, voteNumber }) {
     response_time_ms: responseTimeMs, app_version: APP_VERSION,
     payload: {
       vote_number: voteNumber, client_time: new Date().toISOString(),
-      study_version: studyVersion, dataset: pair.left.dataset,
-      page_url: window.location.href,
+      study_version: studyVersion, consent_version: CONSENT_VERSION,
+      dataset: pair.left.dataset,
       viewport: { width: window.innerWidth, height: window.innerHeight },
-      left: samplePayload(pair.left), right: samplePayload(pair.right),
-      winner: winner && samplePayload(winner), loser: loser && samplePayload(loser),
     },
-  };
-}
-
-function samplePayload(s) {
-  return {
-    model_id: s.modelId, model_name: s.modelName, sample_id: s.sampleId,
-    method: s.method, family: s.family, dataset: s.dataset, nfe: s.nfe,
-    sample_index: s.sampleIndex, source_id: s.sourceId,
   };
 }
 
 /* ── Reveal overlay ───────────────────────────────────────────── */
 function revealText(choice, lName, rName) {
-  if (choice === 'left')     return { headline: lName, sub: `is better than ${rName}` };
-  if (choice === 'right')    return { headline: rName, sub: `is better than ${lName}` };
-  if (choice === 'tie')      return { headline: 'Equally good', sub: `${lName} · ${rName}` };
-  if (choice === 'both_bad') return { headline: 'Both bad', sub: `${lName} · ${rName}` };
-  return null;
+  if (choice === 'skip') return { headline: 'Skipped', sub: 'This comparison will not affect the ranking' };
+  return { headline: 'Recorded', sub: 'Loading the next comparison' };
 }
 
 function RevealOverlay({ reveal, fading }) {
@@ -221,31 +241,94 @@ function App() {
     window.history.pushState(null, '', to);
     setPath(to);
   }
-  if (path.startsWith('/leaderboard')) return <LeaderboardPage onNavigate={navigate} />;
-  if (path.startsWith('/samples/')) return <SamplesModelPage modelId={path.slice('/samples/'.length)} onNavigate={navigate} />;
-  if (path === '/samples') return <SamplesIndexPage onNavigate={navigate} />;
-  return <VotePage onNavigate={navigate} />;
+  if (path.startsWith('/leaderboard')) return <CollectionClosedPage kind="leaderboard" />;
+  if (path.startsWith('/samples')) return <CollectionClosedPage kind="samples" />;
+  return <VotePage />;
 }
 
-function VotePage({ onNavigate }) {
+function StudyConsentPage({ onAccept }) {
+  return (
+    <main className="min-h-dvh bg-background px-5 py-10">
+      <section className="mx-auto flex max-w-xl flex-col gap-6 rounded-2xl border border-border bg-card p-6 shadow-sm md:p-9">
+        <div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/55">SampleBench</p>
+          <h1 className="mt-3 text-2xl font-semibold tracking-tight text-foreground">Blind text comparison</h1>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">
+            This is an exploratory human-preference study of generated text. You will see two anonymized samples and choose the one that is better overall.
+          </p>
+        </div>
+        <div className="space-y-3 text-sm leading-6 text-muted-foreground">
+          <p><span className="font-medium text-foreground">Judge:</span> readability, coherence, naturalness, and overall quality. Choose “Both are good” only when they are indistinguishable, “Both are bad” when neither is acceptable, or “Skip” when you cannot make a fair comparison.</p>
+          <p><span className="font-medium text-foreground">What is recorded:</span> your categorical choice, the displayed sample/model identifiers, response time, dataset, viewport size, and a pseudonymous device session ID. No account or free-text response is required.</p>
+          <p><span className="font-medium text-foreground">Please note:</span> generated text can contain offensive, disturbing, or personal-data-like material. Do not enter personal information; you can stop at any time.</p>
+          <p><span className="font-medium text-foreground">Data handling:</span> raw votes are retained only for study analysis and will be aggregated or deleted when the collection is complete. Questions or deletion requests can be sent to <a className="underline underline-offset-2" href="mailto:antoniofrancaib@gmail.com">the study organizer</a>.</p>
+          <p className="text-xs text-muted-foreground/70">Results are exploratory and may be affected by sampling and participant bias. The collection is voluntary and intended for research feedback, not diagnosis or evaluation of people.</p>
+        </div>
+        <button
+          type="button"
+          onClick={onAccept}
+          className="rounded-lg bg-primary px-4 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+        >
+          I understand and want to participate
+        </button>
+        <p className="text-[11px] leading-5 text-muted-foreground/55">By continuing, you acknowledge this notice and consent to the limited anonymous study data described above.</p>
+      </section>
+    </main>
+  );
+}
+
+function CollectionClosedPage({ kind }) {
+  const isLeaderboard = kind === 'leaderboard';
+  return (
+    <main className="min-h-dvh bg-background px-5 py-10">
+      <section className="mx-auto flex max-w-xl flex-col gap-4 rounded-2xl border border-border bg-card p-6 shadow-sm md:p-9">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/55">SampleBench</p>
+        <h1 className="text-xl font-semibold text-foreground">{isLeaderboard ? 'Results are not public yet' : 'Sample browser is closed during collection'}</h1>
+        <p className="text-sm leading-6 text-muted-foreground">
+          {isLeaderboard
+            ? 'The study keeps interim rankings hidden to avoid anchoring participants. Results can be opened after the collection window closes.'
+            : 'The study keeps model identities and the full catalog hidden while responses are being collected so the comparison stays blind.'}
+        </p>
+        <a href="/" className="w-fit rounded-lg border border-border px-4 py-2 text-sm text-foreground/75 hover:bg-accent">Return to study</a>
+      </section>
+    </main>
+  );
+}
+
+function VotePage() {
   const isDesktop        = useMediaQuery('(min-width: 768px)');
   const [voterId]        = useState(getVoterId);
   const [dataset, setDataset] = useState(getStoredDataset);
   const [pair, setPair]  = useState(() => createPair(null, getStoredDataset()));
   const [voteCount, setVoteCount] = useState(getVoteCount);
+  const [consentAccepted, setConsentAcceptedState] = useState(hasAcceptedConsent);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lastChoice, setLastChoice] = useState(null);
   const [reveal, setReveal] = useState(null);   // { pair, choice }
   const [revealFading, setRevealFading] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  const [queuedNotice, setQueuedNotice] = useState(false);
   const startedAt = useRef(performance.now());
 
   useEffect(() => {
-    flushQueuedVotes().catch(console.error);
+    if (!consentAccepted) return undefined;
+    const flush = () => flushQueuedVotes().catch(console.error);
+    flush();
+    window.addEventListener('online', flush);
+    return () => window.removeEventListener('online', flush);
+  }, [consentAccepted]);
+
+  const acceptConsent = useCallback(() => {
+    setAcceptedConsent();
+    setConsentAcceptedState(true);
+    startedAt.current = performance.now();
   }, []);
 
   const advancePair = useCallback((currentPairId) => {
     setPair(createPair(currentPairId, dataset));
     setLastChoice(null);
+    setSubmitError(null);
+    setQueuedNotice(false);
     startedAt.current = performance.now();
   }, [dataset]);
 
@@ -272,10 +355,12 @@ function VotePage({ onNavigate }) {
     return () => { clearTimeout(fadeId); clearTimeout(advanceId); };
   }, [reveal, advancePair]);
 
-  const submitChoice = useCallback((choiceValue) => {
-    if (!pair || isSubmitting) return;
+  const submitChoice = useCallback(async (choiceValue) => {
+    if (!pair || isSubmitting || !consentAccepted) return;
     setIsSubmitting(true);
     setLastChoice(choiceValue);
+    setSubmitError(null);
+    setQueuedNotice(false);
     const capturedPair = pair;
     const nextCount = voteCount + 1;
     const row = buildVoteRow({
@@ -283,23 +368,41 @@ function VotePage({ onNavigate }) {
       voteNumber: nextCount,
       responseTimeMs: Math.max(0, Math.round(performance.now() - startedAt.current)),
     });
-    setStoredVoteCount(nextCount);
-    setVoteCount(nextCount);
-    insertVote(row).catch(() => { queueVote(row); });
-    setReveal({ pair: capturedPair, choice: choiceValue });
-  }, [isSubmitting, pair, voteCount, voterId]);
+    try {
+      await insertVote(row);
+      setStoredVoteCount(nextCount);
+      setVoteCount(nextCount);
+      setReveal({ pair: capturedPair, choice: choiceValue });
+    } catch (error) {
+      if (error.retryable) {
+        queueVote(row);
+        setStoredVoteCount(nextCount);
+        setVoteCount(nextCount);
+        setQueuedNotice(true);
+        setReveal({ pair: capturedPair, choice: choiceValue });
+      } else {
+        setLastChoice(null);
+        setIsSubmitting(false);
+        setSubmitError(error.status === 422
+          ? 'Please read both samples before choosing. The comparison was not recorded.'
+          : 'The comparison was not recorded. Please try again.');
+      }
+    }
+  }, [consentAccepted, isSubmitting, pair, voteCount, voterId]);
 
   useEffect(() => {
     function onKey(e) {
       if (e.target.matches('input,textarea,[contenteditable]')) return;
       if (isSubmitting || e.metaKey || e.ctrlKey || e.altKey) return;
-      const map = { a: 'left', t: 'tie', n: 'both_bad', b: 'right' };
+      const map = { a: 'left', t: 'tie', n: 'both_bad', b: 'right', s: 'skip' };
       const v = map[e.key?.toLowerCase()];
       if (v) { e.preventDefault(); submitChoice(v); }
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [isSubmitting, submitChoice]);
+
+  if (!consentAccepted) return <StudyConsentPage onAccept={acceptConsent} />;
 
   if (!pair) {
     return (
@@ -313,6 +416,9 @@ function VotePage({ onNavigate }) {
     <main className="h-dvh flex flex-col overflow-hidden bg-background">
       <div className="flex flex-col flex-1 items-center justify-center w-full px-3 md:px-10 lg:px-16">
         <div className="flex flex-col w-full max-w-[1480px] gap-5 md:gap-6">
+          <div className="mx-auto max-w-2xl text-center text-[12px] leading-5 text-muted-foreground/60">
+            Choose the better sample overall for readability, coherence, naturalness, and quality. On mobile, swipe to view both samples before responding.
+          </div>
           {isDesktop ? (
             <DesktopDeck pair={pair} />
           ) : (
@@ -325,24 +431,15 @@ function VotePage({ onNavigate }) {
             isSubmitting={isSubmitting}
             onPick={submitChoice}
           />
+          {submitError && <p role="alert" className="text-center text-xs text-destructive/80">{submitError}</p>}
+          {queuedNotice && <p role="status" className="text-center text-xs text-muted-foreground/70">Saved locally and will retry when the connection is available.</p>}
         </div>
       </div>
       <RevealOverlay reveal={reveal} fading={revealFading} />
       <div className="fixed top-3 left-3 z-40">
         <DatasetToggle value={dataset} onChange={changeDataset} disabled={isSubmitting} />
       </div>
-      <nav className="fixed top-3 right-3 z-40 flex items-center gap-3">
-        {[['Samples', '/samples'], ['Leaderboard', '/leaderboard']].map(([label, href]) => (
-          <a
-            key={href}
-            href={href}
-            onClick={(e) => { e.preventDefault(); onNavigate(href); }}
-            className="text-[11px] text-muted-foreground/40 hover:text-muted-foreground transition-colors select-none"
-          >
-            {label} →
-          </a>
-        ))}
-      </nav>
+      <div className="fixed top-3 right-3 z-40 text-[10px] text-muted-foreground/45">Blind study</div>
     </main>
   );
 }
@@ -488,7 +585,7 @@ function CopyButton({ text }) {
   );
 }
 
-/* ── Choices — 4 text pills on desktop, compact icons on mobile ── */
+/* ── Choices — text pills on desktop, compact icons on mobile ── */
 function Choices({ isDesktop, lastChoice, isSubmitting, onPick }) {
   if (isDesktop) {
     return (

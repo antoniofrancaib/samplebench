@@ -12,11 +12,26 @@ from pathlib import Path
 # Keep the r1 selection seed so adding one corpus does not reshuffle the 64
 # previously deployed model subsets. The study version changes because the UI
 # now presents complete texts instead of truncated excerpts.
-RELEASE_ID = "dlmbench-canonical-20260814-r2"
+RELEASE_ID = "dlmbench-canonical-20260814-r3"
 RELEASE_SEED = "samplebench-dlmbench-canonical-20260814-r1"
 SAMPLES_PER_MODEL = 40
-EXPECTED_DATASETS = {"lm1b": 8, "owt": 57}
+EXPECTED_SOURCE_DATASETS = {"lm1b": 8, "owt": 57}
 EXPECTED_FILES = {"samples.jsonl", "manifest.json", "checksums.sha256"}
+
+# These legacy IDs are byte-identical aliases of the corresponding v2 slots.
+# Keeping both would create self-distribution battles and double-count one
+# corpus family in the public study. The source corpora remain canonical and
+# are recorded as excluded from this deployment release.
+EXCLUDED_CORPORA = {
+    "owt_duo_base_1024_nfe",
+    "owt_flm_1024_nfe",
+    "owt_fmlm_1_nfe",
+    "owt_fmlm_4_nfe",
+    "owt_fmlm_32_nfe",
+    "owt_mdlm_1024_nfe",
+    "owt_sedd_1024_nfe",
+    "owt_v2_replaid_nosc_ddpm_1024_nfe",
+}
 
 
 def sha256_file(path: Path) -> str:
@@ -155,15 +170,20 @@ def main() -> int:
     models: list[dict] = []
     records: list[dict] = []
     observed: dict[str, int] = {}
-    for dataset, expected_count in EXPECTED_DATASETS.items():
+    source_observed: dict[str, int] = {}
+    for dataset, expected_count in EXPECTED_SOURCE_DATASETS.items():
         dataset_root = args.source / dataset
         corpus_dirs = sorted(path for path in dataset_root.iterdir() if path.is_dir())
         if len(corpus_dirs) != expected_count:
             raise ValueError(f"{dataset_root}: expected {expected_count} corpora, found {len(corpus_dirs)}")
-        observed[dataset] = len(corpus_dirs)
+        source_observed[dataset] = len(corpus_dirs)
+        observed[dataset] = sum(path.name not in EXCLUDED_CORPORA for path in corpus_dirs)
         for corpus_dir in corpus_dirs:
             model, record = load_corpus(corpus_dir, dataset)
-            models.append(model)
+            if corpus_dir.name in EXCLUDED_CORPORA:
+                record["deployment_excluded"] = True
+            else:
+                models.append(model)
             records.append(record)
 
     models.sort(key=lambda model: (model["dataset"], model["id"]))
@@ -175,7 +195,7 @@ def main() -> int:
         "// Generated from canonical dLMbench corpora. Do not edit by hand.\n"
         f"export const checkpointFamilies = {json.dumps(families, ensure_ascii=False)};\n"
         f"export const studyVersion = {json.dumps(RELEASE_ID)};\n"
-        f"export const availableDatasets = {json.dumps(sorted(EXPECTED_DATASETS))};\n"
+        f"export const availableDatasets = {json.dumps(sorted(EXPECTED_SOURCE_DATASETS))};\n"
         "export const models = "
         + json.dumps(models, ensure_ascii=False, indent=2)
         + ";\n"
@@ -190,7 +210,12 @@ def main() -> int:
             "seed": RELEASE_SEED,
             "samples_per_model": SAMPLES_PER_MODEL,
         },
+        "excluded_corpora": sorted(EXCLUDED_CORPORA),
         "dataset_counts": observed,
+        "source_dataset_counts": source_observed,
+        "source_corpus_count": len(records),
+        "deployment_model_count": len(models),
+        "deployment_sample_count": sum(len(model["samples"]) for model in models),
         "model_count": len(models),
         "sample_count": sum(len(model["samples"]) for model in models),
         "corpora": records,

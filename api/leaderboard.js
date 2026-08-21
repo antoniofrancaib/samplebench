@@ -1,16 +1,25 @@
 import { getSupabaseConfig } from '../server/supabase.js';
+import { ACTIVE_CATALOG_VERSION, getCatalogEntry } from '../server/catalog.js';
 
-const ACTIVE_APP_VERSION = 'samplebench-web/dlmbench-canonical-20260814-r2';
+const ACTIVE_APP_VERSION = `samplebench-web/${ACTIVE_CATALOG_VERSION}`;
 const VALID_DATASETS = new Set(['lm1b', 'owt']);
+const PUBLIC_RESULTS_ENABLED = process.env.PUBLIC_RESULTS_ENABLED === 'true';
+const PAGE_SIZE = 1000;
+const MAX_ROWS = 100_000;
 
 function json(response, data, status = 200, headers = {}) {
   response.statusCode = status;
   response.setHeader('Content-Type', 'application/json');
+  response.setHeader('Cache-Control', 'no-store');
   for (const [name, value] of Object.entries(headers)) response.setHeader(name, value);
   response.end(JSON.stringify(data));
 }
 
 export default async function handler(request, response) {
+  if (!PUBLIC_RESULTS_ENABLED) {
+    return json(response, { error: 'results unavailable while collection is open' }, 404);
+  }
+
   const supabase = getSupabaseConfig();
   if (!supabase) return json(response, { error: 'service not configured' }, 503);
 
@@ -21,30 +30,32 @@ export default async function handler(request, response) {
     apikey: supabase.serviceKey,
     Authorization: `Bearer ${supabase.serviceKey}`,
   };
+  const rows = [];
 
-  const ROW_CAP = 20000;
-  let rows;
   try {
-    const res = await fetch(
-      `${supabase.baseUrl}/rest/v1/sample_votes` +
-        `?select=winner_model_id,loser_model_id,left_model_id,right_model_id,choice` +
-        `&app_version=eq.${encodeURIComponent(ACTIVE_APP_VERSION)}` +
-        `&limit=${ROW_CAP}`,
-      { headers },
-    );
-    if (!res.ok) {
-      console.error('Supabase leaderboard request failed', res.status);
-      return json(response, { error: 'upstream error' }, 502);
+    for (let offset = 0; offset < MAX_ROWS; offset += PAGE_SIZE) {
+      const res = await fetch(
+        `${supabase.baseUrl}/rest/v1/sample_votes` +
+          `?select=winner_model_id,loser_model_id,left_model_id,right_model_id,choice` +
+          `&app_version=eq.${encodeURIComponent(ACTIVE_APP_VERSION)}` +
+          `&limit=${PAGE_SIZE}&offset=${offset}`,
+        { headers },
+      );
+      if (!res.ok) {
+        console.error('Supabase leaderboard request failed', res.status);
+        return json(response, { error: 'upstream error' }, 502);
+      }
+      const page = await res.json();
+      if (!Array.isArray(page)) return json(response, { error: 'invalid upstream response' }, 502);
+      rows.push(...page);
+      if (page.length < PAGE_SIZE) break;
+      if (rows.length >= MAX_ROWS) {
+        console.error('leaderboard row cap reached');
+        return json(response, { error: 'leaderboard too large' }, 503);
+      }
     }
-    rows = await res.json();
   } catch (error) {
-    const cause = error instanceof Error ? error.cause : null;
-    console.error('Supabase leaderboard fetch failed', {
-      name: error instanceof Error ? error.name : typeof error,
-      message: error instanceof Error ? error.message : String(error),
-      causeCode: cause && typeof cause === 'object' && 'code' in cause ? cause.code : null,
-      causeMessage: cause instanceof Error ? cause.message : null,
-    });
+    console.error('Supabase leaderboard fetch failed', error);
     return json(response, { error: 'fetch failed' }, 502);
   }
 
@@ -55,9 +66,11 @@ export default async function handler(request, response) {
     return stats.get(id);
   }
 
-  const datasetRows = rows.filter(({ left_model_id, right_model_id }) =>
-    left_model_id?.startsWith(`${dataset}_`) && right_model_id?.startsWith(`${dataset}_`)
-  );
+  const datasetRows = rows.filter(({ left_model_id, right_model_id }) => {
+    const left = getCatalogEntry(left_model_id);
+    const right = getCatalogEntry(right_model_id);
+    return left?.dataset === dataset && right?.dataset === dataset && left_model_id !== right_model_id;
+  });
 
   for (const { winner_model_id, loser_model_id, left_model_id, right_model_id, choice } of datasetRows) {
     if (choice === 'left' || choice === 'right') {
@@ -76,9 +89,10 @@ export default async function handler(request, response) {
   }
 
   const models = [...stats.values()]
-    .map((m) => ({
-      ...m,
-      win_rate: m.wins + m.losses > 0 ? m.wins / (m.wins + m.losses) : null,
+    .map((model) => ({
+      ...model,
+      decisive_votes: model.wins + model.losses,
+      win_rate: model.wins + model.losses > 0 ? model.wins / (model.wins + model.losses) : null,
     }))
     .sort((a, b) => {
       if (a.win_rate === null && b.win_rate === null) return b.battles - a.battles;
