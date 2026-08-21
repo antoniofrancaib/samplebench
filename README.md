@@ -25,7 +25,8 @@ The production build is written to `dist/`.
 ## Repository layout
 
 - `src/`: React and Vite frontend.
-- `src/data.js`: committed deployment snapshot of model metadata and curated samples.
+- `src/data-public.js`: blinded client bundle containing opaque sample/group IDs and curated text.
+- `src/data.js`, `server/catalog.js`: server-side release metadata and the opaque-ID-to-model join.
 - `api/`: Vercel functions for votes and the leaderboard.
 - `server/`: shared Supabase configuration.
 - `supabase.sql`: database schema.
@@ -41,17 +42,20 @@ Public leaderboard results remain disabled unless
 `PUBLIC_RESULTS_ENABLED=true` is explicitly set after the collection window
 closes.
 
-Updating `src/data.js` is an explicit website-data release. The committed
+Updating the catalog is an explicit website-data release. The committed
 `scripts/build_catalog.py` command validates the canonical dLMbench corpus
-contract and deterministically selects the deployment snapshot. Commit both
-`src/data.js` and `src/data-release.json` for every release.
+contract, applies the deterministic public-safety screen, and selects the
+deployment snapshot by hash. Commit `src/data-public.js`, `src/data.js`,
+`server/catalog.js`, and `src/data-release.json` for every release. Model
+identity stays server-side while collection is open; the automated screen is a
+conservative first pass and still requires human review of the selected text
+before public recruitment.
 
-The active r3 release excludes seven byte-identical legacy OWT aliases and
-the author-provided RePlaid export, whose seed/checkpoint and token-length
-limitations make it unsuitable for this blinded replication pool. The
-excluded source corpora remain recorded in `src/data-release.json`; they must
-not be reintroduced into a human-comparison release without a new study
-version and review.
+The active r4 release contains 57 models and 2,280 samples (40 per model):
+8 LM1B models and 49 OWT models. It excludes eight byte-identical or
+exploratory OWT/LM1B directories and records all 65 inspected source corpora in
+`src/data-release.json`. The excluded corpora must not be reintroduced into a
+human-comparison release without a new study version and review.
 
 The post-collection comparison and sample-browser views render each selected decoded text in
 full. Whitespace, special-token strings, and decoding artifacts are preserved;

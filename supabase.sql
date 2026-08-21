@@ -46,7 +46,10 @@ drop policy if exists "sample_votes_insert_anon" on public.sample_votes;
 
 -- Votes are accepted only by the server function, which validates the active
 -- catalog and sanitizes the payload before using the service role.
-revoke insert on public.sample_votes from anon, authenticated;
+-- The browser never talks to PostgREST directly. Remove all table grants from
+-- public-facing roles; the server uses the service role key. RLS remains
+-- enabled with no public policies as a second deny-by-default boundary.
+revoke all privileges on public.sample_votes from anon, authenticated, public;
 
 create index if not exists sample_votes_created_at_idx on public.sample_votes (created_at desc);
 create index if not exists sample_votes_battle_id_idx on public.sample_votes (battle_id);

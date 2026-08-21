@@ -39,8 +39,9 @@ git -C "${REPO_ROOT}" show "${COMMIT}:scripts/build_catalog.py" > "${JOB_ROOT}/s
 cp -R --no-preserve=mode,ownership,timestamps "${SOURCE_ROOT}/." "${JOB_ROOT}/canonical/"
 /usr/bin/python3 "${JOB_ROOT}/source/build_catalog.py" \
   --source "${JOB_ROOT}/canonical" \
-  --output "${JOB_ROOT}/output"
-tar -C "${JOB_ROOT}/output" -czf "${JOB_ROOT}/catalog-release.tar.gz" data.js data-release.json
+  --output "${JOB_ROOT}/output" \
+  --server-output "${JOB_ROOT}/output/catalog.js"
+tar -C "${JOB_ROOT}/output" -czf "${JOB_ROOT}/catalog-release.tar.gz" data.js data-public.js data-release.json catalog.js
 cp "${JOB_ROOT}/catalog-release.tar.gz" "${RESULT_ARCHIVE}"
 sha256sum "${RESULT_ARCHIVE}"
 cleanup

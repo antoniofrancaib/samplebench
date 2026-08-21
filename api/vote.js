@@ -1,8 +1,7 @@
 import { getSupabaseConfig } from '../server/supabase.js';
 import {
   ACTIVE_CATALOG_VERSION,
-  getCatalogEntry,
-  isCatalogSample,
+  getCatalogSample,
 } from '../server/catalog.js';
 
 const VALID_CHOICES = new Set(['left', 'right', 'tie', 'both_bad', 'skip']);
@@ -57,7 +56,7 @@ export const config = { runtime: 'edge' };
 
 export default async function handler(request) {
   const origin = request.headers.get('origin');
-  if (origin && origin !== PRODUCTION_ORIGIN) return json({ error: 'origin not allowed' }, 403);
+  if (origin !== PRODUCTION_ORIGIN) return json({ error: 'origin not allowed' }, 403);
   if (request.method === 'OPTIONS') return new Response(null, { status: 204 });
   if (request.method !== 'POST') return json({ error: 'method not allowed' }, 405);
 
@@ -69,16 +68,20 @@ export default async function handler(request) {
   }
   if (!isRecord(body)) return json({ error: 'invalid body' }, 400);
 
+  // Model identity is derived server-side from opaque sample tokens. Reject
+  // legacy/client-supplied model fields so the public bundle cannot influence
+  // the analytical join or accidentally reintroduce unblinding.
+  for (const field of ['winner_model_id', 'loser_model_id', 'left_model_id', 'right_model_id']) {
+    if (Object.prototype.hasOwnProperty.call(body, field))
+      return json({ error: 'model metadata must be omitted' }, 400);
+  }
+
   const {
     session_id,
     battle_id,
     choice,
     preference_strength = null,
     rubric_version,
-    winner_model_id = null,
-    loser_model_id = null,
-    left_model_id,
-    right_model_id,
     left_sample_id,
     right_sample_id,
     response_time_ms,
@@ -103,37 +106,25 @@ export default async function handler(request) {
     return json({ error: 'invalid payload' }, 400);
 
   const ids = [
-    ['left_model_id', left_model_id], ['right_model_id', right_model_id],
     ['left_sample_id', left_sample_id], ['right_sample_id', right_sample_id],
   ];
   for (const [name, value] of ids) {
     if (typeof value !== 'string' || value.length === 0 || value.length > 160)
       return json({ error: `invalid ${name}` }, 400);
   }
-  for (const [name, value] of [['winner_model_id', winner_model_id], ['loser_model_id', loser_model_id]]) {
-    if (value !== null && (typeof value !== 'string' || value.length > 160))
-      return json({ error: `invalid ${name}` }, 400);
-  }
-
   const dataset = payload.dataset;
   if (!VALID_DATASETS.has(dataset) || payload.study_version !== ACTIVE_CATALOG_VERSION ||
       payload.consent_version !== CONSENT_VERSION)
     return json({ error: 'invalid study metadata' }, 400);
 
-  const leftModel = getCatalogEntry(left_model_id);
-  const rightModel = getCatalogEntry(right_model_id);
-  if (!leftModel || !rightModel || leftModel.dataset !== dataset || rightModel.dataset !== dataset ||
-      left_model_id === right_model_id)
+  const leftSample = getCatalogSample(left_sample_id);
+  const rightSample = getCatalogSample(right_sample_id);
+  if (!leftSample || !rightSample || leftSample.dataset !== dataset || rightSample.dataset !== dataset ||
+      leftSample.modelId === rightSample.modelId)
     return json({ error: 'invalid model pairing' }, 400);
-  if (!isCatalogSample(left_model_id, left_sample_id) || !isCatalogSample(right_model_id, right_sample_id))
-    return json({ error: 'sample is not in active catalog' }, 400);
   if (battle_id !== `${left_sample_id}__${right_sample_id}`)
     return json({ error: 'battle_id does not match samples' }, 400);
 
-  const expectedWinner = choice === 'left' ? left_model_id : choice === 'right' ? right_model_id : null;
-  const expectedLoser = choice === 'left' ? right_model_id : choice === 'right' ? left_model_id : null;
-  if (winner_model_id !== expectedWinner || loser_model_id !== expectedLoser)
-    return json({ error: 'winner metadata does not match choice' }, 400);
   if (response_time_ms < MIN_DWELL_MS) return json({ error: 'dwell time too short' }, 422);
 
   const storedPayload = sanitizePayload(payload, dataset);
@@ -171,9 +162,14 @@ export default async function handler(request) {
     return json({ error: 'service unavailable' }, 503);
   }
 
+  const left_model_id = leftSample.modelId;
+  const right_model_id = rightSample.modelId;
+  const winner_model_id = choice === 'left' ? left_model_id : choice === 'right' ? right_model_id : null;
+  const loser_model_id = choice === 'left' ? right_model_id : choice === 'right' ? left_model_id : null;
+  const canonicalBattleId = [left_sample_id, right_sample_id].sort().join('__');
   const row = {
     session_id,
-    battle_id,
+    battle_id: canonicalBattleId,
     choice,
     preference_strength: null,
     rubric_version,

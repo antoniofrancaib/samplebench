@@ -62,7 +62,18 @@ export default async function handler(request, response) {
   const stats = new Map();
   function get(id) {
     if (!id) return null;
-    if (!stats.has(id)) stats.set(id, { model_id: id, wins: 0, losses: 0, ties: 0, both_bad: 0, battles: 0 });
+    if (!stats.has(id)) {
+      const catalog = getCatalogEntry(id);
+      stats.set(id, {
+        model_id: id,
+        model_name: catalog?.label ?? 'Model',
+        wins: 0,
+        losses: 0,
+        ties: 0,
+        both_bad: 0,
+        battles: 0,
+      });
+    }
     return stats.get(id);
   }
 

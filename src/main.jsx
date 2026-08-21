@@ -1,9 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { availableDatasets, models, studyVersion } from './data.js';
+import { availableDatasets, samples, studyVersion } from './data-public.js';
 import './index.css';
 import { cn } from '@/lib/utils';
 import { ArrowLeftRight, Ban, ChevronRight, Copy, Check } from 'lucide-react';
+
+// Model metadata is intentionally absent from the public bundle. The legacy
+// closed-results components below remain unreachable while collection is open
+// and must never become a source of model identities in the voting UI.
+const models = [];
 
 const STORAGE_KEYS = {
   voterId: 'samplebench:voter_id',
@@ -27,13 +32,9 @@ const CHOICES = [
   { value: 'skip',     label: 'Skip',         key: 's', icon: null },
 ];
 
-const samplePool = models.flatMap((model) =>
-  (model.samples || []).map((sample, sampleIndex) => ({
-    modelId: model.id, modelName: model.name, method: model.method,
-    family: model.family, dataset: model.dataset, nfe: model.nfe, sampleId: sample.id,
-    sourceId: sample.sourceId, sampleIndex, text: sample.text,
-  })),
-).filter((s) => s.text);
+const samplePool = samples
+  .filter((sample) => sample.text)
+  .map((sample) => ({ ...sample, sampleId: sample.id }));
 
 function getRandomIndex(max) {
   if (max <= 1) return 0;
@@ -52,7 +53,15 @@ function createPair(previousPairId, dataset) {
     const l = pool[getRandomIndex(pool.length)];
     const r = pool[getRandomIndex(pool.length)];
     const id = `${l.sampleId}__${r.sampleId}`;
-    if (l.modelId !== r.modelId && id !== previousPairId) { left = l; right = r; break; }
+    if (l.group !== r.group && id !== previousPairId) { left = l; right = r; break; }
+  }
+  // Keep the API from seeing a rare same-model pair if all random attempts
+  // happened to miss the valid-pair condition.
+  const pairId = `${left.sampleId}__${right.sampleId}`;
+  if (left.group === right.group || pairId === previousPairId) {
+    left = pool[0];
+    right = pool.find((sample) => sample.group !== left.group && `${left.sampleId}__${sample.sampleId}` !== previousPairId);
+    if (!right) return null;
   }
   return { id: `${left.sampleId}__${right.sampleId}`, left, right };
 }
@@ -150,14 +159,10 @@ async function flushQueuedVotes() {
 }
 
 function buildVoteRow({ pair, choice, voterId, responseTimeMs, voteNumber }) {
-  const winner = choice === 'left' ? pair.left : choice === 'right' ? pair.right : null;
-  const loser  = choice === 'left' ? pair.right : choice === 'right' ? pair.left : null;
   return {
     session_id: voterId, battle_id: pair.id, choice,
     preference_strength: null,
     rubric_version: RUBRIC_VERSION,
-    winner_model_id: winner?.modelId ?? null, loser_model_id: loser?.modelId ?? null,
-    left_model_id: pair.left.modelId, right_model_id: pair.right.modelId,
     left_sample_id: pair.left.sampleId, right_sample_id: pair.right.sampleId,
     response_time_ms: responseTimeMs, app_version: APP_VERSION,
     payload: {
@@ -170,7 +175,7 @@ function buildVoteRow({ pair, choice, voterId, responseTimeMs, voteNumber }) {
 }
 
 /* ── Reveal overlay ───────────────────────────────────────────── */
-function revealText(choice, lName, rName) {
+function revealText(choice) {
   if (choice === 'skip') return { headline: 'Skipped', sub: 'This comparison will not affect the ranking' };
   return { headline: 'Recorded', sub: 'Loading the next comparison' };
 }
@@ -190,7 +195,7 @@ function RevealOverlay({ reveal, fading }) {
   if (!reveal) return null;
   const visible = shown && !fading;
   const { pair, choice } = reveal;
-  const txt = revealText(choice, pair.left.modelName, pair.right.modelName);
+  const txt = revealText(choice);
   if (!txt) return null;
 
   return (
@@ -259,7 +264,7 @@ function StudyConsentPage({ onAccept }) {
         </div>
         <div className="space-y-3 text-sm leading-6 text-muted-foreground">
           <p><span className="font-medium text-foreground">Judge:</span> readability, coherence, naturalness, and overall quality. Choose “Both are good” only when they are indistinguishable, “Both are bad” when neither is acceptable, or “Skip” when you cannot make a fair comparison.</p>
-          <p><span className="font-medium text-foreground">What is recorded:</span> your categorical choice, the displayed sample/model identifiers, response time, dataset, viewport size, and a pseudonymous device session ID. No account or free-text response is required.</p>
+          <p><span className="font-medium text-foreground">What is recorded:</span> your categorical choice, the displayed opaque sample identifiers, response time, dataset, viewport size, and a pseudonymous device session ID. Model identity is joined server-side for analysis. No account or free-text response is required.</p>
           <p><span className="font-medium text-foreground">Please note:</span> generated text can contain offensive, disturbing, or personal-data-like material. Do not enter personal information; you can stop at any time.</p>
           <p><span className="font-medium text-foreground">Data handling:</span> raw votes are retained only for study analysis and will be aggregated or deleted when the collection is complete. Questions or deletion requests can be sent to <a className="underline underline-offset-2" href="mailto:antoniofrancaib@gmail.com">the study organizer</a>.</p>
           <p className="text-xs text-muted-foreground/70">Results are exploratory and may be affected by sampling and participant bias. The collection is voluntary and intended for research feedback, not diagnosis or evaluation of people.</p>
@@ -848,8 +853,7 @@ function LeaderboardPage({ onNavigate }) {
   };
 
   const rows = (data?.models ?? []).map((m) => {
-    const model = models.find((x) => x.id === m.model_id);
-    return { ...m, label: model?.name ?? m.model_id };
+    return { ...m, label: m.model_name ?? 'Model' };
   });
 
   return (
