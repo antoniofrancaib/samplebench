@@ -3,7 +3,8 @@ import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import test from 'node:test';
 
-const { models, studyVersion, availableCohorts } = await import('../src/data.js');
+const dataModule = await import('../src/data.js');
+const { models, studyVersion } = dataModule;
 const { samples, availableDatasets } = await import('../src/data-public.js');
 const release = JSON.parse(fs.readFileSync(new URL('../src/data-release.json', import.meta.url), 'utf8'));
 const evidenceBytes = fs.readFileSync(new URL('./arm-evidence-r5.json', import.meta.url));
@@ -18,16 +19,18 @@ test('reviewed release is balanced, safe-screened, opaque, and server-bound', ()
   assert.equal(studyVersion, ACTIVE_CATALOG_VERSION);
   assert.equal(release.release_id, ACTIVE_CATALOG_VERSION);
   assert.deepEqual(availableDatasets, ['lm1b', 'owt']);
-  assert.deepEqual(availableCohorts, ['efficiency', 'primary']);
-  assert.equal(models.length, 48);
-  assert.equal(samples.length, 1920);
-  assert.equal(models.reduce((total, model) => total + model.samples.length, 0), 1920);
+  assert.equal('availableCohorts' in dataModule, false);
+  assert.equal('cohortLabels' in dataModule, false);
+  assert.equal(models.length, 24);
+  assert.equal(samples.length, 960);
+  assert.equal(models.reduce((total, model) => total + model.samples.length, 0), 960);
   assert.equal(CATALOG.size, models.length);
-  assert.deepEqual(release.dataset_counts, { lm1b: 8, owt: 40 });
+  assert.deepEqual(release.dataset_counts, { lm1b: 7, owt: 17 });
   assert.deepEqual(release.source_dataset_counts, { lm1b: 9, owt: 57 });
-  assert.deepEqual(release.cohort_model_counts, { efficiency: 35, primary: 24 });
+  assert.deepEqual(release.cohort_model_counts, { primary: 24 });
+  assert.deepEqual(Object.keys(release.cohorts), ['primary']);
   assert.equal(release.source_corpus_count, 66);
-  assert.equal(release.corpora.filter((corpus) => corpus.deployment_excluded === true).length, 18);
+  assert.equal(release.corpora.filter((corpus) => corpus.deployment_excluded === true).length, 42);
   assert.equal(release.selection.safety_policy, 'samplebench-public-safety-v1');
   assert.equal(
     release.arm_evidence_sha256,
@@ -65,7 +68,7 @@ test('reviewed release is balanced, safe-screened, opaque, and server-bound', ()
   for (const model of models) {
     const entry = CATALOG.get(model.id);
     assert.ok(entry, `missing server catalog entry for ${model.id}`);
-    assert.ok(model.cohorts.length > 0);
+    assert.deepEqual(model.cohorts, ['primary']);
     assert.deepEqual(entry.cohorts, model.cohorts);
     assert.equal(entry.sourceIds.length, 40);
     assert.equal(entry.sampleIds.length, 40);
@@ -111,12 +114,12 @@ test('vote API derives model metadata, canonicalizes pairs, and rejects forged i
   const leftMapped = getCatalogSample(left.id);
   const right = samples.find((sample) => {
     if (sample.dataset !== 'owt' || sample.group === left.group) return false;
-    const mapped = getCatalogSample(sample.id);
-    return mapped.cohorts.some((value) => leftMapped.cohorts.includes(value));
+    return getCatalogSample(sample.id) !== null;
   });
   const rightMapped = getCatalogSample(right.id);
-  const cohort = leftMapped.cohorts.find((value) => rightMapped.cohorts.includes(value));
-  assert.ok(cohort);
+  const cohort = 'primary';
+  assert.deepEqual(leftMapped.cohorts, [cohort]);
+  assert.deepEqual(rightMapped.cohorts, [cohort]);
   const base = {
     session_id: '11111111-1111-4111-8111-111111111111',
     battle_id: `${cohort}::${left.id}__${right.id}`,
@@ -179,12 +182,7 @@ test('vote API derives model metadata, canonicalizes pairs, and rejects forged i
     assert.equal(response.status, 400);
     assert.equal(inserts, 1);
 
-    response = await call({ ...base, payload: { ...base.payload, cohort: 'unsupported' } });
-    assert.equal(response.status, 400);
-    assert.equal(inserts, 1);
-
-    const disallowedCohort = availableCohorts.find((value) => !leftMapped.cohorts.includes(value));
-    assert.ok(disallowedCohort);
+    const disallowedCohort = 'secondary';
     response = await call({
       ...base,
       battle_id: `${disallowedCohort}::${left.id}__${right.id}`,
@@ -232,7 +230,7 @@ test('vote API derives model metadata, canonicalizes pairs, and rejects forged i
   }
 });
 
-test('leaderboard isolates the active r5 cohort and rejects unknown cohorts', async () => {
+test('leaderboard isolates the active Primary release and rejects unknown cohorts', async () => {
   process.env.SUPABASE_URL = 'https://db.example.test';
   process.env.SUPABASE_SECRET_KEY = 'test-secret';
   const { default: leaderboardHandler } = await import('../api/leaderboard.js');
@@ -253,7 +251,7 @@ test('leaderboard isolates the active r5 cohort and rejects unknown cohorts', as
       left_model_id: left.id,
       right_model_id: right.id,
       choice: 'right',
-      payload: { cohort: 'efficiency' },
+      payload: { cohort: 'secondary' },
     },
   ];
   let requestedUrl = '';
@@ -304,6 +302,7 @@ test('public UI keeps the requested routes and four-choice voting flow', () => {
   assert.match(source, /headline: rightModelName/);
   assert.match(source, /headline: 'Equally good'/);
   assert.match(source, /headline: 'Both bad'/);
-  assert.match(source, /function CohortToggle/);
+  assert.equal(source.includes('function CohortToggle'), false);
+  assert.equal(source.includes('STORAGE_KEYS.cohort'), false);
   assert.match(source, /sample-raw/);
 });

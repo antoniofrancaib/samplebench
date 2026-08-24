@@ -3,7 +3,7 @@ import { ACTIVE_CATALOG_VERSION, getCatalogEntry } from '../server/catalog.js';
 
 const ACTIVE_APP_VERSION = `samplebench-web/${ACTIVE_CATALOG_VERSION}`;
 const VALID_DATASETS = new Set(['lm1b', 'owt']);
-const VALID_COHORTS = new Set(['primary', 'efficiency']);
+const VALID_COHORTS = new Set(['primary']);
 const PAGE_SIZE = 1000;
 const MAX_ROWS = 100_000;
 

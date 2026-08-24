@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
-  availableCohorts,
   availableDatasets,
-  cohortLabels,
   models,
   studyVersion,
 } from './data.js';
@@ -16,11 +14,11 @@ const STORAGE_KEYS = {
   queuedVotes: `samplebench:${studyVersion}:queued_votes`,
   voteCount: `samplebench:${studyVersion}:vote_count`,
   dataset: `samplebench:${studyVersion}:dataset`,
-  cohort: `samplebench:${studyVersion}:cohort`,
 };
 
 const APP_VERSION = `samplebench-web/${studyVersion}`;
 const RUBRIC_VERSION = 'categorical-overall-v1';
+const ACTIVE_COHORT = 'primary';
 
 /* Categorical choices for the blind study.
    On mobile the two middle choices collapse to icon-only buttons (image copy 2). */
@@ -38,7 +36,6 @@ const samplePool = models.flatMap((model) =>
     modelName: model.name,
     dataset: model.dataset,
     group: model.public_group_id,
-    cohorts: model.cohorts,
   })),
 ).filter((sample) => sample.text);
 
@@ -50,32 +47,30 @@ function getRandomIndex(max) {
   return Math.floor(Math.random() * max);
 }
 
-function pairId(cohort, leftSampleId, rightSampleId) {
-  return `${cohort}::${leftSampleId}__${rightSampleId}`;
+function pairId(leftSampleId, rightSampleId) {
+  return `${ACTIVE_COHORT}::${leftSampleId}__${rightSampleId}`;
 }
 
-function createPair(previousPairId, dataset, cohort) {
-  const pool = samplePool.filter(
-    (sample) => sample.dataset === dataset && sample.cohorts.includes(cohort),
-  );
+function createPair(previousPairId, dataset) {
+  const pool = samplePool.filter((sample) => sample.dataset === dataset);
   if (pool.length < 2) return null;
   let left = pool[getRandomIndex(pool.length)];
   let right = pool[getRandomIndex(pool.length)];
   for (let i = 0; i < 80; i++) {
     const l = pool[getRandomIndex(pool.length)];
     const r = pool[getRandomIndex(pool.length)];
-    const id = pairId(cohort, l.sampleId, r.sampleId);
+    const id = pairId(l.sampleId, r.sampleId);
     if (l.group !== r.group && id !== previousPairId) { left = l; right = r; break; }
   }
   // Keep the API from seeing a rare same-model pair if all random attempts
   // happened to miss the valid-pair condition.
-  const candidatePairId = pairId(cohort, left.sampleId, right.sampleId);
+  const candidatePairId = pairId(left.sampleId, right.sampleId);
   if (left.group === right.group || candidatePairId === previousPairId) {
     left = pool[0];
-    right = pool.find((sample) => sample.group !== left.group && pairId(cohort, left.sampleId, sample.sampleId) !== previousPairId);
+    right = pool.find((sample) => sample.group !== left.group && pairId(left.sampleId, sample.sampleId) !== previousPairId);
     if (!right) return null;
   }
-  return { id: pairId(cohort, left.sampleId, right.sampleId), cohort, left, right };
+  return { id: pairId(left.sampleId, right.sampleId), cohort: ACTIVE_COHORT, left, right };
 }
 
 function safeReadJson(key, fallback) {
@@ -120,15 +115,6 @@ function getStoredDataset() {
 }
 function setStoredDataset(dataset) {
   try { window.localStorage.setItem(STORAGE_KEYS.dataset, dataset); } catch {}
-}
-function getStoredCohort() {
-  try {
-    const value = window.localStorage.getItem(STORAGE_KEYS.cohort);
-    return availableCohorts.includes(value) ? value : 'primary';
-  } catch { return 'primary'; }
-}
-function setStoredCohort(cohort) {
-  try { window.localStorage.setItem(STORAGE_KEYS.cohort, cohort); } catch {}
 }
 async function insertVote(row) {
   let response;
@@ -275,8 +261,7 @@ function VotePage({ onNavigate }) {
   const isDesktop        = useMediaQuery('(min-width: 768px)');
   const [voterId]        = useState(getVoterId);
   const [dataset, setDataset] = useState(getStoredDataset);
-  const [cohort, setCohort] = useState(getStoredCohort);
-  const [pair, setPair]  = useState(() => createPair(null, getStoredDataset(), getStoredCohort()));
+  const [pair, setPair]  = useState(() => createPair(null, getStoredDataset()));
   const [voteCount, setVoteCount] = useState(getVoteCount);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lastChoice, setLastChoice] = useState(null);
@@ -294,30 +279,21 @@ function VotePage({ onNavigate }) {
   }, []);
 
   const advancePair = useCallback((currentPairId) => {
-    setPair(createPair(currentPairId, dataset, cohort));
+    setPair(createPair(currentPairId, dataset));
     setLastChoice(null);
     setSubmitError(null);
     setQueuedNotice(false);
     startedAt.current = performance.now();
-  }, [cohort, dataset]);
+  }, [dataset]);
 
   const changeDataset = useCallback((nextDataset) => {
     if (nextDataset === dataset || isSubmitting) return;
     setStoredDataset(nextDataset);
     setDataset(nextDataset);
-    setPair(createPair(null, nextDataset, cohort));
+    setPair(createPair(null, nextDataset));
     setLastChoice(null);
     startedAt.current = performance.now();
-  }, [cohort, dataset, isSubmitting]);
-
-  const changeCohort = useCallback((nextCohort) => {
-    if (nextCohort === cohort || isSubmitting) return;
-    setStoredCohort(nextCohort);
-    setCohort(nextCohort);
-    setPair(createPair(null, dataset, nextCohort));
-    setLastChoice(null);
-    startedAt.current = performance.now();
-  }, [cohort, dataset, isSubmitting]);
+  }, [dataset, isSubmitting]);
 
   // Reveal lifecycle: hold 1700ms → fade 400ms → advance
   useEffect(() => {
@@ -409,9 +385,8 @@ function VotePage({ onNavigate }) {
         </div>
       </div>
       <RevealOverlay reveal={reveal} fading={revealFading} />
-      <div className="fixed top-3 left-3 z-40 flex flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:gap-2">
+      <div className="fixed top-3 left-3 z-40">
         <DatasetToggle value={dataset} onChange={changeDataset} disabled={isSubmitting} />
-        <CohortToggle value={cohort} onChange={changeCohort} disabled={isSubmitting} />
       </div>
       <nav className="fixed top-3 right-3 z-40 flex items-center gap-3">
         {[["Samples", "/samples"], ["Leaderboard", "/leaderboard"]].map(([label, href]) => (
@@ -444,27 +419,6 @@ function DatasetToggle({ value, onChange, disabled = false }) {
           )}
         >
           {dataset}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function CohortToggle({ value, onChange, disabled = false }) {
-  return (
-    <div className="inline-flex rounded-lg border border-border bg-card/90 p-0.5 shadow-sm" aria-label="Cohort">
-      {availableCohorts.map((cohort) => (
-        <button
-          key={cohort}
-          type="button"
-          disabled={disabled}
-          onClick={() => onChange(cohort)}
-          className={cn(
-            'rounded-md px-2.5 py-1 text-[10px] font-semibold tracking-wide transition-colors disabled:opacity-40',
-            value === cohort ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground',
-          )}
-        >
-          {cohortLabels[cohort]}
         </button>
       ))}
     </div>
@@ -704,17 +658,10 @@ function NavLink({ href, children, onNavigate }) {
 
 function SamplesIndexPage({ onNavigate }) {
   const [dataset, setDataset] = useState(getStoredDataset);
-  const [cohort, setCohort] = useState(getStoredCohort);
-  const datasetModels = models.filter(
-    (model) => model.dataset === dataset && model.cohorts.includes(cohort),
-  );
+  const datasetModels = models.filter((model) => model.dataset === dataset);
   const changeDataset = (nextDataset) => {
     setStoredDataset(nextDataset);
     setDataset(nextDataset);
-  };
-  const changeCohort = (nextCohort) => {
-    setStoredCohort(nextCohort);
-    setCohort(nextCohort);
   };
   const coveredModelIds = new Set();
   const grouped = SAMPLE_GROUPS.reduce((acc, group) => {
@@ -741,10 +688,7 @@ function SamplesIndexPage({ onNavigate }) {
             <h1 className="text-[15px] font-semibold text-foreground/80">
               Sample browser — {visibleModelCount} models
             </h1>
-            <div className="flex items-center gap-2">
-              <DatasetToggle value={dataset} onChange={changeDataset} />
-              <CohortToggle value={cohort} onChange={changeCohort} />
-            </div>
+            <DatasetToggle value={dataset} onChange={changeDataset} />
           </div>
           {grouped.map(({ key, label, items }) => (
             <div key={key} className="mb-7">
@@ -833,7 +777,6 @@ function SamplesModelPage({ modelId, onNavigate }) {
 /* ── Leaderboard ──────────────────────────────────────────────── */
 function LeaderboardPage({ onNavigate }) {
   const [dataset, setDataset] = useState(getStoredDataset);
-  const [cohort, setCohort] = useState(getStoredCohort);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -843,7 +786,7 @@ function LeaderboardPage({ onNavigate }) {
     async function load() {
       try {
         setLoading(true);
-        const res = await fetch(`/api/leaderboard?dataset=${encodeURIComponent(dataset)}&cohort=${encodeURIComponent(cohort)}`);
+        const res = await fetch(`/api/leaderboard?dataset=${encodeURIComponent(dataset)}`);
         if (!res.ok) throw new Error(`${res.status}`);
         const payload = await res.json();
         if (!cancelled) { setData(payload); setError(null); }
@@ -856,16 +799,11 @@ function LeaderboardPage({ onNavigate }) {
     load();
     const id = setInterval(load, 30_000);
     return () => { cancelled = true; clearInterval(id); };
-  }, [cohort, dataset]);
+  }, [dataset]);
 
   const changeDataset = (nextDataset) => {
     setStoredDataset(nextDataset);
     setDataset(nextDataset);
-    setData(null);
-  };
-  const changeCohort = (nextCohort) => {
-    setStoredCohort(nextCohort);
-    setCohort(nextCohort);
     setData(null);
   };
 
@@ -884,10 +822,7 @@ function LeaderboardPage({ onNavigate }) {
         <div className="max-w-2xl mx-auto px-5 pt-8">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <h1 className="text-[15px] font-semibold text-foreground/80">Leaderboard</h1>
-            <div className="flex items-center gap-2">
-              <DatasetToggle value={dataset} onChange={changeDataset} />
-              <CohortToggle value={cohort} onChange={changeCohort} />
-            </div>
+            <DatasetToggle value={dataset} onChange={changeDataset} />
           </div>
           {data && (
             <p className="text-[12px] text-muted-foreground/40 mt-1 tabular-nums">

@@ -1,15 +1,10 @@
 {
   "arm_evidence_schema": "samplebench-arm-evidence-v1",
-  "arm_evidence_sha256": "008b1f286e77292abd90d1c453cc9882fc3ffca662621d70a40e50ae96d3b6bb",
+  "arm_evidence_sha256": "525a601abab17b4e50414f1d5dd592124017a1074d16a8eecb0f3246e4594ded",
   "cohort_model_counts": {
-    "efficiency": 35,
     "primary": 24
   },
   "cohorts": {
-    "efficiency": {
-      "description": "Available paper-supported NFE sweeps for controlled within-family quality/cost comparisons.",
-      "label": "Efficiency"
-    },
     "primary": {
       "description": "Paper-supported headline operating points across selected model families, scales, and one-step regimes.",
       "label": "Primary"
@@ -215,8 +210,7 @@
           "revision": "local-sha256:122bbba9ec214af4776f8624cf42eb2787961cce9ed4284586886713adb64de8"
         },
         "cohorts": [
-          "primary",
-          "efficiency"
+          "primary"
         ],
         "configuration": "configs/generation.yaml:lm1b_fmlm_1_nfe",
         "dataset": "lm1b",
@@ -310,8 +304,7 @@
           "revision": "local-sha256:122bbba9ec214af4776f8624cf42eb2787961cce9ed4284586886713adb64de8"
         },
         "cohorts": [
-          "primary",
-          "efficiency"
+          "primary"
         ],
         "configuration": "configs/generation.yaml:lm1b_fmlm_32_nfe",
         "dataset": "lm1b",
@@ -403,12 +396,11 @@
           "digest": "122bbba9ec214af4776f8624cf42eb2787961cce9ed4284586886713adb64de8",
           "revision": "local-sha256:122bbba9ec214af4776f8624cf42eb2787961cce9ed4284586886713adb64de8"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:lm1b_fmlm_4_nfe",
         "dataset": "lm1b",
         "evidence": "flm",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Checkpoint is content-addressed locally; no immutable upstream model revision is recorded."
         ],
@@ -418,9 +410,11 @@
           "url": "https://arxiv.org/abs/2602.16813"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "lm1b",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "fmlm",
       "generation_code_commit": "f16ec0350d515d964255530f6161c9db434577b8",
       "generator_id": "lm1b_fmlm_4_nfe",
@@ -986,12 +980,11 @@
           "digest": "aa7b1639da28e8ec6809c15e98173fd0b8c6b6abb6d6e8d67f96085809c3f7ac",
           "revision": "local-sha256:aa7b1639da28e8ec6809c15e98173fd0b8c6b6abb6d6e8d67f96085809c3f7ac"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_di4c_sdtt6_16_nfe",
         "dataset": "owt",
         "evidence": "di4c",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local checkpoint; original upload revision is unavailable."
         ],
@@ -1001,9 +994,11 @@
           "url": "https://arxiv.org/abs/2410.08709"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "di4c",
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_di4c_sdtt6_16_nfe",
@@ -1088,8 +1083,7 @@
           "revision": "local-sha256:4af61572dc82fe012ce395a2e4e4be0585ea09076597ba1f7241ca196b97ecb0"
         },
         "cohorts": [
-          "primary",
-          "efficiency"
+          "primary"
         ],
         "configuration": "configs/generation.yaml:owt_di4c_sdtt7_16_nfe",
         "dataset": "owt",
@@ -2214,8 +2208,7 @@
           "revision": "2f2979d702eab89542784c7e7558597d96ad5f8e"
         },
         "cohorts": [
-          "primary",
-          "efficiency"
+          "primary"
         ],
         "configuration": "configs/generation.yaml:owt_v2_cobit_m_256_nfe",
         "dataset": "owt",
@@ -2329,12 +2322,11 @@
           "digest": "bb77896e56a48546da23d6e5b20fc5834d766d5f569f4315ad4c2156d9d5270e",
           "revision": "2f2979d702eab89542784c7e7558597d96ad5f8e"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_cobit_m_512_nfe",
         "dataset": "owt",
         "evidence": "cobit_m",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Exact official stochastic cache bound to gamma=0.26 and s_churn=132.86."
         ],
@@ -2357,9 +2349,11 @@
           "url": "https://arxiv.org/abs/2605.07013"
         },
         "provenance_tier": "A",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "cobit",
       "generation_code_commit": "86a0f8e9300ebe8f2c9394e6dfa8c2780a8a748c",
       "generator_id": "owt_v2_cobit_m_512_nfe",
@@ -2558,8 +2552,7 @@
           "revision": "local-sha256:ea8edb134515121c8d998b43c08517a53b1d6797aed9d80117f7322d10316c4c"
         },
         "cohorts": [
-          "primary",
-          "efficiency"
+          "primary"
         ],
         "configuration": "configs/generation.yaml:owt_v2_duo_base_1024_nfe",
         "dataset": "owt",
@@ -2660,12 +2653,11 @@
           "digest": "ea8edb134515121c8d998b43c08517a53b1d6797aed9d80117f7322d10316c4c",
           "revision": "local-sha256:ea8edb134515121c8d998b43c08517a53b1d6797aed9d80117f7322d10316c4c"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_duo_base_128_nfe",
         "dataset": "owt",
         "evidence": "duo",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local checkpoint without immutable upstream model revision."
         ],
@@ -2675,9 +2667,11 @@
           "url": "https://arxiv.org/abs/2506.10892"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "duo",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_duo_base_128_nfe",
@@ -2761,12 +2755,11 @@
           "digest": "ea8edb134515121c8d998b43c08517a53b1d6797aed9d80117f7322d10316c4c",
           "revision": "local-sha256:ea8edb134515121c8d998b43c08517a53b1d6797aed9d80117f7322d10316c4c"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_duo_base_32_nfe",
         "dataset": "owt",
         "evidence": "duo",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local checkpoint without immutable upstream model revision."
         ],
@@ -2776,9 +2769,11 @@
           "url": "https://arxiv.org/abs/2506.10892"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "duo",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_duo_base_32_nfe",
@@ -2862,12 +2857,11 @@
           "digest": "ea8edb134515121c8d998b43c08517a53b1d6797aed9d80117f7322d10316c4c",
           "revision": "local-sha256:ea8edb134515121c8d998b43c08517a53b1d6797aed9d80117f7322d10316c4c"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_duo_base_512_nfe",
         "dataset": "owt",
         "evidence": "duo",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local checkpoint without immutable upstream model revision."
         ],
@@ -2877,9 +2871,11 @@
           "url": "https://arxiv.org/abs/2506.10892"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "duo",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_duo_base_512_nfe",
@@ -2964,12 +2960,11 @@
           "digest": "ea8edb134515121c8d998b43c08517a53b1d6797aed9d80117f7322d10316c4c",
           "revision": "local-sha256:ea8edb134515121c8d998b43c08517a53b1d6797aed9d80117f7322d10316c4c"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_duo_base_8_nfe",
         "dataset": "owt",
         "evidence": "duo",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local checkpoint without immutable upstream model revision."
         ],
@@ -2979,9 +2974,11 @@
           "url": "https://arxiv.org/abs/2506.10892"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "duo",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_duo_base_8_nfe",
@@ -3066,12 +3063,11 @@
           "digest": "23dba8a6cc97500f3798cb35484c8219a6c8a611b38f9dc92e2ae23946f593a9",
           "revision": "local-sha256:23dba8a6cc97500f3798cb35484c8219a6c8a611b38f9dc92e2ae23946f593a9"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_duo_distilled_16_nfe",
         "dataset": "owt",
         "evidence": "duo",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local distilled checkpoint without immutable upstream model revision."
         ],
@@ -3081,9 +3077,11 @@
           "url": "https://arxiv.org/abs/2506.10892"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "duo",
       "generation_code_commit": "98d68d47c24982d4902be10fad419658abf212cc",
       "generator_id": "owt_v2_duo_distilled_16_nfe",
@@ -3168,12 +3166,11 @@
           "digest": "23dba8a6cc97500f3798cb35484c8219a6c8a611b38f9dc92e2ae23946f593a9",
           "revision": "local-sha256:23dba8a6cc97500f3798cb35484c8219a6c8a611b38f9dc92e2ae23946f593a9"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_duo_distilled_32_nfe",
         "dataset": "owt",
         "evidence": "duo",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local distilled checkpoint without immutable upstream model revision."
         ],
@@ -3183,9 +3180,11 @@
           "url": "https://arxiv.org/abs/2506.10892"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "duo",
       "generation_code_commit": "98d68d47c24982d4902be10fad419658abf212cc",
       "generator_id": "owt_v2_duo_distilled_32_nfe",
@@ -3271,8 +3270,7 @@
           "revision": "local-sha256:23dba8a6cc97500f3798cb35484c8219a6c8a611b38f9dc92e2ae23946f593a9"
         },
         "cohorts": [
-          "primary",
-          "efficiency"
+          "primary"
         ],
         "configuration": "configs/generation.yaml:owt_v2_duo_distilled_8_nfe",
         "dataset": "owt",
@@ -4566,8 +4564,7 @@
           "revision": "local-sha256:2b6b2b4f64f7463713a020158b61474092773b39985baed1cf9442bd425ca23f"
         },
         "cohorts": [
-          "primary",
-          "efficiency"
+          "primary"
         ],
         "configuration": "configs/generation.yaml:owt_v2_flm_1024_nfe",
         "dataset": "owt",
@@ -4668,12 +4665,11 @@
           "digest": "2b6b2b4f64f7463713a020158b61474092773b39985baed1cf9442bd425ca23f",
           "revision": "local-sha256:2b6b2b4f64f7463713a020158b61474092773b39985baed1cf9442bd425ca23f"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_flm_128_nfe",
         "dataset": "owt",
         "evidence": "flm",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local checkpoint without immutable upstream model revision."
         ],
@@ -4683,9 +4679,11 @@
           "url": "https://arxiv.org/abs/2602.16813"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "flm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_flm_128_nfe",
@@ -4770,12 +4768,11 @@
           "digest": "2b6b2b4f64f7463713a020158b61474092773b39985baed1cf9442bd425ca23f",
           "revision": "local-sha256:2b6b2b4f64f7463713a020158b61474092773b39985baed1cf9442bd425ca23f"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_flm_32_nfe",
         "dataset": "owt",
         "evidence": "flm",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local checkpoint without immutable upstream model revision."
         ],
@@ -4785,9 +4782,11 @@
           "url": "https://arxiv.org/abs/2602.16813"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "flm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_flm_32_nfe",
@@ -4872,12 +4871,11 @@
           "digest": "2b6b2b4f64f7463713a020158b61474092773b39985baed1cf9442bd425ca23f",
           "revision": "local-sha256:2b6b2b4f64f7463713a020158b61474092773b39985baed1cf9442bd425ca23f"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_flm_512_nfe",
         "dataset": "owt",
         "evidence": "flm",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local checkpoint without immutable upstream model revision."
         ],
@@ -4887,9 +4885,11 @@
           "url": "https://arxiv.org/abs/2602.16813"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "flm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_flm_512_nfe",
@@ -4974,12 +4974,11 @@
           "digest": "2b6b2b4f64f7463713a020158b61474092773b39985baed1cf9442bd425ca23f",
           "revision": "local-sha256:2b6b2b4f64f7463713a020158b61474092773b39985baed1cf9442bd425ca23f"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_flm_8_nfe",
         "dataset": "owt",
         "evidence": "flm",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local checkpoint without immutable upstream model revision."
         ],
@@ -4989,9 +4988,11 @@
           "url": "https://arxiv.org/abs/2602.16813"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "flm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_flm_8_nfe",
@@ -5076,12 +5077,11 @@
           "digest": "9700bffdd474a681e3d12ea5496c970c60304b34c28114118b9372464b0e0981",
           "revision": "local-sha256:9700bffdd474a681e3d12ea5496c970c60304b34c28114118b9372464b0e0981"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_fmlm_16_nfe",
         "dataset": "owt",
         "evidence": "flm",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local distilled checkpoint without immutable upstream model revision."
         ],
@@ -5091,9 +5091,11 @@
           "url": "https://arxiv.org/abs/2602.16813"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "fmlm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_fmlm_16_nfe",
@@ -5177,8 +5179,7 @@
           "revision": "local-sha256:9700bffdd474a681e3d12ea5496c970c60304b34c28114118b9372464b0e0981"
         },
         "cohorts": [
-          "primary",
-          "efficiency"
+          "primary"
         ],
         "configuration": "configs/generation.yaml:owt_v2_fmlm_1_nfe",
         "dataset": "owt",
@@ -5276,8 +5277,7 @@
           "revision": "local-sha256:9700bffdd474a681e3d12ea5496c970c60304b34c28114118b9372464b0e0981"
         },
         "cohorts": [
-          "primary",
-          "efficiency"
+          "primary"
         ],
         "configuration": "configs/generation.yaml:owt_v2_fmlm_32_nfe",
         "dataset": "owt",
@@ -5375,12 +5375,11 @@
           "digest": "9700bffdd474a681e3d12ea5496c970c60304b34c28114118b9372464b0e0981",
           "revision": "local-sha256:9700bffdd474a681e3d12ea5496c970c60304b34c28114118b9372464b0e0981"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_fmlm_4_nfe",
         "dataset": "owt",
         "evidence": "flm",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local distilled checkpoint without immutable upstream model revision."
         ],
@@ -5390,9 +5389,11 @@
           "url": "https://arxiv.org/abs/2602.16813"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "fmlm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_fmlm_4_nfe",
@@ -5475,12 +5476,11 @@
           "digest": "9700bffdd474a681e3d12ea5496c970c60304b34c28114118b9372464b0e0981",
           "revision": "local-sha256:9700bffdd474a681e3d12ea5496c970c60304b34c28114118b9372464b0e0981"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_fmlm_8_nfe",
         "dataset": "owt",
         "evidence": "flm",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local distilled checkpoint without immutable upstream model revision."
         ],
@@ -5490,9 +5490,11 @@
           "url": "https://arxiv.org/abs/2602.16813"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "fmlm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_fmlm_8_nfe",
@@ -5576,8 +5578,7 @@
           "revision": "local-sha256:74bf9b853206e73b4811d8127e836c2cdcfb7a23f8e04ad7d1356a58f1138d27"
         },
         "cohorts": [
-          "primary",
-          "efficiency"
+          "primary"
         ],
         "configuration": "configs/generation.yaml:owt_v2_mdlm_1024_nfe",
         "dataset": "owt",
@@ -5678,12 +5679,11 @@
           "digest": "74bf9b853206e73b4811d8127e836c2cdcfb7a23f8e04ad7d1356a58f1138d27",
           "revision": "local-sha256:74bf9b853206e73b4811d8127e836c2cdcfb7a23f8e04ad7d1356a58f1138d27"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_mdlm_128_nfe",
         "dataset": "owt",
         "evidence": "mdlm",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local checkpoint; Lightning checkpoint lacks immutable HF revision."
         ],
@@ -5693,9 +5693,11 @@
           "url": "https://arxiv.org/abs/2406.07524"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "mdlm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_mdlm_128_nfe",
@@ -5780,12 +5782,11 @@
           "digest": "74bf9b853206e73b4811d8127e836c2cdcfb7a23f8e04ad7d1356a58f1138d27",
           "revision": "local-sha256:74bf9b853206e73b4811d8127e836c2cdcfb7a23f8e04ad7d1356a58f1138d27"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_mdlm_32_nfe",
         "dataset": "owt",
         "evidence": "mdlm",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local checkpoint; Lightning checkpoint lacks immutable HF revision."
         ],
@@ -5795,9 +5796,11 @@
           "url": "https://arxiv.org/abs/2406.07524"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "mdlm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_mdlm_32_nfe",
@@ -5882,12 +5885,11 @@
           "digest": "74bf9b853206e73b4811d8127e836c2cdcfb7a23f8e04ad7d1356a58f1138d27",
           "revision": "local-sha256:74bf9b853206e73b4811d8127e836c2cdcfb7a23f8e04ad7d1356a58f1138d27"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_mdlm_512_nfe",
         "dataset": "owt",
         "evidence": "mdlm",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local checkpoint; Lightning checkpoint lacks immutable HF revision."
         ],
@@ -5897,9 +5899,11 @@
           "url": "https://arxiv.org/abs/2406.07524"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "mdlm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_mdlm_512_nfe",
@@ -5984,12 +5988,11 @@
           "digest": "74bf9b853206e73b4811d8127e836c2cdcfb7a23f8e04ad7d1356a58f1138d27",
           "revision": "local-sha256:74bf9b853206e73b4811d8127e836c2cdcfb7a23f8e04ad7d1356a58f1138d27"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_mdlm_8_nfe",
         "dataset": "owt",
         "evidence": "mdlm",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local checkpoint; Lightning checkpoint lacks immutable HF revision."
         ],
@@ -5999,9 +6002,11 @@
           "url": "https://arxiv.org/abs/2406.07524"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "mdlm",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_mdlm_8_nfe",
@@ -6189,8 +6194,7 @@
           "revision": "local-sha256:11ec99693f1f073b3e8df88db6d2f32705e72a7c08b33c5f2f54c8dc696693b1"
         },
         "cohorts": [
-          "primary",
-          "efficiency"
+          "primary"
         ],
         "configuration": "configs/generation.yaml:owt_v2_sedd_1024_nfe",
         "dataset": "owt",
@@ -6291,12 +6295,11 @@
           "digest": "11ec99693f1f073b3e8df88db6d2f32705e72a7c08b33c5f2f54c8dc696693b1",
           "revision": "local-sha256:11ec99693f1f073b3e8df88db6d2f32705e72a7c08b33c5f2f54c8dc696693b1"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_sedd_128_nfe",
         "dataset": "owt",
         "evidence": "sedd",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local Lightning checkpoint without immutable upstream revision."
         ],
@@ -6306,9 +6309,11 @@
           "url": "https://arxiv.org/abs/2310.16834"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "sedd",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_sedd_128_nfe",
@@ -6393,12 +6398,11 @@
           "digest": "11ec99693f1f073b3e8df88db6d2f32705e72a7c08b33c5f2f54c8dc696693b1",
           "revision": "local-sha256:11ec99693f1f073b3e8df88db6d2f32705e72a7c08b33c5f2f54c8dc696693b1"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_sedd_32_nfe",
         "dataset": "owt",
         "evidence": "sedd",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local Lightning checkpoint without immutable upstream revision."
         ],
@@ -6408,9 +6412,11 @@
           "url": "https://arxiv.org/abs/2310.16834"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "sedd",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_sedd_32_nfe",
@@ -6495,12 +6501,11 @@
           "digest": "11ec99693f1f073b3e8df88db6d2f32705e72a7c08b33c5f2f54c8dc696693b1",
           "revision": "local-sha256:11ec99693f1f073b3e8df88db6d2f32705e72a7c08b33c5f2f54c8dc696693b1"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_sedd_512_nfe",
         "dataset": "owt",
         "evidence": "sedd",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local Lightning checkpoint without immutable upstream revision."
         ],
@@ -6510,9 +6515,11 @@
           "url": "https://arxiv.org/abs/2310.16834"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "sedd",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_sedd_512_nfe",
@@ -6596,12 +6603,11 @@
           "digest": "11ec99693f1f073b3e8df88db6d2f32705e72a7c08b33c5f2f54c8dc696693b1",
           "revision": "local-sha256:11ec99693f1f073b3e8df88db6d2f32705e72a7c08b33c5f2f54c8dc696693b1"
         },
-        "cohorts": [
-          "efficiency"
-        ],
+        "cohorts": [],
         "configuration": "configs/generation.yaml:owt_v2_sedd_8_nfe",
         "dataset": "owt",
         "evidence": "sedd",
+        "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
         "limitations": [
           "Content-addressed local Lightning checkpoint without immutable upstream revision."
         ],
@@ -6611,9 +6617,11 @@
           "url": "https://arxiv.org/abs/2310.16834"
         },
         "provenance_tier": "B",
-        "status": "included"
+        "status": "excluded"
       },
       "dataset": "owt",
+      "deployment_excluded": true,
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points.",
       "family": "sedd",
       "generation_code_commit": "bdb12b27139c77ccec2807a929c84c82961f2760",
       "generator_id": "owt_v2_sedd_8_nfe",
@@ -6692,13 +6700,15 @@
     }
   ],
   "dataset_counts": {
-    "lm1b": 8,
-    "owt": 40
+    "lm1b": 7,
+    "owt": 17
   },
-  "deployment_model_count": 48,
-  "deployment_sample_count": 1920,
+  "deployment_model_count": 24,
+  "deployment_sample_count": 960,
   "excluded_corpora": [
+    "lm1b_fmlm_4_nfe",
     "lm1b_langflow_1024_nfe",
+    "owt_di4c_sdtt6_16_nfe",
     "owt_duo_base_1024_nfe",
     "owt_flm_1024_nfe",
     "owt_fmlm_1_nfe",
@@ -6706,6 +6716,13 @@
     "owt_fmlm_4_nfe",
     "owt_mdlm_1024_nfe",
     "owt_sedd_1024_nfe",
+    "owt_v2_cobit_m_512_nfe",
+    "owt_v2_duo_base_128_nfe",
+    "owt_v2_duo_base_32_nfe",
+    "owt_v2_duo_base_512_nfe",
+    "owt_v2_duo_base_8_nfe",
+    "owt_v2_duo_distilled_16_nfe",
+    "owt_v2_duo_distilled_32_nfe",
     "owt_v2_elf_b_128_nfe",
     "owt_v2_elf_b_64_nfe",
     "owt_v2_elf_b_8_nfe",
@@ -6715,11 +6732,26 @@
     "owt_v2_elf_m_128_nfe",
     "owt_v2_elf_m_32_nfe",
     "owt_v2_elf_m_8_nfe",
-    "owt_v2_replaid_nosc_ddpm_1024_nfe"
+    "owt_v2_flm_128_nfe",
+    "owt_v2_flm_32_nfe",
+    "owt_v2_flm_512_nfe",
+    "owt_v2_flm_8_nfe",
+    "owt_v2_fmlm_16_nfe",
+    "owt_v2_fmlm_4_nfe",
+    "owt_v2_fmlm_8_nfe",
+    "owt_v2_mdlm_128_nfe",
+    "owt_v2_mdlm_32_nfe",
+    "owt_v2_mdlm_512_nfe",
+    "owt_v2_mdlm_8_nfe",
+    "owt_v2_replaid_nosc_ddpm_1024_nfe",
+    "owt_v2_sedd_128_nfe",
+    "owt_v2_sedd_32_nfe",
+    "owt_v2_sedd_512_nfe",
+    "owt_v2_sedd_8_nfe"
   ],
-  "model_count": 48,
+  "model_count": 24,
   "release_id": "dlmbench-canonical-20260824-r5",
-  "sample_count": 1920,
+  "sample_count": 960,
   "schema_version": "samplebench-data-release-v1",
   "selection": {
     "algorithm": "lowest SHA-256 ranks without replacement, then source-ID order",

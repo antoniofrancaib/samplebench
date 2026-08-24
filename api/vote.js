@@ -6,7 +6,7 @@ import {
 
 const VALID_CHOICES = new Set(['left', 'right', 'tie', 'both_bad']);
 const VALID_DATASETS = new Set(['lm1b', 'owt']);
-const VALID_COHORTS = new Set(['primary', 'efficiency']);
+const VALID_COHORTS = new Set(['primary']);
 const MAX_VOTES_PER_SESSION_24H = 200;
 const MIN_DWELL_MS = 1000;
 const ACTIVE_APP_VERSION = `samplebench-web/${ACTIVE_CATALOG_VERSION}`;

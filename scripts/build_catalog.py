@@ -15,11 +15,11 @@ RELEASE_ID = "dlmbench-canonical-20260824-r5"
 RELEASE_SEED = "samplebench-dlmbench-canonical-20260824-r5"
 SAMPLES_PER_MODEL = 40
 EXPECTED_SOURCE_DATASETS = {"lm1b": 9, "owt": 57}
-EXPECTED_DEPLOYMENT_DATASETS = {"lm1b": 8, "owt": 40}
-EXPECTED_COHORT_COUNTS = {"primary": 24, "efficiency": 35}
+EXPECTED_DEPLOYMENT_DATASETS = {"lm1b": 7, "owt": 17}
+EXPECTED_COHORT_COUNTS = {"primary": 24}
 EXPECTED_FILES = {"samples.jsonl", "manifest.json", "checksums.sha256"}
 EVIDENCE_SCHEMA = "samplebench-arm-evidence-v1"
-VALID_COHORTS = {"primary", "efficiency"}
+VALID_COHORTS = {"primary"}
 
 NON_CANONICAL_CORPORA = {
     "lm1b_phrase_bank_1000",
@@ -317,7 +317,7 @@ def load_arm_evidence(path: Path) -> dict:
     if evidence.get("study_version") != RELEASE_ID:
         raise ValueError(f"{path}: evidence study version does not match r5")
     if set(evidence.get("cohorts", {})) != VALID_COHORTS:
-        raise ValueError(f"{path}: evidence must define primary and efficiency cohorts")
+        raise ValueError(f"{path}: evidence must define only the primary cohort")
     arms = evidence.get("arms")
     if not isinstance(arms, dict) or not arms:
         raise ValueError(f"{path}: arms must be a non-empty object")
@@ -390,8 +390,6 @@ def main() -> int:
         f"export const checkpointFamilies = {json.dumps(families, ensure_ascii=False)};\n"
         f"export const studyVersion = {json.dumps(RELEASE_ID)};\n"
         f"export const availableDatasets = {json.dumps(sorted(EXPECTED_SOURCE_DATASETS))};\n"
-        f"export const availableCohorts = {json.dumps(sorted(VALID_COHORTS))};\n"
-        f"export const cohortLabels = {json.dumps({key: value['label'] for key, value in evidence['cohorts'].items()}, ensure_ascii=False)};\n"
         "export const models = "
         + json.dumps(models, ensure_ascii=False, indent=2)
         + ";\n"
