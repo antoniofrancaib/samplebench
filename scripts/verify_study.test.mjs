@@ -168,4 +168,8 @@ test('public UI keeps the requested routes and four-choice voting flow', () => {
   assert.equal(source.includes("value: 'skip'"), false);
   assert.equal(source.includes("s: 'skip'"), false);
   assert.equal(source.includes('Choose the better sample overall'), false);
+  assert.match(source, /headline: leftModelName/);
+  assert.match(source, /headline: rightModelName/);
+  assert.match(source, /headline: 'Equally good'/);
+  assert.match(source, /headline: 'Both bad'/);
 });

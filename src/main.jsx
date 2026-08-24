@@ -28,6 +28,7 @@ const samplePool = models.flatMap((model) =>
   (model.samples || []).map((sample) => ({
     ...sample,
     sampleId: sample.id,
+    modelName: model.name,
     dataset: model.dataset,
     group: model.public_group_id,
   })),
@@ -166,8 +167,12 @@ function buildVoteRow({ pair, choice, voterId, responseTimeMs, voteNumber }) {
 }
 
 /* ── Reveal overlay ───────────────────────────────────────────── */
-function revealText() {
-  return { headline: 'Recorded', sub: 'Loading the next comparison' };
+function revealText(choice, leftModelName, rightModelName) {
+  if (choice === 'left') return { headline: leftModelName, sub: `is better than ${rightModelName}` };
+  if (choice === 'right') return { headline: rightModelName, sub: `is better than ${leftModelName}` };
+  if (choice === 'tie') return { headline: 'Equally good', sub: `${leftModelName} · ${rightModelName}` };
+  if (choice === 'both_bad') return { headline: 'Both bad', sub: `${leftModelName} · ${rightModelName}` };
+  return null;
 }
 
 function RevealOverlay({ reveal, fading }) {
@@ -184,8 +189,8 @@ function RevealOverlay({ reveal, fading }) {
 
   if (!reveal) return null;
   const visible = shown && !fading;
-  const { pair } = reveal;
-  const txt = revealText();
+  const { pair, choice } = reveal;
+  const txt = revealText(choice, pair.left.modelName, pair.right.modelName);
   if (!txt) return null;
 
   return (
