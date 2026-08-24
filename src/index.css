@@ -117,3 +117,9 @@
 /* Hide scrollbar on the mobile sample carousel (still scrollable) */
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Preserve decoded generator output while keeping pathological long tokens inside cards. */
+.sample-raw {
+  overflow-wrap: anywhere;
+  tab-size: 4;
+}

@@ -15,7 +15,10 @@ create table if not exists public.sample_votes (
   response_time_ms integer not null,
   app_version text not null,
   payload jsonb not null default '{}'::jsonb,
-  constraint sample_votes_choice_check check (choice in ('left', 'right', 'tie', 'both_bad', 'skip')),
+  constraint sample_votes_choice_check check (
+    choice in ('left', 'right', 'tie', 'both_bad') or
+    (choice = 'skip' and app_version <> 'samplebench-web/dlmbench-canonical-20260824-r5')
+  ),
   constraint sample_votes_preference_strength_check check (
     preference_strength is null or preference_strength between 1 and 5
   )
@@ -34,7 +37,10 @@ alter table public.sample_votes drop constraint if exists sample_votes_preferenc
 alter table public.sample_votes drop constraint if exists sample_votes_response_time_check;
 
 alter table public.sample_votes
-  add constraint sample_votes_choice_check check (choice in ('left', 'right', 'tie', 'both_bad', 'skip')),
+  add constraint sample_votes_choice_check check (
+    choice in ('left', 'right', 'tie', 'both_bad') or
+    (choice = 'skip' and app_version <> 'samplebench-web/dlmbench-canonical-20260824-r5')
+  ),
   add constraint sample_votes_preference_strength_check check (
     preference_strength is null or preference_strength between 1 and 5
   ),
@@ -55,6 +61,8 @@ create index if not exists sample_votes_created_at_idx on public.sample_votes (c
 create index if not exists sample_votes_battle_id_idx on public.sample_votes (battle_id);
 create index if not exists sample_votes_models_idx on public.sample_votes (winner_model_id, loser_model_id);
 create index if not exists sample_votes_session_idx on public.sample_votes (session_id);
+create index if not exists sample_votes_study_cohort_idx
+  on public.sample_votes (app_version, (payload->>'cohort'), created_at desc);
 
 -- Dedup: one vote per (session, battle) pair — enforced at the DB level by api/vote.js
 create unique index if not exists sample_votes_session_battle_uniq

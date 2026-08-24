@@ -10,15 +10,16 @@ import re
 from pathlib import Path
 
 
-# Keep the source selection explicit. The dLMbench working tree also contains
-# naive baselines and other exploratory exports; those are not part of this
-# human-comparison release. The release is rebuilt from the 65 canonical
-# directories below, even when the source tree contains extras.
-RELEASE_ID = "dlmbench-canonical-20260814-r4"
-RELEASE_SEED = "samplebench-dlmbench-canonical-20260814-r4"
+# r5 is a new study: votes and public IDs must never mix with r4.
+RELEASE_ID = "dlmbench-canonical-20260824-r5"
+RELEASE_SEED = "samplebench-dlmbench-canonical-20260824-r5"
 SAMPLES_PER_MODEL = 40
-EXPECTED_SOURCE_DATASETS = {"lm1b": 8, "owt": 57}
+EXPECTED_SOURCE_DATASETS = {"lm1b": 9, "owt": 57}
+EXPECTED_DEPLOYMENT_DATASETS = {"lm1b": 8, "owt": 40}
+EXPECTED_COHORT_COUNTS = {"primary": 24, "efficiency": 35}
 EXPECTED_FILES = {"samples.jsonl", "manifest.json", "checksums.sha256"}
+EVIDENCE_SCHEMA = "samplebench-arm-evidence-v1"
+VALID_COHORTS = {"primary", "efficiency"}
 
 NON_CANONICAL_CORPORA = {
     "lm1b_phrase_bank_1000",
@@ -29,21 +30,6 @@ NON_CANONICAL_CORPORA = {
     "owt_mirror_5000",
     "owt_periodic_k_400",
     "owt_topk_iid_k64",
-}
-
-# These legacy IDs are byte-identical aliases of the corresponding v2 slots.
-# Keeping both would create self-distribution battles and double-count one
-# corpus family in the public study. The source corpora remain canonical and
-# are recorded as excluded from this deployment release.
-EXCLUDED_CORPORA = {
-    "owt_duo_base_1024_nfe",
-    "owt_flm_1024_nfe",
-    "owt_fmlm_1_nfe",
-    "owt_fmlm_4_nfe",
-    "owt_fmlm_32_nfe",
-    "owt_mdlm_1024_nfe",
-    "owt_sedd_1024_nfe",
-    "owt_v2_replaid_nosc_ddpm_1024_nfe",
 }
 
 # Conservative, deterministic public-safety screen. It removes obvious
@@ -131,6 +117,20 @@ def safety_reasons(text: str) -> list[str]:
     return [name for name, pattern in SAFETY_PATTERNS.items() if pattern.search(text)]
 
 
+def require_subset(actual: object, expected: object, label: str) -> None:
+    """Require every evidence value recursively without constraining extra fields."""
+
+    if isinstance(expected, dict):
+        if not isinstance(actual, dict):
+            raise ValueError(f"{label}: expected an object")
+        for key, value in expected.items():
+            if key not in actual:
+                raise ValueError(f"{label}: missing required field {key!r}")
+            require_subset(actual[key], value, f"{label}.{key}")
+    elif actual != expected:
+        raise ValueError(f"{label}: expected {expected!r}, found {actual!r}")
+
+
 def select_rows(rows: list[dict], corpus_digest: str) -> tuple[list[dict], dict[str, int]]:
     rejected: dict[str, int] = {}
     safe_rows = []
@@ -155,7 +155,13 @@ def select_rows(rows: list[dict], corpus_digest: str) -> tuple[list[dict], dict[
     return sorted(ranked[:SAMPLES_PER_MODEL], key=lambda row: row["id"]), rejected
 
 
-def load_corpus(path: Path, dataset: str) -> tuple[dict, dict]:
+def load_corpus(
+    path: Path,
+    dataset: str,
+    arm: dict,
+    evidence_sources: dict[str, dict],
+    checkpoints: dict[str, dict],
+) -> tuple[dict, dict]:
     actual_files = {item.name for item in path.iterdir() if item.is_file()}
     if actual_files != EXPECTED_FILES:
         raise ValueError(f"{path}: expected exactly {sorted(EXPECTED_FILES)}, found {sorted(actual_files)}")
@@ -183,6 +189,43 @@ def load_corpus(path: Path, dataset: str) -> tuple[dict, dict]:
         raise ValueError(f"{path}: expected 1024 samples")
     if canonical.get("dataset") != dataset or canonical.get("generator_id") != generator_id:
         raise ValueError(f"{path}: canonical identity mismatch")
+    if arm.get("dataset") != dataset:
+        raise ValueError(f"{path}: evidence dataset mismatch")
+    if arm.get("configuration") != f"configs/generation.yaml:{generator_id}":
+        raise ValueError(f"{path}: evidence must bind the exact generation config")
+    evidence_ref = arm.get("evidence")
+    if evidence_ref not in evidence_sources:
+        raise ValueError(f"{path}: unknown paper evidence reference {evidence_ref!r}")
+    checkpoint_ref = arm.get("checkpoint")
+    if checkpoint_ref not in checkpoints:
+        raise ValueError(f"{path}: unknown checkpoint evidence reference {checkpoint_ref!r}")
+    checkpoint_evidence = checkpoints[checkpoint_ref]
+    status = arm.get("status")
+    cohorts = arm.get("cohorts")
+    if status == "included":
+        if not isinstance(cohorts, list) or not cohorts or set(cohorts) - VALID_COHORTS:
+            raise ValueError(f"{path}: included arm has invalid cohorts")
+        if arm.get("provenance_tier") not in {"A", "B"}:
+            raise ValueError(f"{path}: included arm must have A/B provenance")
+    elif status == "excluded":
+        if cohorts != [] or not arm.get("exclusion_reason"):
+            raise ValueError(f"{path}: excluded arm needs no cohorts and a reason")
+    else:
+        raise ValueError(f"{path}: invalid evidence status {status!r}")
+
+    # Included arms must bind every deployment identity to the reviewed
+    # evidence record. Excluded historical aliases are still checksum- and
+    # schema-validated below, but their known provenance defects must not
+    # make it necessary to repair data that cannot enter this release.
+    if status == "included" and schema_version == "dlmbench-inference-v2":
+        if manifest.get("checkpoint_id") != checkpoint_ref:
+            raise ValueError(f"{path}: checkpoint identity does not match arm evidence")
+        if manifest.get("checkpoint_revision") != checkpoint_evidence.get("revision"):
+            raise ValueError(f"{path}: checkpoint revision does not match arm evidence")
+        if manifest.get("checkpoint_digest") != checkpoint_evidence.get("digest"):
+            raise ValueError(f"{path}: checkpoint digest does not match arm evidence")
+    elif status == "included" and arm.get("provenance_tier") != "C":
+        raise ValueError(f"{path}: author-provided corpus must use provenance tier C")
 
     corpus_digest = sha256_file(samples_path)
     if manifest.get("output_sha256") != corpus_digest:
@@ -202,6 +245,13 @@ def load_corpus(path: Path, dataset: str) -> tuple[dict, dict]:
 
     selected, rejected = select_rows(rows, corpus_digest)
     config = manifest.get("generation_config") or {}
+    if status == "included" and config.get("id") != generator_id:
+        raise ValueError(f"{path}: manifest generation config identity mismatch")
+    nfe_match = re.search(r"_(\d+)_nfe$", generator_id)
+    if status == "included" and nfe_match and config.get("nfe") != int(nfe_match.group(1)):
+        raise ValueError(f"{path}: manifest NFE does not match generator identity")
+    if status == "included" and arm.get("manifest_requirements"):
+        require_subset(manifest, arm["manifest_requirements"], f"{path}: manifest evidence")
     sampling = manifest.get("sampling") or {}
     family = family_for(generator_id)
     model = {
@@ -213,6 +263,7 @@ def load_corpus(path: Path, dataset: str) -> tuple[dict, dict]:
         "public_group_id": public_group_id(dataset, generator_id, corpus_digest),
         "algo": config.get("algo") or sampling.get("algorithm") or family,
         "nfe": config.get("nfe") or sampling.get("benchmark_nfe_label"),
+        "cohorts": cohorts,
         "corpusSha256": corpus_digest,
         "samples": [
             {
@@ -243,8 +294,38 @@ def load_corpus(path: Path, dataset: str) -> tuple[dict, dict]:
         or (manifest.get("conversion") or {}).get("source_bundle_digest"),
         "source_type": source_type,
         "provider": (manifest.get("provider") or {}).get("name"),
+        "manifest_identity_matches_arm": {
+            "generator": manifest.get("generator_id") == generator_id and config.get("id") == generator_id,
+            "checkpoint": manifest.get("checkpoint_id") == checkpoint_ref,
+            "checkpoint_revision": manifest.get("checkpoint_revision") == checkpoint_evidence.get("revision"),
+            "checkpoint_digest": manifest.get("checkpoint_digest") == checkpoint_evidence.get("digest"),
+            "nfe": not nfe_match or config.get("nfe") == int(nfe_match.group(1)),
+        },
+        "arm_evidence": {
+            **arm,
+            "paper": evidence_sources[evidence_ref],
+            "checkpoint_record": checkpoint_evidence,
+        },
     }
     return model, record
+
+
+def load_arm_evidence(path: Path) -> dict:
+    evidence = json.loads(path.read_text(encoding="utf-8"))
+    if evidence.get("schema_version") != EVIDENCE_SCHEMA:
+        raise ValueError(f"{path}: unsupported evidence schema")
+    if evidence.get("study_version") != RELEASE_ID:
+        raise ValueError(f"{path}: evidence study version does not match r5")
+    if set(evidence.get("cohorts", {})) != VALID_COHORTS:
+        raise ValueError(f"{path}: evidence must define primary and efficiency cohorts")
+    arms = evidence.get("arms")
+    if not isinstance(arms, dict) or not arms:
+        raise ValueError(f"{path}: arms must be a non-empty object")
+    if not isinstance(evidence.get("papers"), dict) or not evidence["papers"]:
+        raise ValueError(f"{path}: papers must be a non-empty object")
+    if not isinstance(evidence.get("checkpoints"), dict) or not evidence["checkpoints"]:
+        raise ValueError(f"{path}: checkpoints must be a non-empty object")
+    return evidence
 
 
 def main() -> int:
@@ -252,7 +333,17 @@ def main() -> int:
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--server-output", type=Path)
+    parser.add_argument(
+        "--evidence",
+        type=Path,
+        default=Path(__file__).with_name("arm-evidence-r5.json"),
+    )
     args = parser.parse_args()
+
+    evidence = load_arm_evidence(args.evidence)
+    arms = evidence["arms"]
+    papers = evidence["papers"]
+    checkpoints = evidence["checkpoints"]
 
     models: list[dict] = []
     records: list[dict] = []
@@ -268,14 +359,26 @@ def main() -> int:
         if len(corpus_dirs) != expected_count:
             raise ValueError(f"{dataset_root}: expected {expected_count} corpora, found {len(corpus_dirs)}")
         source_observed[dataset] = len(corpus_dirs)
-        observed[dataset] = sum(path.name not in EXCLUDED_CORPORA for path in corpus_dirs)
+        source_ids = {path.name for path in corpus_dirs}
+        evidence_ids = {generator_id for generator_id, arm in arms.items() if arm.get("dataset") == dataset}
+        if source_ids != evidence_ids:
+            raise ValueError(
+                f"{dataset_root}: arm evidence classification mismatch; "
+                f"missing={sorted(source_ids - evidence_ids)}, extra={sorted(evidence_ids - source_ids)}"
+            )
+        observed[dataset] = sum(arms[path.name].get("status") == "included" for path in corpus_dirs)
         for corpus_dir in corpus_dirs:
-            model, record = load_corpus(corpus_dir, dataset)
-            if corpus_dir.name in EXCLUDED_CORPORA:
+            arm = arms[corpus_dir.name]
+            model, record = load_corpus(corpus_dir, dataset, arm, papers, checkpoints)
+            if arm["status"] == "excluded":
                 record["deployment_excluded"] = True
+                record["exclusion_reason"] = arm["exclusion_reason"]
             else:
                 models.append(model)
             records.append(record)
+
+    if observed != EXPECTED_DEPLOYMENT_DATASETS:
+        raise ValueError(f"deployment dataset counts mismatch: {observed}")
 
     models.sort(key=lambda model: (model["dataset"], model["id"]))
     records.sort(key=lambda record: (record["dataset"], record["generator_id"]))
@@ -287,6 +390,8 @@ def main() -> int:
         f"export const checkpointFamilies = {json.dumps(families, ensure_ascii=False)};\n"
         f"export const studyVersion = {json.dumps(RELEASE_ID)};\n"
         f"export const availableDatasets = {json.dumps(sorted(EXPECTED_SOURCE_DATASETS))};\n"
+        f"export const availableCohorts = {json.dumps(sorted(VALID_COHORTS))};\n"
+        f"export const cohortLabels = {json.dumps({key: value['label'] for key, value in evidence['cohorts'].items()}, ensure_ascii=False)};\n"
         "export const models = "
         + json.dumps(models, ensure_ascii=False, indent=2)
         + ";\n"
@@ -321,6 +426,7 @@ def main() -> int:
                     "dataset": model["dataset"],
                     "digest": model["corpusSha256"],
                     "publicGroupId": model["public_group_id"],
+                    "cohorts": model["cohorts"],
                     "sourceIds": [sample["sourceId"] for sample in model["samples"]],
                     "sampleIds": [sample["id"] for sample in model["samples"]],
                 }
@@ -336,7 +442,7 @@ def main() -> int:
             "const SAMPLE_CATALOG = new Map();\n"
             "for (const entry of entries) {\n"
             "  entry.sampleIds.forEach((sampleId, index) => SAMPLE_CATALOG.set(sampleId, {\n"
-            "    modelId: entry.id, dataset: entry.dataset, sourceId: entry.sourceIds[index],\n"
+            "    modelId: entry.id, dataset: entry.dataset, sourceId: entry.sourceIds[index], cohorts: entry.cohorts,\n"
             "  }));\n"
             "}\n\n"
             "export function getCatalogEntry(modelId) {\n"
@@ -362,7 +468,11 @@ def main() -> int:
             "safety_policy": "samplebench-public-safety-v1",
             "public_sample_ids": "opaque SHA-256 tokens; model identity is server-only",
         },
-        "excluded_corpora": sorted(EXCLUDED_CORPORA),
+        "arm_evidence_schema": EVIDENCE_SCHEMA,
+        "arm_evidence_sha256": sha256_file(args.evidence),
+        "excluded_corpora": sorted(
+            generator_id for generator_id, arm in arms.items() if arm["status"] == "excluded"
+        ),
         "dataset_counts": observed,
         "source_dataset_counts": source_observed,
         "source_corpus_count": len(records),
@@ -370,8 +480,15 @@ def main() -> int:
         "deployment_sample_count": sum(len(model["samples"]) for model in models),
         "model_count": len(models),
         "sample_count": sum(len(model["samples"]) for model in models),
+        "cohort_model_counts": {
+            cohort: sum(cohort in model["cohorts"] for model in models)
+            for cohort in sorted(VALID_COHORTS)
+        },
+        "cohorts": evidence["cohorts"],
         "corpora": records,
     }
+    if release["cohort_model_counts"] != EXPECTED_COHORT_COUNTS:
+        raise ValueError(f"cohort model counts mismatch: {release['cohort_model_counts']}")
     (args.output / "data-release.json").write_text(
         json.dumps(release, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",

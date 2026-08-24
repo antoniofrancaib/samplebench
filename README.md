@@ -50,11 +50,24 @@ identity remains hidden in the comparison cards but is visible in the Samples
 and Leaderboard views. The automated screen is a conservative first pass and
 still requires human review of the selected text before public recruitment.
 
-The active r4 release contains 57 models and 2,280 samples (40 per model):
-8 LM1B models and 49 OWT models. It excludes eight byte-identical or
-exploratory OWT/LM1B directories and records all 65 inspected source corpora in
-`src/data-release.json`. The excluded corpora must not be reintroduced into a
-human-comparison release without a new study version and review.
+The active r5 release contains 48 models and 1,920 samples (40 per model):
+8 LM1B models and 40 OWT models. Every one of the 66 inspected canonical
+source corpora is classified by `scripts/arm-evidence-r5.json`; 18 legacy,
+locally extrapolated, unsupported, or insufficiently documented arms are
+excluded. The default Primary cohort contains reviewed headline operating
+points across selected families, scales, and one-step regimes. The Efficiency
+cohort contains the available paper-supported within-family NFE sweeps. Cohorts
+have separate pair IDs and leaderboard queries so their votes cannot be mixed
+accidentally.
+
+`src/data-release.json` records the paper/configuration evidence, exact
+checkpoint revision and digest, source corpus and manifest digests, declared
+limitations, exclusion reasons, cohort membership, deterministic selected
+source IDs, and safety-screen counts for every inspected arm. Included arms
+must pass the catalog builder's checkpoint/config/NFE identity checks; the
+repaired SDTT and CoBit arms have additional decoder or stochastic-sampler
+manifest requirements. Excluded corpora must not be reintroduced without a
+new study version and review.
 
 The comparison and sample-browser views render each selected decoded text in
 full. Whitespace, special-token strings, and decoding artifacts are preserved;

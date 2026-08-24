@@ -4,8 +4,9 @@ import {
   getCatalogSample,
 } from '../server/catalog.js';
 
-const VALID_CHOICES = new Set(['left', 'right', 'tie', 'both_bad', 'skip']);
+const VALID_CHOICES = new Set(['left', 'right', 'tie', 'both_bad']);
 const VALID_DATASETS = new Set(['lm1b', 'owt']);
+const VALID_COHORTS = new Set(['primary', 'efficiency']);
 const MAX_VOTES_PER_SESSION_24H = 200;
 const MIN_DWELL_MS = 1000;
 const ACTIVE_APP_VERSION = `samplebench-web/${ACTIVE_CATALOG_VERSION}`;
@@ -34,9 +35,10 @@ function validViewport(value) {
     Number.isInteger(value.height) && value.height > 0 && value.height <= 10000;
 }
 
-function sanitizePayload(payload, dataset) {
+function sanitizePayload(payload, dataset, cohort) {
   const sanitized = {
     dataset,
+    cohort,
     study_version: ACTIVE_CATALOG_VERSION,
   };
   if (Number.isInteger(payload.vote_number) && payload.vote_number > 0 && payload.vote_number <= 1_000_000)
@@ -111,20 +113,23 @@ export default async function handler(request) {
       return json({ error: `invalid ${name}` }, 400);
   }
   const dataset = payload.dataset;
+  const cohort = payload.cohort;
   if (!VALID_DATASETS.has(dataset) || payload.study_version !== ACTIVE_CATALOG_VERSION)
     return json({ error: 'invalid study metadata' }, 400);
+  if (!VALID_COHORTS.has(cohort)) return json({ error: 'invalid cohort' }, 400);
 
   const leftSample = getCatalogSample(left_sample_id);
   const rightSample = getCatalogSample(right_sample_id);
   if (!leftSample || !rightSample || leftSample.dataset !== dataset || rightSample.dataset !== dataset ||
-      leftSample.modelId === rightSample.modelId)
+      leftSample.modelId === rightSample.modelId ||
+      !leftSample.cohorts.includes(cohort) || !rightSample.cohorts.includes(cohort))
     return json({ error: 'invalid model pairing' }, 400);
-  if (battle_id !== `${left_sample_id}__${right_sample_id}`)
+  if (battle_id !== `${cohort}::${left_sample_id}__${right_sample_id}`)
     return json({ error: 'battle_id does not match samples' }, 400);
 
   if (response_time_ms < MIN_DWELL_MS) return json({ error: 'dwell time too short' }, 422);
 
-  const storedPayload = sanitizePayload(payload, dataset);
+  const storedPayload = sanitizePayload(payload, dataset, cohort);
   if (!storedPayload) return json({ error: 'invalid viewport' }, 400);
 
   const supabase = getSupabaseConfig();
@@ -163,7 +168,7 @@ export default async function handler(request) {
   const right_model_id = rightSample.modelId;
   const winner_model_id = choice === 'left' ? left_model_id : choice === 'right' ? right_model_id : null;
   const loser_model_id = choice === 'left' ? right_model_id : choice === 'right' ? left_model_id : null;
-  const canonicalBattleId = [left_sample_id, right_sample_id].sort().join('__');
+  const canonicalBattleId = `${cohort}::${[left_sample_id, right_sample_id].sort().join('__')}`;
   const row = {
     session_id,
     battle_id: canonicalBattleId,

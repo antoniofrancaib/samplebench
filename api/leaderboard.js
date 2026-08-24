@@ -3,6 +3,7 @@ import { ACTIVE_CATALOG_VERSION, getCatalogEntry } from '../server/catalog.js';
 
 const ACTIVE_APP_VERSION = `samplebench-web/${ACTIVE_CATALOG_VERSION}`;
 const VALID_DATASETS = new Set(['lm1b', 'owt']);
+const VALID_COHORTS = new Set(['primary', 'efficiency']);
 const PAGE_SIZE = 1000;
 const MAX_ROWS = 100_000;
 
@@ -19,7 +20,9 @@ export default async function handler(request, response) {
   if (!supabase) return json(response, { error: 'service not configured' }, 503);
 
   const dataset = new URL(request.url, 'http://localhost').searchParams.get('dataset') || 'owt';
+  const cohort = new URL(request.url, 'http://localhost').searchParams.get('cohort') || 'primary';
   if (!VALID_DATASETS.has(dataset)) return json(response, { error: 'invalid dataset' }, 400);
+  if (!VALID_COHORTS.has(cohort)) return json(response, { error: 'invalid cohort' }, 400);
 
   const headers = {
     apikey: supabase.serviceKey,
@@ -31,7 +34,7 @@ export default async function handler(request, response) {
     for (let offset = 0; offset < MAX_ROWS; offset += PAGE_SIZE) {
       const res = await fetch(
         `${supabase.baseUrl}/rest/v1/sample_votes` +
-          `?select=winner_model_id,loser_model_id,left_model_id,right_model_id,choice` +
+          `?select=winner_model_id,loser_model_id,left_model_id,right_model_id,choice,payload` +
           `&app_version=eq.${encodeURIComponent(ACTIVE_APP_VERSION)}` +
           `&limit=${PAGE_SIZE}&offset=${offset}`,
         { headers },
@@ -72,10 +75,12 @@ export default async function handler(request, response) {
     return stats.get(id);
   }
 
-  const datasetRows = rows.filter(({ left_model_id, right_model_id }) => {
+  const datasetRows = rows.filter(({ left_model_id, right_model_id, payload }) => {
     const left = getCatalogEntry(left_model_id);
     const right = getCatalogEntry(right_model_id);
-    return left?.dataset === dataset && right?.dataset === dataset && left_model_id !== right_model_id;
+    return payload?.cohort === cohort && left?.dataset === dataset && right?.dataset === dataset &&
+      left?.cohorts?.includes(cohort) && right?.cohorts?.includes(cohort) &&
+      left_model_id !== right_model_id;
   });
 
   for (const { winner_model_id, loser_model_id, left_model_id, right_model_id, choice } of datasetRows) {
@@ -109,7 +114,7 @@ export default async function handler(request, response) {
 
   return json(
     response,
-    { total_votes: datasetRows.length, dataset, study_version: ACTIVE_APP_VERSION, models },
+    { total_votes: datasetRows.length, dataset, cohort, study_version: ACTIVE_APP_VERSION, models },
     200,
     { 'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60' },
   );
