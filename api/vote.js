@@ -10,7 +10,6 @@ const MAX_VOTES_PER_SESSION_24H = 200;
 const MIN_DWELL_MS = 1000;
 const ACTIVE_APP_VERSION = `samplebench-web/${ACTIVE_CATALOG_VERSION}`;
 const ACTIVE_RUBRIC_VERSION = 'categorical-overall-v1';
-const CONSENT_VERSION = 'study-consent-v1';
 const PRODUCTION_ORIGIN = 'https://samplebench.vercel.app';
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -39,7 +38,6 @@ function sanitizePayload(payload, dataset) {
   const sanitized = {
     dataset,
     study_version: ACTIVE_CATALOG_VERSION,
-    consent_version: CONSENT_VERSION,
   };
   if (Number.isInteger(payload.vote_number) && payload.vote_number > 0 && payload.vote_number <= 1_000_000)
     sanitized.vote_number = payload.vote_number;
@@ -113,8 +111,7 @@ export default async function handler(request) {
       return json({ error: `invalid ${name}` }, 400);
   }
   const dataset = payload.dataset;
-  if (!VALID_DATASETS.has(dataset) || payload.study_version !== ACTIVE_CATALOG_VERSION ||
-      payload.consent_version !== CONSENT_VERSION)
+  if (!VALID_DATASETS.has(dataset) || payload.study_version !== ACTIVE_CATALOG_VERSION)
     return json({ error: 'invalid study metadata' }, 400);
 
   const leftSample = getCatalogSample(left_sample_id);

@@ -3,7 +3,6 @@ import { ACTIVE_CATALOG_VERSION, getCatalogEntry } from '../server/catalog.js';
 
 const ACTIVE_APP_VERSION = `samplebench-web/${ACTIVE_CATALOG_VERSION}`;
 const VALID_DATASETS = new Set(['lm1b', 'owt']);
-const PUBLIC_RESULTS_ENABLED = process.env.PUBLIC_RESULTS_ENABLED === 'true';
 const PAGE_SIZE = 1000;
 const MAX_ROWS = 100_000;
 
@@ -16,10 +15,6 @@ function json(response, data, status = 200, headers = {}) {
 }
 
 export default async function handler(request, response) {
-  if (!PUBLIC_RESULTS_ENABLED) {
-    return json(response, { error: 'results unavailable while collection is open' }, 404);
-  }
-
   const supabase = getSupabaseConfig();
   if (!supabase) return json(response, { error: 'service not configured' }, 503);
 

@@ -101,7 +101,6 @@ test('vote API derives model metadata, canonicalizes pairs, and rejects forged i
     payload: {
       dataset: 'owt',
       study_version: studyVersion,
-      consent_version: 'study-consent-v1',
       viewport: { width: 390, height: 844 },
       page_url: 'https://evil.example/?secret=should-not-be-stored',
     },
@@ -130,6 +129,7 @@ test('vote API derives model metadata, canonicalizes pairs, and rejects forged i
     assert.equal(lastInserted.loser_model_id, rightMapped.modelId);
     assert.equal(lastInserted.battle_id, [left.id, right.id].sort().join('__'));
     assert.equal(lastInserted.payload.page_url, undefined);
+    assert.equal(lastInserted.payload.consent_version, undefined);
 
     const fabricated = 's-000000000000000000000000';
     response = await call({ ...base, left_sample_id: fabricated, battle_id: `${fabricated}__${right.id}` });
@@ -157,4 +157,15 @@ test('vote API derives model metadata, canonicalizes pairs, and rejects forged i
   } finally {
     globalThis.fetch = originalFetch;
   }
+});
+
+test('public UI keeps the requested routes and four-choice voting flow', () => {
+  const source = fs.readFileSync(new URL('../src/main.jsx', import.meta.url), 'utf8');
+  assert.match(source, /<SamplesIndexPage onNavigate=\{navigate\}/);
+  assert.match(source, /<LeaderboardPage onNavigate=\{navigate\}/);
+  assert.equal(source.includes('StudyConsentPage'), false);
+  assert.equal(source.includes('CollectionClosedPage'), false);
+  assert.equal(source.includes("value: 'skip'"), false);
+  assert.equal(source.includes("s: 'skip'"), false);
+  assert.equal(source.includes('Choose the better sample overall'), false);
 });
