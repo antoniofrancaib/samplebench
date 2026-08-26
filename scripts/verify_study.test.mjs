@@ -23,10 +23,10 @@ test('reviewed release is balanced, safe-screened, opaque, and server-bound', ()
     ['owt_v2_replaid_nosc_ddpm_1024_nfe', '518d2d10ce436833160df99bb88e859fee5f2682a79fed3d7431625e5d4424ad'],
   ]);
   const expectedReviewedExclusions = new Map([
-    ['owt_v2_plaid_256_nfe', [42, 429, 688, 798, 956]],
-    ['owt_v2_plaid_1024_nfe', [192, 224, 243, 417, 459, 522, 565, 620, 625, 973]],
-    ['owt_v2_plaid_4096_nfe', [48, 200, 247, 419, 536, 568, 571, 617, 811, 836, 848, 902, 993, 1011]],
-    ['owt_v2_replaid_nosc_ddpm_1024_nfe', [17, 25, 101, 111, 299, 338, 392, 418, 429, 514, 530, 609, 620, 639, 663, 734, 747, 835, 913, 993]],
+    ['owt_v2_plaid_256_nfe', [6, 42, 429, 688, 798, 956, 1013]],
+    ['owt_v2_plaid_1024_nfe', [192, 224, 243, 276, 417, 459, 522, 565, 577, 620, 625, 883, 973]],
+    ['owt_v2_plaid_4096_nfe', [48, 200, 247, 250, 419, 429, 536, 539, 568, 571, 575, 617, 640, 703, 811, 836, 848, 902, 993, 1011]],
+    ['owt_v2_replaid_nosc_ddpm_1024_nfe', [17, 25, 61, 101, 111, 150, 166, 223, 299, 331, 338, 392, 404, 418, 429, 514, 530, 561, 609, 620, 639, 663, 727, 734, 747, 827, 835, 890, 913, 993, 999]],
   ]);
   assert.equal(studyVersion, ACTIVE_CATALOG_VERSION);
   assert.equal(studyVersion, 'dlmbench-canonical-20260826-r6');
@@ -122,8 +122,8 @@ test('reviewed release is balanced, safe-screened, opaque, and server-bound', ()
     assert.equal(corpus.manifest_identity_matches_arm.generator, true);
     assert.equal(corpus.manifest_identity_matches_arm.nfe, true);
     assert.deepEqual(
-      corpus.safety_screen.reviewed_source_exclusions.map(({ source_id }) => source_id),
-      expectedReviewedExclusions.get(corpus.generator_id) ?? [],
+      corpus.safety_screen.reviewed_source_exclusions.map(({ source_id }) => source_id).sort((a, b) => a - b),
+      [...(expectedReviewedExclusions.get(corpus.generator_id) ?? [])].sort((a, b) => a - b),
     );
     if (corpus.arm_evidence.provenance_tier === 'A' || corpus.arm_evidence.provenance_tier === 'B') {
       assert.equal(corpus.manifest_identity_matches_arm.checkpoint, true);
