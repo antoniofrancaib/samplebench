@@ -19,6 +19,7 @@ EXPECTED_DEPLOYMENT_DATASETS = {"lm1b": 7, "owt": 21}
 EXPECTED_COHORT_COUNTS = {"primary": 28}
 EXPECTED_FILES = {"samples.jsonl", "manifest.json", "checksums.sha256"}
 EVIDENCE_SCHEMA = "samplebench-arm-evidence-v1"
+SAFETY_POLICY = "samplebench-public-safety-v2"
 VALID_COHORTS = {"primary"}
 HISTORICAL_RECOVERY_SCHEMA = "dlmbench-historical-recovery-v1"
 HISTORICAL_SOURCE_COMMIT = "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415"
@@ -41,15 +42,32 @@ NON_CANONICAL_CORPORA = {
 # Conservative, deterministic public-safety screen. It removes obvious
 # contact information, markup/decoding failures, and high-risk terms before
 # cryptographic sample selection. This is a screening gate, not a claim that
-# automated moderation replaces human review.
+# automated moderation replaces human review. The v2 additions are limited to
+# failures found during the r6 manual review: bare links/handles, rendered
+# block/editorial artifacts, and clearly unsafe violent or sexual-assault text.
 SAFETY_PATTERNS = {
     "replacement_character": re.compile("�"),
     "url": re.compile(r"\b(?:https?://|www\.)\S+", re.IGNORECASE),
+    "bare_domain": re.compile(
+        r"(?<![@\w])(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}\b",
+        re.IGNORECASE,
+    ),
+    "social_handle": re.compile(r"(?<![\w@])@[a-z0-9_]{2,}\b", re.IGNORECASE),
+    "url_fragment": re.compile(
+        r"\b[a-z0-9_-]{2,}/(?:watch|videos?|status)\?[^\s<]+", re.IGNORECASE
+    ),
     "email": re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", re.IGNORECASE),
     "phone": re.compile(
         r"(?:\+\d{1,3}[ .-]?(?:\(?\d{2,4}\)?[ .-]?)?\d{3,4}[ .-]\d{3,4}|\b\d{3}[-.]\d{3}[-.]\d{4}\b)"
     ),
     "html": re.compile(r"</?[a-z][^>]*>", re.IGNORECASE),
+    "block_glyph": re.compile(r"[\u2580-\u259f\u25a0]"),
+    "editorial_markup": re.compile(
+        r"(?:\[(?:/?caption|date\s*=|edit\s*)[^\]]*\]|"
+        r"\b(?:hide|show)\s+transcript\b|"
+        r"\[(?:instagram|check\s+out)\b[^\]]*\])",
+        re.IGNORECASE,
+    ),
     "sexual": re.compile(
         r"\b(?:porn|pornographic|blowjob|masturbat\w*|semen|ejaculat\w*|genital\w*|penetrat\w*|"
         r"nude|nudity|anal sex|oral sex|intercourse|prostitut\w*|rape\w*|molest\w*|"
@@ -64,7 +82,14 @@ SAFETY_PATTERNS = {
     ),
     "graphic_violence": re.compile(
         r"\b(?:beheaded|decapitat\w*|dismember\w*|gore\w*|mutilat\w*|disembowel\w*|"
-        r"bloodbath|massacre\w*|tortur\w*)\b",
+        r"bloodbath|massacre\w*|tortur\w*|murder\w*|gunned\s+down|stab\w*|"
+        r"grotesque|sickening|torn\s+(?:loose|apart)|head\s+(?:away|off)|"
+        r"shot\s+(?:dead|himself|herself)|open(?:ed)?\s+fire|hostage\w*|"
+        r"bomb(?:ing|ed|s)?|shoot(?:ing|ings)?|pistol\w*|sharp\s+blade|"
+        r"pull(?:ed|ing)?\s+the\s+trigger|female\s+circumcision|"
+        r"genital\s+mutilat\w*|sexual[- ](?:assault|abuse|harassment)|"
+        r"sex[- ]offender\w*|adult\s+content|neo[- ]nazi\w*|lynch\w*|"
+        r"terroris\w*|al\s+shabaab|armed\s+struggle|civil\s+war|warfare)\b",
         re.IGNORECASE,
     ),
     "profanity": re.compile(
@@ -446,7 +471,7 @@ def load_corpus(
         "selected_sample_count": len(selected),
         "selected_source_ids": [row["id"] for row in selected],
         "safety_screen": {
-            "policy": "samplebench-public-safety-v1",
+            "policy": SAFETY_POLICY,
             "rejected_count": sum(rejected.values()),
             "rejected_reason_counts": rejected,
         },
@@ -635,7 +660,7 @@ def main() -> int:
             "algorithm": "lowest SHA-256 ranks without replacement, then source-ID order",
             "seed": RELEASE_SEED,
             "samples_per_model": SAMPLES_PER_MODEL,
-            "safety_policy": "samplebench-public-safety-v1",
+            "safety_policy": SAFETY_POLICY,
             "public_sample_ids": "opaque SHA-256 tokens; model identity is server-only",
         },
         "arm_evidence_schema": EVIDENCE_SCHEMA,

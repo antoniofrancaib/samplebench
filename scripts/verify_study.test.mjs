@@ -46,7 +46,7 @@ test('reviewed release is balanced, safe-screened, opaque, and server-bound', ()
       'owt_phrase_bank_5000', 'owt_mirror_5000', 'owt_periodic_k_400', 'owt_topk_iid_k64',
     ],
   });
-  assert.equal(release.selection.safety_policy, 'samplebench-public-safety-v1');
+  assert.equal(release.selection.safety_policy, 'samplebench-public-safety-v2');
   assert.equal(
     release.arm_evidence_sha256,
     createHash('sha256').update(evidenceBytes).digest('hex'),
@@ -56,13 +56,18 @@ test('reviewed release is balanced, safe-screened, opaque, and server-bound', ()
   const publicSafetyPatterns = [
     /�/,
     /\b(?:https?:\/\/|www\.)\S+/i,
+    /(?<![@\w])(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}\b/i,
+    /(?<![\w@])@[a-z0-9_]{2,}\b/i,
+    /\b[a-z0-9_-]{2,}\/(?:watch|videos?|status)\?[^\s<]+/i,
     /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i,
     /(?:\+\d{1,3}[ .-]?(?:\(?\d{2,4}\)?[ .-]?)?\d{3,4}[ .-]\d{3,4}|\b\d{3}[-.]\d{3}[-.]\d{4}\b)/,
     /<\/?[a-z][^>]*>/i,
+    /[\u2580-\u259f\u25a0]/,
+    /(?:\[(?:\/?caption|date\s*=|edit\s*)[^\]]*\]|\b(?:hide|show)\s+transcript\b|\[(?:instagram|check\s+out)\b[^\]]*\])/i,
     /\b(?:porn|pornographic|blowjob|masturbat\w*|semen|ejaculat\w*|genital\w*|penetrat\w*|nude|nudity|anal sex|oral sex|intercourse|prostitut\w*|rape\w*|molest\w*|pedophil\w*|child porn)\b/i,
     /\b(?:nigger|nigga|faggot|kike|chink|spic|wetback|retard(?:ed)?)\b/i,
     /\b(?:suicide|suicidal|self[- ]harm|kill myself|take my own life)\b/i,
-    /\b(?:beheaded|decapitat\w*|dismember\w*|gore\w*|mutilat\w*|disembowel\w*|bloodbath|massacre\w*|tortur\w*)\b/i,
+    /\b(?:beheaded|decapitat\w*|dismember\w*|gore\w*|mutilat\w*|disembowel\w*|bloodbath|massacre\w*|tortur\w*|murder\w*|gunned\s+down|stab\w*|grotesque|sickening|torn\s+(?:loose|apart)|head\s+(?:away|off)|shot\s+(?:dead|himself|herself)|open(?:ed)?\s+fire|hostage\w*|bomb(?:ing|ed|s)?|shoot(?:ing|ings)?|pistol\w*|sharp\s+blade|pull(?:ed|ing)?\s+the\s+trigger|female\s+circumcision|genital\s+mutilat\w*|sexual[- ](?:assault|abuse|harassment)|sex[- ]offender\w*|adult\s+content|neo[- ]nazi\w*|lynch\w*|terroris\w*|al\s+shabaab|armed\s+struggle|civil\s+war|warfare)\b/i,
     /\b(?:fuck(?:ing|ed)?|shit|cunt|slut|whore|bitch|dick|pussy|cock|asshole|motherfucker)\b/i,
   ];
   for (const sample of samples) {

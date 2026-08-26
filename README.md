@@ -49,6 +49,11 @@ deployment snapshot by hash. Commit `src/data-public.js`, `src/data.js`,
 identity remains hidden in the comparison cards but is visible in the Samples
 and Leaderboard views. The automated screen is a conservative first pass and
 still requires human review of the selected text before public recruitment.
+The r6 screen is `samplebench-public-safety-v2`; its narrowly added gates
+remove bare domains, social handles and URL fragments, block/editorial
+transcript artifacts, and clearly unsafe violent, extremist, or sexual-assault
+passages identified during the four-arm review. Those rows are excluded before
+deterministic ranking; sample bytes are never rewritten.
 
 The active r6 release, `dlmbench-canonical-20260826-r6`, contains 28 models
 and 1,120 samples (40 per model): 7 LM1B models and 21 OWT models. Every one
