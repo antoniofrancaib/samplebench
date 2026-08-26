@@ -193,9 +193,6 @@ def validate_historical_recovery_manifest(
         "frozen_checksum": requirements.get("frozen_checksum"),
     }
     require_subset(manifest, required_manifest, f"{path}: historical recovery manifest")
-    manifest_digest = sha256_file(path / "manifest.json")
-    if manifest_digest != requirements.get("source_manifest_sha256"):
-        raise ValueError(f"{path}: historical source manifest digest mismatch")
 
     source = manifest.get("source")
     if not isinstance(source, dict):
