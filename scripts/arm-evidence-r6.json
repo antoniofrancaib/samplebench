@@ -1200,6 +1200,61 @@
           "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
           "source_id": 999,
           "reason": "Manual review found a specific street address and editorial/video solicitation."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 57,
+          "reason": "Manual review found direct Gmail/contact-code, GitHub login, advertisement, and social-media solicitation."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 136,
+          "reason": "Manual review found social-media handles/tweets, email references, and malformed replacement-character rendering."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 163,
+          "reason": "Manual review found hacking-operation and social-media content in an incoherent passage."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 186,
+          "reason": "Manual review found guns/firearms reporting and Facebook/Twitter contact solicitation."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 455,
+          "reason": "Manual review found sexual-assault/sexual-abuse reporting, criminal allegations, and fundraising solicitation."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 535,
+          "reason": "Manual review found a malformed game-text passage with repeated death/destruction language."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 675,
+          "reason": "Manual review found largely non-readable Cyrillic-like text with replacement-character rendering."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 793,
+          "reason": "Manual review found military/defense and weapons-related reporting unsuitable for public display."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 868,
+          "reason": "Manual review found sexual-content/police-misconduct reporting and malformed text."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 921,
+          "reason": "Manual review found malformed escaped/encoded text with replacement-character rendering."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 1000,
+          "reason": "Manual review found malformed promotional/social-media content and source/editorial artifacts."
         }
       ],
       "manifest_requirements": {
@@ -1502,6 +1557,16 @@
           "generator_id": "owt_v2_plaid_1024_nfe",
           "source_id": 883,
           "reason": "Manual review found phishing, scam, and private-details content."
+        },
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 22,
+          "reason": "Manual review found a terror-attack, mass-shooting, firearm, and criminal-violence news passage."
+        },
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 793,
+          "reason": "Manual review found a campus violence alert, explosion report, malformed rendering, and social-media handles/URL."
         }
       ],
       "historical_recovery": {
@@ -1677,6 +1742,31 @@
           "generator_id": "owt_v2_plaid_4096_nfe",
           "source_id": 703,
           "reason": "Manual review found malformed, largely non-readable text."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 10,
+          "reason": "Manual review found domestic stabbing, firearm, and assault/criminal-violence reporting."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 273,
+          "reason": "Manual review found armed-conflict reporting with strikes, deaths, attacks, and militant violence."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 586,
+          "reason": "Manual review found murder, stabbing, and fundraising solicitation."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 712,
+          "reason": "Manual review found direct PayPal payment solicitation."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 744,
+          "reason": "Manual review found graphic violence against children and contact/lobbying solicitation."
         }
       ],
       "historical_recovery": {
