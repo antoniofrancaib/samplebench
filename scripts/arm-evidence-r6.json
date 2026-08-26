@@ -1530,6 +1530,61 @@
           "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
           "source_id": 925,
           "reason": "Manual review found malformed employment/technology text with applicant/location data and social-media artifacts."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 235,
+          "reason": "Manual review found malformed personal text with sexualized/assault-adjacent language, alcohol misuse, and social-media/email artifacts."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 356,
+          "reason": "Manual review found malformed personal/legal housing text with private apartment/family details, child-custody concern, and a social-media account reference."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 367,
+          "reason": "Manual review found malformed sports/editorial text with incoherent statistics and factual fragments unsuitable for public display."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 598,
+          "reason": "Manual review found malformed game-style text with military aviation and weapons content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 636,
+          "reason": "Manual review found malformed sports/editorial text with social-media reference and incoherent personal/contact language."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 756,
+          "reason": "Manual review found malformed investment/loan promotion and military/violent content, including stabbing death and solicitation to check offers."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 895,
+          "reason": "Manual review found malformed fictional text with group-kill/fighting and dangerous-person violence language."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 910,
+          "reason": "Manual review found malformed news/entertainment text with deaths, murder references, and addiction/drugged-animal content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 926,
+          "reason": "Manual review found malformed mixed news/sports text with storm/ferry disaster and family-loss references."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 956,
+          "reason": "Manual review found malformed police/sports text with shooting, arrest/DUI, profanity, and criminal-violence references."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 962,
+          "reason": "Manual review found malformed environmental/promotional text with deaths, location/contact solicitation, and incomplete text."
         }
       ],
       "manifest_requirements": {
