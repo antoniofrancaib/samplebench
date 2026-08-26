@@ -49,11 +49,12 @@ deployment snapshot by hash. Commit `src/data-public.js`, `src/data.js`,
 identity remains hidden in the comparison cards but is visible in the Samples
 and Leaderboard views. The automated screen is a conservative first pass and
 still requires human review of the selected text before public recruitment.
-The r6 screen is `samplebench-public-safety-v2`; its narrowly added gates
-remove bare domains, social handles and URL fragments, block/editorial
-transcript artifacts, and clearly unsafe violent, extremist, or sexual-assault
-passages identified during the four-arm review. Those rows are excluded before
-deterministic ranking; sample bytes are never rewritten.
+The r6 screen retains the established `samplebench-public-safety-v1` global
+behavior. The four newly public arms also carry narrow, generator-scoped
+source-row exclusions recorded from manual review; those rows are excluded
+before deterministic ranking, with replacements selected from the same frozen
+corpus. Existing arms retain their prior eligibility, and sample bytes are
+never rewritten.
 
 The active r6 release, `dlmbench-canonical-20260826-r6`, contains 28 models
 and 1,120 samples (40 per model): 7 LM1B models and 21 OWT models. Every one
@@ -73,7 +74,8 @@ its provider metrics are not recomputed for the selected subset.
 `src/data-release.json` records the paper/configuration evidence, exact
 checkpoint revision and digest, source corpus and manifest digests, declared
 limitations, exclusion reasons, cohort membership, deterministic selected
-source IDs, and safety-screen counts for every inspected arm. Included arms
+source IDs, and safety-screen counts plus reviewed source-row exclusions for
+every inspected arm. Included arms
 must pass the catalog builder's checkpoint/config/NFE identity checks; the
 repaired SDTT and CoBit arms have additional decoder or stochastic-sampler
 manifest requirements, while historical recoveries have a separate

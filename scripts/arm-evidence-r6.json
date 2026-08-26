@@ -1045,6 +1045,108 @@
         "Provider-reported metrics are not recomputed for the selected 1,024-text canonical subset.",
         "The provider-declared token-length mismatch is preserved without filtering, truncation, padding, or text normalization."
       ],
+      "reviewed_source_exclusions": [
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 17,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 25,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 101,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 111,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 299,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 338,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 392,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 418,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 429,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 514,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 530,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 609,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 620,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 639,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 663,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 734,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 747,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 835,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 913,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 993,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        }
+      ],
       "manifest_requirements": {
         "canonical": {
           "dataset": "owt",
@@ -1170,6 +1272,33 @@
         "Checkpoint bytes, immutable model revision, and sampling environment provenance are not established by the historical source manifest.",
         "Legacy manifest and Git blob/checksum provenance are preserved; selected text is copied verbatim."
       ],
+      "reviewed_source_exclusions": [
+        {
+          "generator_id": "owt_v2_plaid_256_nfe",
+          "source_id": 42,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_256_nfe",
+          "source_id": 429,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_256_nfe",
+          "source_id": 688,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_256_nfe",
+          "source_id": 798,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_256_nfe",
+          "source_id": 956,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        }
+      ],
       "historical_recovery": {
         "samples_sha256": "07278858384ee5656b6573a772ba7e338b66fdaae8bb927cad528e2a58a73196",
         "canonical_source_manifest_sha256": "b1b3dd3ef436baec12df04a7a47268da434d8dd89583e3d8da39e27314b5f9f5",
@@ -1243,6 +1372,58 @@
         "Checkpoint bytes, immutable model revision, and sampling environment provenance are not established by the historical source manifest.",
         "Legacy manifest and Git blob/checksum provenance are preserved; selected text is copied verbatim."
       ],
+      "reviewed_source_exclusions": [
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 192,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 224,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 243,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 417,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 459,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 522,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 565,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 620,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 625,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 973,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        }
+      ],
       "historical_recovery": {
         "samples_sha256": "1058c429d4fa62f716c3cf08e01976e03e907ab6cb37e2361814ab434d303ecd",
         "canonical_source_manifest_sha256": "479512d7c1feddfd8fa30423bc8f2c57997d7b378c904bba83025ce3202aeda5",
@@ -1315,6 +1496,78 @@
         "Historical frozen Git-recovered samples; no inference or regeneration was performed.",
         "Checkpoint bytes, immutable model revision, and sampling environment provenance are not established by the historical source manifest.",
         "Legacy manifest and Git blob/checksum provenance are preserved; selected text is copied verbatim."
+      ],
+      "reviewed_source_exclusions": [
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 48,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 200,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 247,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 419,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 536,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 568,
+          "reason": "Manual review found conflict, open-fire, and social-media content unsuitable for public display."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 571,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 617,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 811,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 836,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 848,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 902,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 993,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 1011,
+          "reason": "Manual review found unsuitable public-facing content in this source row."
+        }
       ],
       "historical_recovery": {
         "samples_sha256": "bfcc2512c4757d9702a2bf889d77839a27502042811e7afcc50bc8a1a6f9342f",

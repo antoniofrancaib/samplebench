@@ -19,7 +19,7 @@ EXPECTED_DEPLOYMENT_DATASETS = {"lm1b": 7, "owt": 21}
 EXPECTED_COHORT_COUNTS = {"primary": 28}
 EXPECTED_FILES = {"samples.jsonl", "manifest.json", "checksums.sha256"}
 EVIDENCE_SCHEMA = "samplebench-arm-evidence-v1"
-SAFETY_POLICY = "samplebench-public-safety-v2"
+SAFETY_POLICY = "samplebench-public-safety-v1"
 VALID_COHORTS = {"primary"}
 HISTORICAL_RECOVERY_SCHEMA = "dlmbench-historical-recovery-v1"
 HISTORICAL_SOURCE_COMMIT = "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415"
@@ -27,6 +27,12 @@ HISTORICAL_BUNDLE_ID = "audit-20260826-candi-plaid-cobit-recovery-r3"
 HISTORICAL_BUNDLE_DIGEST = "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65"
 HISTORICAL_LEGACY_SCHEMA = "lm-bench-samples-v1"
 HISTORICAL_SUITE_ID = "owt_L1024_diffusion_v2"
+REVIEWED_EXCLUSION_ARMS = {
+    "owt_v2_plaid_256_nfe",
+    "owt_v2_plaid_1024_nfe",
+    "owt_v2_plaid_4096_nfe",
+    "owt_v2_replaid_nosc_ddpm_1024_nfe",
+}
 
 NON_CANONICAL_CORPORA = {
     "lm1b_phrase_bank_1000",
@@ -40,35 +46,18 @@ NON_CANONICAL_CORPORA = {
 }
 
 # Conservative, deterministic public-safety screen. It removes obvious
-# contact information, markup/decoding failures, and high-risk terms before
-# cryptographic sample selection. This is a screening gate, not a claim that
-# automated moderation replaces human review. The v2 additions are limited to
-# failures found during the r6 manual review: bare links/handles, rendered
-# block/editorial artifacts, and clearly unsafe violent or sexual-assault text.
+# contact information and high-risk terms before cryptographic sample
+# selection. This is the established v1 screening gate, not a claim that
+# automated moderation replaces human review. The r6 evidence carries narrow,
+# generator-scoped exclusions for additionally reviewed rows.
 SAFETY_PATTERNS = {
     "replacement_character": re.compile("�"),
     "url": re.compile(r"\b(?:https?://|www\.)\S+", re.IGNORECASE),
-    "bare_domain": re.compile(
-        r"(?<![@\w])(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}\b",
-        re.IGNORECASE,
-    ),
-    "social_handle": re.compile(r"(?<![\w@])@[a-z0-9_]{2,}\b", re.IGNORECASE),
-    "url_fragment": re.compile(
-        r"\b[a-z0-9_-]{2,}/(?:watch|videos?|status)\?[^\s<]+", re.IGNORECASE
-    ),
     "email": re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", re.IGNORECASE),
     "phone": re.compile(
-        r"(?:\+\d{1,3}[ .-]?(?:\(?\d{2,4}\)?[ .-]?)?\d{3,4}[ .-]\d{3,4}|"
-        r"\b\d{3}[-.]\d{3}[-.]\d{4}\b|\(\d{3}\)\s*\d{3}[-.\s]\d{4})"
+        r"(?:\+\d{1,3}[ .-]?(?:\(?\d{2,4}\)?[ .-]?)?\d{3,4}[ .-]\d{3,4}|\b\d{3}[-.]\d{3}[-.]\d{4}\b)"
     ),
     "html": re.compile(r"</?[a-z][^>]*>", re.IGNORECASE),
-    "block_glyph": re.compile(r"[\u2580-\u259f\u25a0]"),
-    "editorial_markup": re.compile(
-        r"(?:\[(?:/?caption|date\s*=|edit\s*)[^\]]*\]|"
-        r"\b(?:hide|show)\s+transcript\b|"
-        r"\[(?:instagram|check\s+out)\b[^\]]*\])",
-        re.IGNORECASE,
-    ),
     "sexual": re.compile(
         r"\b(?:porn|pornographic|blowjob|masturbat\w*|semen|ejaculat\w*|genital\w*|penetrat\w*|"
         r"nude|nudity|anal sex|oral sex|intercourse|prostitut\w*|rape\w*|molest\w*|"
@@ -83,23 +72,7 @@ SAFETY_PATTERNS = {
     ),
     "graphic_violence": re.compile(
         r"\b(?:beheaded|decapitat\w*|dismember\w*|gore\w*|mutilat\w*|disembowel\w*|"
-        r"bloodbath|massacre\w*|tortur\w*|gunned\s+down|"
-        r"(?:was|were|been|be|is|are)\s+murder\w*|murder\s+trial|"
-        r"(?:grotesque\s+body|sickening\s+patterns|head\s+(?:away|off)|"
-        r"torn\s+(?:loose|apart)|woman['’]s\s+head\s+(?:away|off))|"
-        r"shot\s+(?:dead|himself|herself)|literally\s+shot|open(?:ed)?\s+fire|"
-        r"(?:taking|took|holding|held)\s+(?:\w+\s+){0,3}hostage\w*|"
-        r"(?:bombing\s+rampage|two\s+bombs?\s+and\s+a\s+missile|bomb\s+scare)|"
-        r"shoot(?:ing|ings)\s+(?:event|him|her|the)|"
-        r"pistol\s+in\s+(?:his|her)\s+hand|sharp\s+blade|"
-        r"pull(?:ed|ing)?\s+the\s+trigger|female\s+circumcision|"
-        r"genital\s+mutilat\w*|sexual[- ](?:assault|abuse|harassment)|"
-        r"sex[- ]offender\w*|adult\s+content|neo[- ]nazi\w*|lynch\w*\s+nazi|"
-        r"campaign\s+of\s+terrorism|al\s+shabaab|armed\s+struggle\w*|"
-        r"uninterrupted\s+warfare|civil\s+war|female\s+circumcision|"
-        r"vehicular\s+execution|gunshot|stabbing\s+(?:dempsey|switchstone)|"
-        r"stabbed\s+one\s+of\s+the\s+boys|violent\s+law\s+enforcement\s+encounter|"
-        r"phishing\s+site|login\s+password|names\s+and\s+emails)\b",
+        r"bloodbath|massacre\w*|tortur\w*)\b",
         re.IGNORECASE,
     ),
     "profanity": re.compile(
@@ -157,6 +130,38 @@ def public_group_id(dataset: str, generator_id: str, corpus_digest: str) -> str:
 
 def safety_reasons(text: str) -> list[str]:
     return [name for name, pattern in SAFETY_PATTERNS.items() if pattern.search(text)]
+
+
+def validate_reviewed_source_exclusions(arm: dict, generator_id: str) -> list[dict]:
+    """Validate the r6-only, generator-scoped human-review exclusions."""
+
+    if generator_id in REVIEWED_EXCLUSION_ARMS:
+        exclusions = arm.get("reviewed_source_exclusions")
+        if not isinstance(exclusions, list) or not exclusions:
+            raise ValueError(f"{generator_id}: reviewed source exclusions are required")
+    elif "reviewed_source_exclusions" in arm:
+        raise ValueError(f"{generator_id}: reviewed source exclusions are outside the approved r6 scope")
+    else:
+        return []
+
+    seen: set[int] = set()
+    validated = []
+    for index, exclusion in enumerate(exclusions):
+        if not isinstance(exclusion, dict) or set(exclusion) != {"generator_id", "source_id", "reason"}:
+            raise ValueError(f"{generator_id}: invalid reviewed exclusion record {index}")
+        if exclusion.get("generator_id") != generator_id:
+            raise ValueError(f"{generator_id}: reviewed exclusion {index} is scoped to another generator")
+        source_id = exclusion.get("source_id")
+        if isinstance(source_id, bool) or not isinstance(source_id, int) or not 0 <= source_id < 1024:
+            raise ValueError(f"{generator_id}: reviewed exclusion {index} has an invalid source ID")
+        if source_id in seen:
+            raise ValueError(f"{generator_id}: duplicate reviewed exclusion source ID {source_id}")
+        reason = exclusion.get("reason")
+        if not isinstance(reason, str) or not reason.strip():
+            raise ValueError(f"{generator_id}: reviewed exclusion {index} needs a reason")
+        seen.add(source_id)
+        validated.append(exclusion)
+    return validated
 
 
 def require_subset(actual: object, expected: object, label: str) -> None:
@@ -293,10 +298,16 @@ def require_unavailable_checkpoint(checkpoint: dict, path: Path, schema_version:
         raise ValueError(f"{path}: {schema_version} arm has fabricated checkpoint identity")
 
 
-def select_rows(rows: list[dict], corpus_digest: str) -> tuple[list[dict], dict[str, int]]:
+def select_rows(
+    rows: list[dict], corpus_digest: str, reviewed_source_exclusions: list[dict]
+) -> tuple[list[dict], dict[str, int]]:
     rejected: dict[str, int] = {}
+    excluded_source_ids = {item["source_id"] for item in reviewed_source_exclusions}
     safe_rows = []
     for row in rows:
+        if row["id"] in excluded_source_ids:
+            rejected["reviewed_source_exclusion"] = rejected.get("reviewed_source_exclusion", 0) + 1
+            continue
         reasons = safety_reasons(row["text"])
         if reasons:
             for reason in reasons:
@@ -333,6 +344,7 @@ def load_corpus(
     checksum_path = path / "checksums.sha256"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     generator_id = path.name
+    reviewed_source_exclusions = validate_reviewed_source_exclusions(arm, generator_id)
     canonical = manifest.get("canonical") or {}
     schema_version = manifest.get("schema_version")
     if schema_version == "dlmbench-inference-v2":
@@ -423,7 +435,7 @@ def load_corpus(
     if len(rows) != 1024:
         raise ValueError(f"{path}: found {len(rows)} rows")
 
-    selected, rejected = select_rows(rows, corpus_digest)
+    selected, rejected = select_rows(rows, corpus_digest, reviewed_source_exclusions)
     config = manifest.get("generation_config") or {}
     legacy_manifest = ((manifest.get("source") or {}).get("legacy_manifest") or {})
     legacy_generation = legacy_manifest.get("generation") or {}
@@ -484,6 +496,7 @@ def load_corpus(
             "policy": SAFETY_POLICY,
             "rejected_count": sum(rejected.values()),
             "rejected_reason_counts": rejected,
+            "reviewed_source_exclusions": reviewed_source_exclusions,
         },
         "samples_sha256": corpus_digest,
         "source_manifest_sha256": sha256_file(manifest_path),
@@ -528,6 +541,13 @@ def load_arm_evidence(path: Path) -> dict:
     arms = evidence.get("arms")
     if not isinstance(arms, dict) or not arms:
         raise ValueError(f"{path}: arms must be a non-empty object")
+    evidence_exclusion_arms = {
+        generator_id for generator_id, arm in arms.items() if "reviewed_source_exclusions" in arm
+    }
+    if evidence_exclusion_arms != REVIEWED_EXCLUSION_ARMS:
+        raise ValueError(
+            f"{path}: reviewed source exclusions must be present only on the four approved r6 arms"
+        )
     if not isinstance(evidence.get("papers"), dict) or not evidence["papers"]:
         raise ValueError(f"{path}: papers must be a non-empty object")
     if not isinstance(evidence.get("checkpoints"), dict) or not evidence["checkpoints"]:
