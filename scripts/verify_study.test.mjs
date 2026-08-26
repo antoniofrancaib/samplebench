@@ -130,6 +130,11 @@ test('reviewed release is balanced, safe-screened, opaque, and server-bound', ()
     const corpus = releaseById.get(modelId);
     assert.equal(corpus.arm_evidence.status, 'included');
   }
+  const newlyPublicSamples = models
+    .filter(({ id }) => expectedNewModels.has(id))
+    .flatMap(({ samples: modelSamples }) => modelSamples);
+  assert.equal(newlyPublicSamples.length, 160);
+  assert.equal(models.some(({ id }) => id.includes('candi')), false);
   for (const modelId of ['owt_v2_cobit_m_128_nfe', 'owt_v2_cobit_s_128_nfe', 'owt_v2_cobit_s_512_nfe']) {
     const corpus = release.corpora.find(({ generator_id }) => generator_id === modelId);
     assert.ok(corpus, `missing inventory-only CoBit arm ${modelId}`);
