@@ -352,7 +352,8 @@ def load_corpus(
 
     if schema_version == HISTORICAL_RECOVERY_SCHEMA:
         validate_historical_recovery_manifest(path, manifest, arm, dataset, generator_id)
-        require_unavailable_checkpoint(checkpoint_evidence, path, schema_version)
+        if status == "included":
+            require_unavailable_checkpoint(checkpoint_evidence, path, schema_version)
     elif status == "included" and schema_version == "dlmbench-author-provided-v1":
         require_unavailable_checkpoint(checkpoint_evidence, path, schema_version)
 
