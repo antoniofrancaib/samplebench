@@ -10,16 +10,22 @@ import re
 from pathlib import Path
 
 
-# r5 is a new study: votes and public IDs must never mix with r4.
-RELEASE_ID = "dlmbench-canonical-20260824-r5"
-RELEASE_SEED = "samplebench-dlmbench-canonical-20260824-r5"
+# r6 is a new study: votes and public IDs must never mix with earlier releases.
+RELEASE_ID = "dlmbench-canonical-20260826-r6"
+RELEASE_SEED = "samplebench-dlmbench-canonical-20260826-r6"
 SAMPLES_PER_MODEL = 40
-EXPECTED_SOURCE_DATASETS = {"lm1b": 9, "owt": 57}
-EXPECTED_DEPLOYMENT_DATASETS = {"lm1b": 7, "owt": 17}
-EXPECTED_COHORT_COUNTS = {"primary": 24}
+EXPECTED_SOURCE_DATASETS = {"lm1b": 9, "owt": 63}
+EXPECTED_DEPLOYMENT_DATASETS = {"lm1b": 7, "owt": 21}
+EXPECTED_COHORT_COUNTS = {"primary": 28}
 EXPECTED_FILES = {"samples.jsonl", "manifest.json", "checksums.sha256"}
 EVIDENCE_SCHEMA = "samplebench-arm-evidence-v1"
 VALID_COHORTS = {"primary"}
+HISTORICAL_RECOVERY_SCHEMA = "dlmbench-historical-recovery-v1"
+HISTORICAL_SOURCE_COMMIT = "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415"
+HISTORICAL_BUNDLE_ID = "audit-20260826-candi-plaid-cobit-recovery-r3"
+HISTORICAL_BUNDLE_DIGEST = "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65"
+HISTORICAL_LEGACY_SCHEMA = "lm-bench-samples-v1"
+HISTORICAL_SUITE_ID = "owt_L1024_diffusion_v2"
 
 NON_CANONICAL_CORPORA = {
     "lm1b_phrase_bank_1000",
@@ -79,6 +85,7 @@ def sha256_file(path: Path) -> str:
 def family_for(generator_id: str) -> str:
     checks = (
         ("replaid", "replaid"),
+        ("plaid", "plaid"),
         ("cobit", "cobit"),
         ("langflow", "langflow"),
         ("fmlm", "fmlm"),
@@ -129,6 +136,129 @@ def require_subset(actual: object, expected: object, label: str) -> None:
             require_subset(actual[key], value, f"{label}.{key}")
     elif actual != expected:
         raise ValueError(f"{label}: expected {expected!r}, found {actual!r}")
+
+
+def git_blob_sha1(path: Path) -> str:
+    """Return the Git blob object ID for a file without invoking Git."""
+
+    content = path.read_bytes()
+    header = f"blob {len(content)}\0".encode("ascii")
+    return hashlib.sha1(header + content).hexdigest()
+
+
+def validate_historical_recovery_manifest(
+    path: Path,
+    manifest: dict,
+    arm: dict,
+    dataset: str,
+    generator_id: str,
+) -> None:
+    """Fail closed on the lossless, legacy Git-recovery provenance contract."""
+
+    requirements = arm.get("historical_recovery")
+    if not isinstance(requirements, dict):
+        raise ValueError(f"{path}: historical arm lacks recovery requirements")
+    if dataset != "owt":
+        raise ValueError(f"{path}: historical recovery is only supported for OWT r6 arms")
+    required_recovery_values = {
+        "source_commit": HISTORICAL_SOURCE_COMMIT,
+        "bundle_id": HISTORICAL_BUNDLE_ID,
+        "source_bundle_digest": HISTORICAL_BUNDLE_DIGEST,
+        "legacy_schema_version": HISTORICAL_LEGACY_SCHEMA,
+        "suite_id": HISTORICAL_SUITE_ID,
+        "legacy_id_prefix": f"owt-{generator_id}-",
+    }
+    for key, expected in required_recovery_values.items():
+        if requirements.get(key) != expected:
+            raise ValueError(f"{path}: historical recovery {key} does not match the r6 contract")
+    required_manifest = {
+        "schema_version": HISTORICAL_RECOVERY_SCHEMA,
+        "provenance_status": "historical-recovery",
+        "source_type": "historical-git-recovery",
+        "bundle_id": requirements.get("bundle_id"),
+        "dataset": dataset,
+        "generator_id": generator_id,
+        "sample_count": 1024,
+        "output_sha256": requirements.get("samples_sha256"),
+        "historical_source_commit": requirements.get("source_commit"),
+        "legacy_schema_version": requirements.get("legacy_schema_version"),
+        "legacy_id_prefix": requirements.get("legacy_id_prefix"),
+        "source_bundle_digest": requirements.get("source_bundle_digest"),
+        "source_manifest_sha256": requirements.get("source_manifest_sha256"),
+        "canonical": {
+            "dataset": dataset,
+            "generator_id": generator_id,
+            "source_manifest_sha256": requirements.get("canonical_source_manifest_sha256"),
+        },
+        "frozen_checksum": requirements.get("frozen_checksum"),
+    }
+    require_subset(manifest, required_manifest, f"{path}: historical recovery manifest")
+    manifest_digest = sha256_file(path / "manifest.json")
+    if manifest_digest != requirements.get("source_manifest_sha256"):
+        raise ValueError(f"{path}: historical source manifest digest mismatch")
+
+    source = manifest.get("source")
+    if not isinstance(source, dict):
+        raise ValueError(f"{path}: historical recovery source metadata is missing")
+    required_source = {
+        "git_commit": requirements.get("source_commit"),
+        "kind": "git-commit",
+        "manifest_blob_id": requirements.get("manifest_blob_id"),
+        "manifest_git_path": requirements.get("manifest_git_path"),
+        "manifest_sha256": requirements.get("source_manifest_sha256"),
+        "sample_blob_id": requirements.get("sample_blob_id"),
+        "sample_git_path": requirements.get("sample_git_path"),
+        "slurm_job_id": requirements.get("source_slurm_job_id"),
+        "extraction_command": requirements.get("extraction_command"),
+    }
+    require_subset(source, required_source, f"{path}: historical source metadata")
+
+    immutable_bundle = manifest.get("immutable_bundle")
+    require_subset(
+        immutable_bundle,
+        {
+            "bundle_id": requirements.get("bundle_id"),
+            "root": (requirements.get("immutable_bundle") or {}).get("root"),
+            "source_archive": "source.tar",
+            "source_bundle_sha256": requirements.get("source_bundle_digest"),
+        },
+        f"{path}: immutable source bundle",
+    )
+    legacy_manifest = source.get("legacy_manifest")
+    require_subset(
+        legacy_manifest,
+        {
+            "dataset": dataset,
+            "model_id": generator_id,
+            "n_samples": 1024,
+            "sample_path": "samples.jsonl",
+            "schema_version": HISTORICAL_LEGACY_SCHEMA,
+            "seq_len": 1024,
+            "suite_id": HISTORICAL_SUITE_ID,
+            "label": requirements.get("label"),
+            "generation": {
+                "algo": requirements.get("legacy_algo"),
+                "backend": requirements.get("legacy_backend"),
+                "nfe": requirements.get("nfe"),
+                "paper_aligned": True,
+            },
+        },
+        f"{path}: legacy source manifest",
+    )
+    if source.get("manifest_blob_id") != requirements.get("manifest_blob_id"):
+        raise ValueError(f"{path}: historical manifest Git blob mismatch")
+    if source.get("sample_blob_id") != git_blob_sha1(path / "samples.jsonl"):
+        raise ValueError(f"{path}: historical sample Git blob mismatch")
+
+
+def require_unavailable_checkpoint(checkpoint: dict, path: Path, schema_version: str) -> None:
+    """Prevent historical and author-provided arms from gaining fake identity."""
+
+    expected_status = (
+        "unavailable" if schema_version == HISTORICAL_RECOVERY_SCHEMA else "samples-only"
+    )
+    if checkpoint.get("status") != expected_status or checkpoint.get("revision") is not None or checkpoint.get("digest") is not None:
+        raise ValueError(f"{path}: {schema_version} arm has fabricated checkpoint identity")
 
 
 def select_rows(rows: list[dict], corpus_digest: str) -> tuple[list[dict], dict[str, int]]:
@@ -183,6 +313,12 @@ def load_corpus(
         if manifest.get("source_type") != "author-provided":
             raise ValueError(f"{path}: author-provided source type is invalid")
         source_type = "dlmbench_author_provided"
+    elif schema_version == "dlmbench-historical-recovery-v1":
+        if manifest.get("provenance_status") != "historical-recovery":
+            raise ValueError(f"{path}: historical recovery provenance status is invalid")
+        if manifest.get("source_type") != "historical-git-recovery":
+            raise ValueError(f"{path}: historical recovery source type is invalid")
+        source_type = "dlmbench_historical_git_recovery"
     else:
         raise ValueError(f"{path}: unsupported manifest schema {schema_version!r}")
     if manifest.get("sample_count") != 1024:
@@ -205,18 +341,27 @@ def load_corpus(
     if status == "included":
         if not isinstance(cohorts, list) or not cohorts or set(cohorts) - VALID_COHORTS:
             raise ValueError(f"{path}: included arm has invalid cohorts")
-        if arm.get("provenance_tier") not in {"A", "B"}:
-            raise ValueError(f"{path}: included arm must have A/B provenance")
+        if schema_version == "dlmbench-inference-v2" and arm.get("provenance_tier") not in {"A", "B"}:
+            raise ValueError(f"{path}: included replicated arm must have A/B provenance")
+        if schema_version == "dlmbench-author-provided-v1" and arm.get("provenance_tier") != "C":
+            raise ValueError(f"{path}: included author-provided arm must have C provenance")
+        if schema_version == HISTORICAL_RECOVERY_SCHEMA and arm.get("provenance_tier") != "historical-recovery":
+            raise ValueError(f"{path}: included historical arm must have historical-recovery provenance")
     elif status == "excluded":
         if cohorts != [] or not arm.get("exclusion_reason"):
             raise ValueError(f"{path}: excluded arm needs no cohorts and a reason")
     else:
         raise ValueError(f"{path}: invalid evidence status {status!r}")
 
-    # Included arms must bind every deployment identity to the reviewed
-    # evidence record. Excluded historical aliases are still checksum- and
-    # schema-validated below, but their known provenance defects must not
-    # make it necessary to repair data that cannot enter this release.
+    if schema_version == HISTORICAL_RECOVERY_SCHEMA:
+        validate_historical_recovery_manifest(path, manifest, arm, dataset, generator_id)
+        require_unavailable_checkpoint(checkpoint_evidence, path, schema_version)
+    elif status == "included" and schema_version == "dlmbench-author-provided-v1":
+        require_unavailable_checkpoint(checkpoint_evidence, path, schema_version)
+
+    # Included replicated arms must bind every deployment identity to the
+    # reviewed checkpoint evidence record. Historical and author-provided
+    # arms deliberately carry an unavailable checkpoint record instead.
     if status == "included" and schema_version == "dlmbench-inference-v2":
         if manifest.get("checkpoint_id") != checkpoint_ref:
             raise ValueError(f"{path}: checkpoint identity does not match arm evidence")
@@ -224,9 +369,6 @@ def load_corpus(
             raise ValueError(f"{path}: checkpoint revision does not match arm evidence")
         if manifest.get("checkpoint_digest") != checkpoint_evidence.get("digest"):
             raise ValueError(f"{path}: checkpoint digest does not match arm evidence")
-    elif status == "included" and arm.get("provenance_tier") != "C":
-        raise ValueError(f"{path}: author-provided corpus must use provenance tier C")
-
     corpus_digest = sha256_file(samples_path)
     if manifest.get("output_sha256") != corpus_digest:
         raise ValueError(f"{path}: manifest sample digest mismatch")
@@ -234,10 +376,15 @@ def load_corpus(
         raise ValueError(f"{path}: checksum file mismatch")
 
     rows: list[dict] = []
+    historical_rows = schema_version == HISTORICAL_RECOVERY_SCHEMA
     with samples_path.open(encoding="utf-8") as handle:
         for expected_id, line in enumerate(handle):
             row = json.loads(line)
-            if row.get("id") != expected_id or not isinstance(row.get("text"), str) or not row["text"]:
+            expected_source_id = (
+                f"{arm['historical_recovery']['legacy_id_prefix']}{expected_id:06d}"
+                if historical_rows else expected_id
+            )
+            if row.get("id") != expected_source_id or not isinstance(row.get("text"), str) or not row["text"]:
                 raise ValueError(f"{path}: invalid sample row {expected_id}")
             rows.append({"id": expected_id, "text": row["text"]})
     if len(rows) != 1024:
@@ -245,24 +392,42 @@ def load_corpus(
 
     selected, rejected = select_rows(rows, corpus_digest)
     config = manifest.get("generation_config") or {}
-    if status == "included" and config.get("id") != generator_id:
+    legacy_manifest = ((manifest.get("source") or {}).get("legacy_manifest") or {})
+    legacy_generation = legacy_manifest.get("generation") or {}
+    if status == "included" and schema_version == "dlmbench-inference-v2" and config.get("id") != generator_id:
         raise ValueError(f"{path}: manifest generation config identity mismatch")
     nfe_match = re.search(r"_(\d+)_nfe$", generator_id)
-    if status == "included" and nfe_match and config.get("nfe") != int(nfe_match.group(1)):
-        raise ValueError(f"{path}: manifest NFE does not match generator identity")
+    if status == "included" and nfe_match:
+        if schema_version == HISTORICAL_RECOVERY_SCHEMA:
+            manifest_nfe = legacy_generation.get("nfe")
+        elif schema_version == "dlmbench-author-provided-v1":
+            manifest_nfe = (manifest.get("sampling") or {}).get("benchmark_nfe_label")
+        else:
+            manifest_nfe = config.get("nfe")
+        if manifest_nfe != int(nfe_match.group(1)):
+            raise ValueError(f"{path}: manifest NFE does not match generator identity")
     if status == "included" and arm.get("manifest_requirements"):
         require_subset(manifest, arm["manifest_requirements"], f"{path}: manifest evidence")
     sampling = manifest.get("sampling") or {}
     family = family_for(generator_id)
+    name = config.get("label") or manifest.get("label") or legacy_manifest.get("label") or generator_id
+    algo = config.get("algo") or sampling.get("algorithm") or legacy_generation.get("algo") or family
+    nfe = config.get("nfe") or sampling.get("benchmark_nfe_label") or legacy_generation.get("nfe")
+    generator_matches = manifest.get("generator_id") == generator_id
+    if schema_version == "dlmbench-inference-v2":
+        generator_matches = generator_matches and config.get("id") == generator_id
+    checkpoint_matches = manifest.get("checkpoint_id") == checkpoint_ref
+    checkpoint_revision_matches = manifest.get("checkpoint_revision") == checkpoint_evidence.get("revision")
+    checkpoint_digest_matches = manifest.get("checkpoint_digest") == checkpoint_evidence.get("digest")
     model = {
         "id": generator_id,
-        "name": config.get("label") or manifest.get("label") or generator_id,
+        "name": name,
         "dataset": dataset,
         "method": "Autoregressive" if family == "ar" else "Diffusion",
         "family": family,
         "public_group_id": public_group_id(dataset, generator_id, corpus_digest),
-        "algo": config.get("algo") or sampling.get("algorithm") or family,
-        "nfe": config.get("nfe") or sampling.get("benchmark_nfe_label"),
+        "algo": algo,
+        "nfe": nfe,
         "cohorts": cohorts,
         "corpusSha256": corpus_digest,
         "samples": [
@@ -295,11 +460,11 @@ def load_corpus(
         "source_type": source_type,
         "provider": (manifest.get("provider") or {}).get("name"),
         "manifest_identity_matches_arm": {
-            "generator": manifest.get("generator_id") == generator_id and config.get("id") == generator_id,
-            "checkpoint": manifest.get("checkpoint_id") == checkpoint_ref,
-            "checkpoint_revision": manifest.get("checkpoint_revision") == checkpoint_evidence.get("revision"),
-            "checkpoint_digest": manifest.get("checkpoint_digest") == checkpoint_evidence.get("digest"),
-            "nfe": not nfe_match or config.get("nfe") == int(nfe_match.group(1)),
+            "generator": generator_matches,
+            "checkpoint": checkpoint_matches if schema_version == "dlmbench-inference-v2" else None,
+            "checkpoint_revision": checkpoint_revision_matches if schema_version == "dlmbench-inference-v2" else None,
+            "checkpoint_digest": checkpoint_digest_matches if schema_version == "dlmbench-inference-v2" else None,
+            "nfe": not nfe_match or nfe == int(nfe_match.group(1)),
         },
         "arm_evidence": {
             **arm,
@@ -315,9 +480,18 @@ def load_arm_evidence(path: Path) -> dict:
     if evidence.get("schema_version") != EVIDENCE_SCHEMA:
         raise ValueError(f"{path}: unsupported evidence schema")
     if evidence.get("study_version") != RELEASE_ID:
-        raise ValueError(f"{path}: evidence study version does not match r5")
+        raise ValueError(f"{path}: evidence study version does not match r6")
     if set(evidence.get("cohorts", {})) != VALID_COHORTS:
         raise ValueError(f"{path}: evidence must define only the primary cohort")
+    inventory = evidence.get("inventory")
+    if not isinstance(inventory, dict):
+        raise ValueError(f"{path}: r6 evidence must include the inspected inventory")
+    if inventory.get("inspected_source_counts") != EXPECTED_SOURCE_DATASETS:
+        raise ValueError(f"{path}: inspected source inventory does not match the r6 contract")
+    if inventory.get("deployment_counts") != EXPECTED_DEPLOYMENT_DATASETS:
+        raise ValueError(f"{path}: deployment inventory does not match the r6 contract")
+    if set(inventory.get("non_canonical_exclusions", [])) != NON_CANONICAL_CORPORA:
+        raise ValueError(f"{path}: non-canonical exclusion inventory does not match the r6 contract")
     arms = evidence.get("arms")
     if not isinstance(arms, dict) or not arms:
         raise ValueError(f"{path}: arms must be a non-empty object")
@@ -336,7 +510,7 @@ def main() -> int:
     parser.add_argument(
         "--evidence",
         type=Path,
-        default=Path(__file__).with_name("arm-evidence-r5.json"),
+        default=Path(__file__).with_name("arm-evidence-r6.json"),
     )
     args = parser.parse_args()
 
@@ -483,6 +657,7 @@ def main() -> int:
             for cohort in sorted(VALID_COHORTS)
         },
         "cohorts": evidence["cohorts"],
+        "inventory": evidence["inventory"],
         "corpora": records,
     }
     if release["cohort_model_counts"] != EXPECTED_COHORT_COUNTS:

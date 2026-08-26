@@ -1,0 +1,1611 @@
+{
+  "schema_version": "samplebench-arm-evidence-v1",
+  "study_version": "dlmbench-canonical-20260826-r6",
+  "cohorts": {
+    "primary": {
+      "label": "Primary",
+      "description": "Paper-supported headline operating points across selected model families, scales, and one-step regimes."
+    }
+  },
+  "papers": {
+    "ar_baseline": {
+      "title": "Simple and Effective Masked Diffusion Language Models",
+      "url": "https://arxiv.org/abs/2406.07524",
+      "location": "OpenWebText autoregressive baseline and official evaluation configuration"
+    },
+    "cobit_s": {
+      "title": "CoBit: Language Modeling with Bitstream Diffusion",
+      "url": "https://arxiv.org/abs/2605.07013",
+      "location": "Table 1 OWT headline: CoBit-S, 256 NFE, stochastic gamma=0.13"
+    },
+    "cobit_m": {
+      "title": "CoBit: Language Modeling with Bitstream Diffusion",
+      "url": "https://arxiv.org/abs/2605.07013",
+      "location": "Table 2 OWT scaling: CoBit-M stochastic gamma=0.21 at 256 NFE and gamma=0.26 at 512 NFE"
+    },
+    "di4c": {
+      "title": "Distillation of Discrete Diffusion through Dimensional Correlations",
+      "url": "https://arxiv.org/abs/2410.08709",
+      "location": "Section 5.3, Figure 4: SDTT-6/SDTT-7 plus DI4C^2"
+    },
+    "duo": {
+      "title": "The Diffusion Duality",
+      "url": "https://arxiv.org/abs/2506.10892",
+      "location": "Official OWT base and consistency-distilled sampling configurations"
+    },
+    "elf": {
+      "title": "ELF: Embedded Language Flows",
+      "url": "https://arxiv.org/abs/2605.10938",
+      "location": "Figure 7 and Table 9: ELF-B at 32 steps; Table 10: ELF-M/L scaling at 64 steps"
+    },
+    "flm": {
+      "title": "Flow Map Language Models: One-step Language Modeling via Continuous Denoising",
+      "url": "https://arxiv.org/abs/2602.16813",
+      "location": "Figures 11-12 and Table 13: FLM 8-1024-step and FMLM 1-32-step LM1B/OWT evaluations"
+    },
+    "langflow": {
+      "title": "LangFlow: Continuous Diffusion Rivals Discrete in Language Modeling",
+      "url": "https://arxiv.org/abs/2604.11748",
+      "location": "Section 5 evaluation protocol: LM1B at 128 sampling steps and OWT at 1024 sampling steps"
+    },
+    "mdlm": {
+      "title": "Simple and Effective Masked Diffusion Language Models",
+      "url": "https://arxiv.org/abs/2406.07524",
+      "location": "LM1B/OWT generation and baseline-evaluation configurations"
+    },
+    "rdlm": {
+      "title": "Continuous Diffusion Model for Language Modeling",
+      "url": "https://arxiv.org/abs/2502.11564",
+      "location": "LM1B generation experiment and official run_sample configuration"
+    },
+    "replaid": {
+      "title": "Continuous Diffusion Scales Competitively with Discrete Diffusion for Language",
+      "url": "https://arxiv.org/abs/2605.18530",
+      "location": "Figure 3 no-self-conditioning DDPM T=1024 point; author-provided decoded samples with limitations recorded in this release; provider metrics are not recomputed for the selected subset."
+    },
+    "sdtt": {
+      "title": "Beyond Autoregression: Fast LLMs via Self-Distillation Through Time",
+      "url": "https://arxiv.org/abs/2410.21035",
+      "location": "OWT teacher/student generation experiments and official published branches"
+    },
+    "sedd": {
+      "title": "Score Entropy Discrete Diffusion",
+      "url": "https://arxiv.org/abs/2310.16834",
+      "location": "OpenWebText absorbing-diffusion sampling configuration"
+    },
+    "plaid": {
+      "title": "Plaid historical source repository",
+      "url": "https://github.com/igul222/plaid",
+      "location": "Historical lm-bench manifest and frozen Git recovery; no checkpoint or sampling-environment provenance is asserted by this release."
+    }
+  },
+  "checkpoints": {
+    "lm1b_duo": {
+      "revision": "local-sha256:b11ee9a4cc533435adb9e1149cff74aec0872a9df2a459b4ab58f1867f6cddfb",
+      "digest": "b11ee9a4cc533435adb9e1149cff74aec0872a9df2a459b4ab58f1867f6cddfb"
+    },
+    "lm1b_flm": {
+      "revision": "local-sha256:3879d0195f556aa4995fe85bf7fd1a1ec3c45aef439d18da40169c656e02a003",
+      "digest": "3879d0195f556aa4995fe85bf7fd1a1ec3c45aef439d18da40169c656e02a003"
+    },
+    "lm1b_fmlm": {
+      "revision": "local-sha256:122bbba9ec214af4776f8624cf42eb2787961cce9ed4284586886713adb64de8",
+      "digest": "122bbba9ec214af4776f8624cf42eb2787961cce9ed4284586886713adb64de8"
+    },
+    "lm1b_langflow": {
+      "revision": "local-sha256:b111b5141379bde1bc8531278a2d144bc753cf3b100ed32c8a917f2ed0c025d2",
+      "digest": "b111b5141379bde1bc8531278a2d144bc753cf3b100ed32c8a917f2ed0c025d2"
+    },
+    "lm1b_mdlm": {
+      "revision": "local-sha256:d42739e5a99bbd7c0f604dff7fe4c9ab12348b475e30f1d807e70ef32249e514",
+      "digest": "d42739e5a99bbd7c0f604dff7fe4c9ab12348b475e30f1d807e70ef32249e514"
+    },
+    "lm1b_rdlm": {
+      "revision": "local-sha256:3319acacbd41ac4bf6bf42840dfd22cbebcd8e45d975d5225f114b6ee9cafd81",
+      "digest": "3319acacbd41ac4bf6bf42840dfd22cbebcd8e45d975d5225f114b6ee9cafd81"
+    },
+    "owt_ar": {
+      "revision": "local-sha256:74223bba9896ddc3ad08c52a503de0d40f1fd80b90502fb71e474a07b96ac8d2",
+      "digest": "74223bba9896ddc3ad08c52a503de0d40f1fd80b90502fb71e474a07b96ac8d2"
+    },
+    "owt_cobit_m": {
+      "revision": "2f2979d702eab89542784c7e7558597d96ad5f8e",
+      "digest": "bb77896e56a48546da23d6e5b20fc5834d766d5f569f4315ad4c2156d9d5270e"
+    },
+    "owt_cobit_s": {
+      "revision": "2f2979d702eab89542784c7e7558597d96ad5f8e",
+      "digest": "51d0e892ef68f8a040f8782d99b341d90a4381f28e4b131e8fb6458896b5d687"
+    },
+    "owt_di4c_sdtt6": {
+      "revision": "local-sha256:aa7b1639da28e8ec6809c15e98173fd0b8c6b6abb6d6e8d67f96085809c3f7ac",
+      "digest": "aa7b1639da28e8ec6809c15e98173fd0b8c6b6abb6d6e8d67f96085809c3f7ac"
+    },
+    "owt_di4c_sdtt7": {
+      "revision": "local-sha256:4af61572dc82fe012ce395a2e4e4be0585ea09076597ba1f7241ca196b97ecb0",
+      "digest": "4af61572dc82fe012ce395a2e4e4be0585ea09076597ba1f7241ca196b97ecb0"
+    },
+    "owt_duo_base": {
+      "revision": "local-sha256:ea8edb134515121c8d998b43c08517a53b1d6797aed9d80117f7322d10316c4c",
+      "digest": "ea8edb134515121c8d998b43c08517a53b1d6797aed9d80117f7322d10316c4c"
+    },
+    "owt_duo_distilled": {
+      "revision": "local-sha256:23dba8a6cc97500f3798cb35484c8219a6c8a611b38f9dc92e2ae23946f593a9",
+      "digest": "23dba8a6cc97500f3798cb35484c8219a6c8a611b38f9dc92e2ae23946f593a9"
+    },
+    "owt_elf_b": {
+      "revision": "local-sha256:808cc3dc24253f03e9418835b1bf5e5ed716e3b1a43c9c11d53ae70f4eba1e00",
+      "digest": "808cc3dc24253f03e9418835b1bf5e5ed716e3b1a43c9c11d53ae70f4eba1e00"
+    },
+    "owt_elf_l": {
+      "revision": "local-sha256:499cff8e0d9f7167beaaa860b7337a6868d5a05b7f5cc3919167fcd1a16a885e",
+      "digest": "499cff8e0d9f7167beaaa860b7337a6868d5a05b7f5cc3919167fcd1a16a885e"
+    },
+    "owt_elf_m": {
+      "revision": "local-sha256:ec941c571c38dd58439a9460191bd0cc6ea245ea5e6c64b2ae95413f33f532fc",
+      "digest": "ec941c571c38dd58439a9460191bd0cc6ea245ea5e6c64b2ae95413f33f532fc"
+    },
+    "owt_flm": {
+      "revision": "local-sha256:2b6b2b4f64f7463713a020158b61474092773b39985baed1cf9442bd425ca23f",
+      "digest": "2b6b2b4f64f7463713a020158b61474092773b39985baed1cf9442bd425ca23f"
+    },
+    "owt_fmlm": {
+      "revision": "local-sha256:9700bffdd474a681e3d12ea5496c970c60304b34c28114118b9372464b0e0981",
+      "digest": "9700bffdd474a681e3d12ea5496c970c60304b34c28114118b9372464b0e0981"
+    },
+    "owt_langflow": {
+      "revision": "local-sha256:9dcc2573297d9f0ad91cb08d3469d141817d7bd3b11a2a7f332ff0f6a58e02a1",
+      "digest": "9dcc2573297d9f0ad91cb08d3469d141817d7bd3b11a2a7f332ff0f6a58e02a1"
+    },
+    "owt_mdlm": {
+      "revision": "local-sha256:74bf9b853206e73b4811d8127e836c2cdcfb7a23f8e04ad7d1356a58f1138d27",
+      "digest": "74bf9b853206e73b4811d8127e836c2cdcfb7a23f8e04ad7d1356a58f1138d27"
+    },
+    "owt_replaid_nosc_1m": {
+      "revision": null,
+      "digest": null,
+      "status": "samples-only",
+      "description": "Provider supplied decoded samples; checkpoint bytes, immutable model revision, and generation seed are unavailable."
+    },
+    "owt_sdtt_kld_r7": {
+      "revision": "c84bdf45ce3a80f5a70bb09548093f1c8f2ac7a7",
+      "digest": "33338a0cebd25993fc455447248563d00fe3414b66ce29ca0d7f3529f4d6218d"
+    },
+    "owt_sdtt_mdlm_teacher": {
+      "revision": "1e442a3a446bf712c34ad1e0999ca91e2a96f0fc",
+      "digest": "c8fad2a433822afe692402a43a40377f62c730507155f06054d0171af7a506eb"
+    },
+    "owt_sedd": {
+      "revision": "local-sha256:11ec99693f1f073b3e8df88db6d2f32705e72a7c08b33c5f2f54c8dc696693b1",
+      "digest": "11ec99693f1f073b3e8df88db6d2f32705e72a7c08b33c5f2f54c8dc696693b1"
+    },
+    "owt_plaid_historical": {
+      "status": "unavailable",
+      "revision": null,
+      "digest": null,
+      "description": "The historical source manifest does not establish checkpoint bytes, an immutable model revision, or the sampling environment; no checkpoint association is asserted."
+    }
+  },
+  "arms": {
+    "lm1b_duo_1024_nfe": {
+      "dataset": "lm1b",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "duo",
+      "checkpoint": "lm1b_duo",
+      "configuration": "configs/generation.yaml:lm1b_duo_1024_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Checkpoint is content-addressed locally; no immutable upstream model revision is recorded."
+      ]
+    },
+    "lm1b_flm_1024_nfe": {
+      "dataset": "lm1b",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "flm",
+      "checkpoint": "lm1b_flm",
+      "configuration": "configs/generation.yaml:lm1b_flm_1024_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Checkpoint is content-addressed locally; no immutable upstream model revision is recorded."
+      ]
+    },
+    "lm1b_fmlm_1_nfe": {
+      "dataset": "lm1b",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "flm",
+      "checkpoint": "lm1b_fmlm",
+      "configuration": "configs/generation.yaml:lm1b_fmlm_1_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Checkpoint is content-addressed locally; no immutable upstream model revision is recorded."
+      ]
+    },
+    "lm1b_fmlm_32_nfe": {
+      "dataset": "lm1b",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "flm",
+      "checkpoint": "lm1b_fmlm",
+      "configuration": "configs/generation.yaml:lm1b_fmlm_32_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Checkpoint is content-addressed locally; no immutable upstream model revision is recorded."
+      ]
+    },
+    "lm1b_fmlm_4_nfe": {
+      "dataset": "lm1b",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "flm",
+      "checkpoint": "lm1b_fmlm",
+      "configuration": "configs/generation.yaml:lm1b_fmlm_4_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Checkpoint is content-addressed locally; no immutable upstream model revision is recorded."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "lm1b_langflow_128_nfe": {
+      "dataset": "lm1b",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "langflow",
+      "checkpoint": "lm1b_langflow",
+      "configuration": "configs/generation.yaml:lm1b_langflow_128_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Checkpoint bytes are content-addressed, but the original HF model revision was not retained."
+      ]
+    },
+    "lm1b_langflow_1024_nfe": {
+      "dataset": "lm1b",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "langflow",
+      "checkpoint": "lm1b_langflow",
+      "configuration": "configs/generation.yaml:lm1b_langflow_1024_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Locally extrapolated beyond the paper's LM1B operating point."
+      ],
+      "exclusion_reason": "LM1B 1024 NFE is a local extrapolation; r5 uses the paper-supported 128-NFE cell."
+    },
+    "lm1b_mdlm_1024_nfe": {
+      "dataset": "lm1b",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "mdlm",
+      "checkpoint": "lm1b_mdlm",
+      "configuration": "configs/generation.yaml:lm1b_mdlm_1024_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Checkpoint is content-addressed locally; no immutable upstream model revision is recorded."
+      ]
+    },
+    "lm1b_rdlm_1000_nfe": {
+      "dataset": "lm1b",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "rdlm",
+      "checkpoint": "lm1b_rdlm",
+      "configuration": "configs/generation.yaml:lm1b_rdlm_1000_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "The adapter reproduces upstream single-process sampling because upstream hardcodes its distributed sample count."
+      ]
+    },
+    "owt_ar_base": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "ar_baseline",
+      "checkpoint": "owt_ar",
+      "configuration": "configs/generation.yaml:owt_ar_base",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local baseline checkpoint without an immutable upstream model revision."
+      ]
+    },
+    "owt_di4c_sdtt6_16_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "di4c",
+      "checkpoint": "owt_di4c_sdtt6",
+      "configuration": "configs/generation.yaml:owt_di4c_sdtt6_16_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint; original upload revision is unavailable."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_di4c_sdtt7_16_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "di4c",
+      "checkpoint": "owt_di4c_sdtt7",
+      "configuration": "configs/generation.yaml:owt_di4c_sdtt7_16_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint; original upload revision is unavailable."
+      ]
+    },
+    "owt_duo_base_1024_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "duo",
+      "checkpoint": "owt_duo_base",
+      "configuration": "configs/generation.yaml:owt_duo_base_1024_nfe",
+      "provenance_tier": "B",
+      "limitations": [],
+      "exclusion_reason": "Byte-identical legacy alias of owt_v2_duo_base_1024_nfe."
+    },
+    "owt_flm_1024_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "flm",
+      "checkpoint": "owt_flm",
+      "configuration": "configs/generation.yaml:owt_flm_1024_nfe",
+      "provenance_tier": "B",
+      "limitations": [],
+      "exclusion_reason": "Byte-identical legacy alias of owt_v2_flm_1024_nfe."
+    },
+    "owt_fmlm_1_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "flm",
+      "checkpoint": "owt_fmlm",
+      "configuration": "configs/generation.yaml:owt_fmlm_1_nfe",
+      "provenance_tier": "B",
+      "limitations": [],
+      "exclusion_reason": "Byte-identical legacy alias of owt_v2_fmlm_1_nfe."
+    },
+    "owt_fmlm_32_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "flm",
+      "checkpoint": "owt_fmlm",
+      "configuration": "configs/generation.yaml:owt_fmlm_32_nfe",
+      "provenance_tier": "B",
+      "limitations": [],
+      "exclusion_reason": "Byte-identical legacy alias of owt_v2_fmlm_32_nfe."
+    },
+    "owt_fmlm_4_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "flm",
+      "checkpoint": "owt_fmlm",
+      "configuration": "configs/generation.yaml:owt_fmlm_4_nfe",
+      "provenance_tier": "B",
+      "limitations": [],
+      "exclusion_reason": "Byte-identical legacy alias of owt_v2_fmlm_4_nfe."
+    },
+    "owt_langflow_1024_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "langflow",
+      "checkpoint": "owt_langflow",
+      "configuration": "configs/generation.yaml:owt_langflow_1024_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Checkpoint bytes are content-addressed, but the original HF model revision was not retained."
+      ]
+    },
+    "owt_mdlm_1024_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "mdlm",
+      "checkpoint": "owt_mdlm",
+      "configuration": "configs/generation.yaml:owt_mdlm_1024_nfe",
+      "provenance_tier": "B",
+      "limitations": [],
+      "exclusion_reason": "Byte-identical legacy alias of owt_v2_mdlm_1024_nfe."
+    },
+    "owt_sdtt_kld_r7_8_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "sdtt",
+      "checkpoint": "owt_sdtt_kld_r7",
+      "configuration": "configs/generation.yaml:owt_sdtt_kld_r7_8_nfe",
+      "provenance_tier": "A",
+      "limitations": [
+        "Official export has model state only; generation and retained repair explicitly disable EMA."
+      ],
+      "manifest_requirements": {
+        "corpus_repair": {
+          "type": "sdtt-token-decode",
+          "decoder": {
+            "tokenizer": "gpt2",
+            "snapshot_commit": "607a30d783dfa663caf39e06633721c8d4cfcd7e",
+            "skip_special_tokens": false,
+            "clean_up_tokenization_spaces": false
+          }
+        }
+      }
+    },
+    "owt_sdtt_mdlm_teacher_1024_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "sdtt",
+      "checkpoint": "owt_sdtt_mdlm_teacher",
+      "configuration": "configs/generation.yaml:owt_sdtt_mdlm_teacher_1024_nfe",
+      "provenance_tier": "A",
+      "limitations": [
+        "Official export has model state only; generation and retained repair explicitly disable EMA."
+      ],
+      "manifest_requirements": {
+        "corpus_repair": {
+          "type": "sdtt-token-decode",
+          "decoder": {
+            "tokenizer": "gpt2",
+            "snapshot_commit": "607a30d783dfa663caf39e06633721c8d4cfcd7e",
+            "skip_special_tokens": false,
+            "clean_up_tokenization_spaces": false
+          }
+        }
+      }
+    },
+    "owt_sedd_1024_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "sedd",
+      "checkpoint": "owt_sedd",
+      "configuration": "configs/generation.yaml:owt_sedd_1024_nfe",
+      "provenance_tier": "B",
+      "limitations": [],
+      "exclusion_reason": "Byte-identical legacy alias of owt_v2_sedd_1024_nfe."
+    },
+    "owt_v2_cobit_m_256_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "cobit_m",
+      "checkpoint": "owt_cobit_m",
+      "configuration": "configs/generation.yaml:owt_v2_cobit_m_256_nfe",
+      "provenance_tier": "A",
+      "limitations": [
+        "Exact official stochastic cache bound to gamma=0.21 and s_churn=53.55."
+      ],
+      "manifest_requirements": {
+        "generation_config": {
+          "sampling": {
+            "algorithm": "cobit-ddim-entropic",
+            "stochastic": true,
+            "entropy_rate_gamma": 0.21,
+            "s_churn": 53.55
+          }
+        },
+        "corpus_repair": {
+          "type": "cobit-cache-selection"
+        }
+      }
+    },
+    "owt_v2_cobit_m_512_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "cobit_m",
+      "checkpoint": "owt_cobit_m",
+      "configuration": "configs/generation.yaml:owt_v2_cobit_m_512_nfe",
+      "provenance_tier": "A",
+      "limitations": [
+        "Exact official stochastic cache bound to gamma=0.26 and s_churn=132.86."
+      ],
+      "manifest_requirements": {
+        "generation_config": {
+          "sampling": {
+            "algorithm": "cobit-ddim-entropic",
+            "stochastic": true,
+            "entropy_rate_gamma": 0.26,
+            "s_churn": 132.86
+          }
+        },
+        "corpus_repair": {
+          "type": "cobit-cache-selection"
+        }
+      },
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_cobit_s_256_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "cobit_s",
+      "checkpoint": "owt_cobit_s",
+      "configuration": "configs/generation.yaml:owt_v2_cobit_s_256_nfe",
+      "provenance_tier": "A",
+      "limitations": [
+        "Exact official stochastic cache bound to headline gamma=0.13 and s_churn=33.15."
+      ],
+      "manifest_requirements": {
+        "generation_config": {
+          "sampling": {
+            "algorithm": "cobit-ddim-entropic",
+            "stochastic": true,
+            "entropy_rate_gamma": 0.13,
+            "s_churn": 33.15
+          }
+        },
+        "corpus_repair": {
+          "type": "cobit-cache-selection"
+        }
+      }
+    },
+    "owt_v2_duo_base_8_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "duo",
+      "checkpoint": "owt_duo_base",
+      "configuration": "configs/generation.yaml:owt_v2_duo_base_8_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint without immutable upstream model revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_duo_base_32_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "duo",
+      "checkpoint": "owt_duo_base",
+      "configuration": "configs/generation.yaml:owt_v2_duo_base_32_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint without immutable upstream model revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_duo_base_128_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "duo",
+      "checkpoint": "owt_duo_base",
+      "configuration": "configs/generation.yaml:owt_v2_duo_base_128_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint without immutable upstream model revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_duo_base_512_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "duo",
+      "checkpoint": "owt_duo_base",
+      "configuration": "configs/generation.yaml:owt_v2_duo_base_512_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint without immutable upstream model revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_duo_base_1024_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "duo",
+      "checkpoint": "owt_duo_base",
+      "configuration": "configs/generation.yaml:owt_v2_duo_base_1024_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint without immutable upstream model revision."
+      ]
+    },
+    "owt_v2_duo_distilled_8_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "duo",
+      "checkpoint": "owt_duo_distilled",
+      "configuration": "configs/generation.yaml:owt_v2_duo_distilled_8_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local distilled checkpoint without immutable upstream model revision."
+      ]
+    },
+    "owt_v2_duo_distilled_16_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "duo",
+      "checkpoint": "owt_duo_distilled",
+      "configuration": "configs/generation.yaml:owt_v2_duo_distilled_16_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local distilled checkpoint without immutable upstream model revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_duo_distilled_32_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "duo",
+      "checkpoint": "owt_duo_distilled",
+      "configuration": "configs/generation.yaml:owt_v2_duo_distilled_32_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local distilled checkpoint without immutable upstream model revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_elf_b_8_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "elf",
+      "checkpoint": "owt_elf_b",
+      "configuration": "configs/generation.yaml:owt_v2_elf_b_8_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Sampler gamma is not pinned upstream."
+      ],
+      "exclusion_reason": "Noncanonical ELF arm: paper-aligned B-scale release uses 32 NFE; 8-NFE gamma is locally supplied."
+    },
+    "owt_v2_elf_b_32_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "elf",
+      "checkpoint": "owt_elf_b",
+      "configuration": "configs/generation.yaml:owt_v2_elf_b_32_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "PyTorch-converted official checkpoint; immutable HF model commit was not retained."
+      ]
+    },
+    "owt_v2_elf_b_64_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "elf",
+      "checkpoint": "owt_elf_b",
+      "configuration": "configs/generation.yaml:owt_v2_elf_b_64_nfe",
+      "provenance_tier": "B",
+      "limitations": [],
+      "exclusion_reason": "Noncanonical ELF arm: retain one author-rational operating point per model scale."
+    },
+    "owt_v2_elf_b_128_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "elf",
+      "checkpoint": "owt_elf_b",
+      "configuration": "configs/generation.yaml:owt_v2_elf_b_128_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Sampler gamma is not pinned upstream."
+      ],
+      "exclusion_reason": "Noncanonical ELF arm: paper-aligned B-scale release uses 32 NFE; 128-NFE gamma is locally supplied."
+    },
+    "owt_v2_elf_m_8_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "elf",
+      "checkpoint": "owt_elf_m",
+      "configuration": "configs/generation.yaml:owt_v2_elf_m_8_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Sampler gamma is not pinned upstream."
+      ],
+      "exclusion_reason": "Noncanonical ELF arm: paper-aligned M-scale release uses 64 NFE; 8-NFE gamma is locally supplied."
+    },
+    "owt_v2_elf_m_32_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "elf",
+      "checkpoint": "owt_elf_m",
+      "configuration": "configs/generation.yaml:owt_v2_elf_m_32_nfe",
+      "provenance_tier": "B",
+      "limitations": [],
+      "exclusion_reason": "Noncanonical ELF arm: retain one author-rational operating point per model scale."
+    },
+    "owt_v2_elf_m_64_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "elf",
+      "checkpoint": "owt_elf_m",
+      "configuration": "configs/generation.yaml:owt_v2_elf_m_64_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "PyTorch-converted official checkpoint; immutable HF model commit was not retained."
+      ]
+    },
+    "owt_v2_elf_m_128_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "elf",
+      "checkpoint": "owt_elf_m",
+      "configuration": "configs/generation.yaml:owt_v2_elf_m_128_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Sampler gamma is not pinned upstream."
+      ],
+      "exclusion_reason": "Noncanonical ELF arm: paper-aligned M-scale release uses 64 NFE; 128-NFE gamma is locally supplied."
+    },
+    "owt_v2_elf_l_8_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "elf",
+      "checkpoint": "owt_elf_l",
+      "configuration": "configs/generation.yaml:owt_v2_elf_l_8_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Sampler gamma is not pinned upstream."
+      ],
+      "exclusion_reason": "Noncanonical ELF arm: paper-aligned L-scale release uses 64 NFE; 8-NFE gamma is locally supplied."
+    },
+    "owt_v2_elf_l_32_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "elf",
+      "checkpoint": "owt_elf_l",
+      "configuration": "configs/generation.yaml:owt_v2_elf_l_32_nfe",
+      "provenance_tier": "B",
+      "limitations": [],
+      "exclusion_reason": "Noncanonical ELF arm: retain one author-rational operating point per model scale."
+    },
+    "owt_v2_elf_l_64_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "elf",
+      "checkpoint": "owt_elf_l",
+      "configuration": "configs/generation.yaml:owt_v2_elf_l_64_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "PyTorch-converted official checkpoint; immutable HF model commit was not retained."
+      ]
+    },
+    "owt_v2_elf_l_128_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "elf",
+      "checkpoint": "owt_elf_l",
+      "configuration": "configs/generation.yaml:owt_v2_elf_l_128_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Sampler gamma is not pinned upstream."
+      ],
+      "exclusion_reason": "Noncanonical ELF arm: paper-aligned L-scale release uses 64 NFE; 128-NFE gamma is locally supplied."
+    },
+    "owt_v2_flm_8_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "flm",
+      "checkpoint": "owt_flm",
+      "configuration": "configs/generation.yaml:owt_v2_flm_8_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint without immutable upstream model revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_flm_32_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "flm",
+      "checkpoint": "owt_flm",
+      "configuration": "configs/generation.yaml:owt_v2_flm_32_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint without immutable upstream model revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_flm_128_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "flm",
+      "checkpoint": "owt_flm",
+      "configuration": "configs/generation.yaml:owt_v2_flm_128_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint without immutable upstream model revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_flm_512_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "flm",
+      "checkpoint": "owt_flm",
+      "configuration": "configs/generation.yaml:owt_v2_flm_512_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint without immutable upstream model revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_flm_1024_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "flm",
+      "checkpoint": "owt_flm",
+      "configuration": "configs/generation.yaml:owt_v2_flm_1024_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint without immutable upstream model revision."
+      ]
+    },
+    "owt_v2_fmlm_1_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "flm",
+      "checkpoint": "owt_fmlm",
+      "configuration": "configs/generation.yaml:owt_v2_fmlm_1_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local distilled checkpoint without immutable upstream model revision."
+      ]
+    },
+    "owt_v2_fmlm_4_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "flm",
+      "checkpoint": "owt_fmlm",
+      "configuration": "configs/generation.yaml:owt_v2_fmlm_4_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local distilled checkpoint without immutable upstream model revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_fmlm_8_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "flm",
+      "checkpoint": "owt_fmlm",
+      "configuration": "configs/generation.yaml:owt_v2_fmlm_8_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local distilled checkpoint without immutable upstream model revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_fmlm_16_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "flm",
+      "checkpoint": "owt_fmlm",
+      "configuration": "configs/generation.yaml:owt_v2_fmlm_16_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local distilled checkpoint without immutable upstream model revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_fmlm_32_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "flm",
+      "checkpoint": "owt_fmlm",
+      "configuration": "configs/generation.yaml:owt_v2_fmlm_32_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local distilled checkpoint without immutable upstream model revision."
+      ]
+    },
+    "owt_v2_mdlm_8_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "mdlm",
+      "checkpoint": "owt_mdlm",
+      "configuration": "configs/generation.yaml:owt_v2_mdlm_8_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint; Lightning checkpoint lacks immutable HF revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_mdlm_32_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "mdlm",
+      "checkpoint": "owt_mdlm",
+      "configuration": "configs/generation.yaml:owt_v2_mdlm_32_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint; Lightning checkpoint lacks immutable HF revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_mdlm_128_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "mdlm",
+      "checkpoint": "owt_mdlm",
+      "configuration": "configs/generation.yaml:owt_v2_mdlm_128_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint; Lightning checkpoint lacks immutable HF revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_mdlm_512_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "mdlm",
+      "checkpoint": "owt_mdlm",
+      "configuration": "configs/generation.yaml:owt_v2_mdlm_512_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint; Lightning checkpoint lacks immutable HF revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_mdlm_1024_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "mdlm",
+      "checkpoint": "owt_mdlm",
+      "configuration": "configs/generation.yaml:owt_v2_mdlm_1024_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local checkpoint; Lightning checkpoint lacks immutable HF revision."
+      ]
+    },
+    "owt_v2_replaid_nosc_ddpm_1024_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "replaid",
+      "checkpoint": "owt_replaid_nosc_1m",
+      "configuration": "configs/generation.yaml:owt_v2_replaid_nosc_ddpm_1024_nfe",
+      "provenance_tier": "C",
+      "limitations": [
+        "Author-provided decoded samples lack checkpoint bytes, immutable model revision, and generation seed.",
+        "Provider-reported metrics are not recomputed for the selected 1,024-text canonical subset.",
+        "The provider-declared token-length mismatch is preserved without filtering, truncation, padding, or text normalization."
+      ],
+      "manifest_requirements": {
+        "canonical": {
+          "dataset": "owt",
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_manifest_sha256": "d540af6877a889d589e8d6ccc70dda0ab1f77e2f9c88287d1512942c37af98b4"
+        },
+        "dataset": "owt",
+        "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+        "label": "RePlaid OWT no-SC DDPM 1024-step",
+        "output_sha256": "518d2d10ce436833160df99bb88e859fee5f2682a79fed3d7431625e5d4424ad",
+        "provenance_status": "author-provided",
+        "sample_count": 1024,
+        "schema_version": "dlmbench-author-provided-v1",
+        "seed": null,
+        "source_type": "author-provided",
+        "model": {
+          "checkpoint_availability": "samples-only",
+          "checkpoint_id": "owt_replaid_nosc_1m",
+          "family": "replaid"
+        },
+        "randomness": {
+          "seed_status": "not-provided-by-author"
+        },
+        "reported_metrics": {
+          "scope": "provider export; not recomputed for the selected 1,024-text canonical subset",
+          "status": "reported-by-provider-not-recomputed"
+        },
+        "sampling": {
+          "actual_nfe_including_final_argmax": 1025,
+          "algorithm": "ddpm-ancestral",
+          "benchmark_nfe_label": 1024,
+          "self_conditioning": false,
+          "steps": 1024,
+          "temperature": 1,
+          "temperature_applied": false
+        },
+        "source_selection": {
+          "filtered_for_quality": false,
+          "reordered": false,
+          "rule": "first-complete-samples-in-provider-order",
+          "source_field": "generated_seqs"
+        }
+      }
+    },
+    "owt_v2_sedd_8_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "sedd",
+      "checkpoint": "owt_sedd",
+      "configuration": "configs/generation.yaml:owt_v2_sedd_8_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local Lightning checkpoint without immutable upstream revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_sedd_32_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "sedd",
+      "checkpoint": "owt_sedd",
+      "configuration": "configs/generation.yaml:owt_v2_sedd_32_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local Lightning checkpoint without immutable upstream revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_sedd_128_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "sedd",
+      "checkpoint": "owt_sedd",
+      "configuration": "configs/generation.yaml:owt_v2_sedd_128_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local Lightning checkpoint without immutable upstream revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_sedd_512_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "sedd",
+      "checkpoint": "owt_sedd",
+      "configuration": "configs/generation.yaml:owt_v2_sedd_512_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local Lightning checkpoint without immutable upstream revision."
+      ],
+      "exclusion_reason": "Not selected: the public release contains only its designated Primary operating points."
+    },
+    "owt_v2_sedd_1024_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "sedd",
+      "checkpoint": "owt_sedd",
+      "configuration": "configs/generation.yaml:owt_v2_sedd_1024_nfe",
+      "provenance_tier": "B",
+      "limitations": [
+        "Content-addressed local Lightning checkpoint without immutable upstream revision."
+      ]
+    },
+    "owt_v2_plaid_256_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "plaid",
+      "checkpoint": "owt_plaid_historical",
+      "configuration": "configs/generation.yaml:owt_v2_plaid_256_nfe",
+      "provenance_tier": "historical-recovery",
+      "limitations": [
+        "Historical frozen Git-recovered samples; no inference or regeneration was performed.",
+        "Checkpoint bytes, immutable model revision, and sampling environment provenance are not established by the historical source manifest.",
+        "Legacy manifest and Git blob/checksum provenance are preserved; selected text is copied verbatim."
+      ],
+      "historical_recovery": {
+        "samples_sha256": "07278858384ee5656b6573a772ba7e338b66fdaae8bb927cad528e2a58a73196",
+        "canonical_source_manifest_sha256": "b1b3dd3ef436baec12df04a7a47268da434d8dd89583e3d8da39e27314b5f9f5",
+        "source_manifest_sha256": "aade516f0e377f675bc3684923dadb0c85df9cb422171c16143c0aea863ca36e",
+        "manifest_blob_id": "124d4a9c07905ca8f30f0197dd6b82d7f2a4e4e5",
+        "sample_blob_id": "37a3b91a14fc26888a203641f31aa972f7cdb76e",
+        "legacy_id_prefix": "owt-owt_v2_plaid_256_nfe-",
+        "label": "Plaid 1B 256-NFE",
+        "nfe": 256,
+        "legacy_algo": "plaid",
+        "legacy_backend": "plaid",
+        "source_commit": "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415",
+        "source_bundle_digest": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65",
+        "bundle_id": "audit-20260826-candi-plaid-cobit-recovery-r3",
+        "source_slurm_job_id": "190610",
+        "legacy_schema_version": "lm-bench-samples-v1",
+        "suite_id": "owt_L1024_diffusion_v2",
+        "manifest_git_path": "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/manifest.json",
+        "sample_git_path": "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/samples.jsonl",
+        "extraction_command": [
+          "git",
+          "-C",
+          "/mnt/storage01/home/afranca/dLMbench",
+          "archive",
+          "--format=tar",
+          "--prefix=historical/",
+          "--output",
+          "/scratch/afranca_dlmbench-historical-recovery-190610/historical.tar",
+          "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/manifest.json"
+        ],
+        "frozen_checksum": {
+          "dataset": "owt",
+          "generator_id": "owt_v2_plaid_256_nfe",
+          "n_samples": "1024",
+          "relative_path": "samples/owt/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/samples.jsonl",
+          "samples_sha256": "07278858384ee5656b6573a772ba7e338b66fdaae8bb927cad528e2a58a73196",
+          "suite_id": "owt_L1024_diffusion_v2"
+        },
+        "immutable_bundle": {
+          "bundle_id": "audit-20260826-candi-plaid-cobit-recovery-r3",
+          "root": "/netscratch/afranca/dlmbench-historical-recovery-20260826-r3",
+          "source_archive": "source.tar",
+          "source_bundle_sha256": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65"
+        }
+      }
+    },
+    "owt_v2_plaid_1024_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "plaid",
+      "checkpoint": "owt_plaid_historical",
+      "configuration": "configs/generation.yaml:owt_v2_plaid_1024_nfe",
+      "provenance_tier": "historical-recovery",
+      "limitations": [
+        "Historical frozen Git-recovered samples; no inference or regeneration was performed.",
+        "Checkpoint bytes, immutable model revision, and sampling environment provenance are not established by the historical source manifest.",
+        "Legacy manifest and Git blob/checksum provenance are preserved; selected text is copied verbatim."
+      ],
+      "historical_recovery": {
+        "samples_sha256": "1058c429d4fa62f716c3cf08e01976e03e907ab6cb37e2361814ab434d303ecd",
+        "canonical_source_manifest_sha256": "479512d7c1feddfd8fa30423bc8f2c57997d7b378c904bba83025ce3202aeda5",
+        "source_manifest_sha256": "a3ce34a1b8d999b1e625964b499e3654a2d737a9938214ac0a2c4e55811fb581",
+        "manifest_blob_id": "b90e04f0f49177237f7cb55ebada7aedf0436368",
+        "sample_blob_id": "86950515442a26bed10d2182f771c1acf83e6e97",
+        "legacy_id_prefix": "owt-owt_v2_plaid_1024_nfe-",
+        "label": "Plaid 1B 1024-NFE",
+        "nfe": 1024,
+        "legacy_algo": "plaid",
+        "legacy_backend": "plaid",
+        "source_commit": "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415",
+        "source_bundle_digest": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65",
+        "bundle_id": "audit-20260826-candi-plaid-cobit-recovery-r3",
+        "source_slurm_job_id": "190610",
+        "legacy_schema_version": "lm-bench-samples-v1",
+        "suite_id": "owt_L1024_diffusion_v2",
+        "manifest_git_path": "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/manifest.json",
+        "sample_git_path": "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/samples.jsonl",
+        "extraction_command": [
+          "git",
+          "-C",
+          "/mnt/storage01/home/afranca/dLMbench",
+          "archive",
+          "--format=tar",
+          "--prefix=historical/",
+          "--output",
+          "/scratch/afranca_dlmbench-historical-recovery-190610/historical.tar",
+          "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/manifest.json"
+        ],
+        "frozen_checksum": {
+          "dataset": "owt",
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "n_samples": "1024",
+          "relative_path": "samples/owt/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/samples.jsonl",
+          "samples_sha256": "1058c429d4fa62f716c3cf08e01976e03e907ab6cb37e2361814ab434d303ecd",
+          "suite_id": "owt_L1024_diffusion_v2"
+        },
+        "immutable_bundle": {
+          "bundle_id": "audit-20260826-candi-plaid-cobit-recovery-r3",
+          "root": "/netscratch/afranca/dlmbench-historical-recovery-20260826-r3",
+          "source_archive": "source.tar",
+          "source_bundle_sha256": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65"
+        }
+      }
+    },
+    "owt_v2_plaid_4096_nfe": {
+      "dataset": "owt",
+      "status": "included",
+      "cohorts": [
+        "primary"
+      ],
+      "evidence": "plaid",
+      "checkpoint": "owt_plaid_historical",
+      "configuration": "configs/generation.yaml:owt_v2_plaid_4096_nfe",
+      "provenance_tier": "historical-recovery",
+      "limitations": [
+        "Historical frozen Git-recovered samples; no inference or regeneration was performed.",
+        "Checkpoint bytes, immutable model revision, and sampling environment provenance are not established by the historical source manifest.",
+        "Legacy manifest and Git blob/checksum provenance are preserved; selected text is copied verbatim."
+      ],
+      "historical_recovery": {
+        "samples_sha256": "bfcc2512c4757d9702a2bf889d77839a27502042811e7afcc50bc8a1a6f9342f",
+        "canonical_source_manifest_sha256": "eae020720d9ef0c27c432d3f6b2cb753c6430eb134d4497902502e901aee5a9e",
+        "source_manifest_sha256": "4ddb8c537c6d179bf0daea5a1cf6c71cb7e26eb9dbaa82c296c6391118d75cff",
+        "manifest_blob_id": "802d2a5435a087e4f87c269beff4a3863e5d5fe6",
+        "sample_blob_id": "b04ae8b3ae31c1592ff4d2456051edf52644cae7",
+        "legacy_id_prefix": "owt-owt_v2_plaid_4096_nfe-",
+        "label": "Plaid 1B 4096-NFE",
+        "nfe": 4096,
+        "legacy_algo": "plaid",
+        "legacy_backend": "plaid",
+        "source_commit": "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415",
+        "source_bundle_digest": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65",
+        "bundle_id": "audit-20260826-candi-plaid-cobit-recovery-r3",
+        "source_slurm_job_id": "190610",
+        "legacy_schema_version": "lm-bench-samples-v1",
+        "suite_id": "owt_L1024_diffusion_v2",
+        "manifest_git_path": "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/manifest.json",
+        "sample_git_path": "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/samples.jsonl",
+        "extraction_command": [
+          "git",
+          "-C",
+          "/mnt/storage01/home/afranca/dLMbench",
+          "archive",
+          "--format=tar",
+          "--prefix=historical/",
+          "--output",
+          "/scratch/afranca_dlmbench-historical-recovery-190610/historical.tar",
+          "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/manifest.json"
+        ],
+        "frozen_checksum": {
+          "dataset": "owt",
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "n_samples": "1024",
+          "relative_path": "samples/owt/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/samples.jsonl",
+          "samples_sha256": "bfcc2512c4757d9702a2bf889d77839a27502042811e7afcc50bc8a1a6f9342f",
+          "suite_id": "owt_L1024_diffusion_v2"
+        },
+        "immutable_bundle": {
+          "bundle_id": "audit-20260826-candi-plaid-cobit-recovery-r3",
+          "root": "/netscratch/afranca/dlmbench-historical-recovery-20260826-r3",
+          "source_archive": "source.tar",
+          "source_bundle_sha256": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65"
+        }
+      }
+    },
+    "owt_v2_cobit_m_128_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "cobit_m",
+      "checkpoint": "owt_cobit_m",
+      "configuration": "configs/generation.yaml:owt_v2_cobit_m_128_nfe",
+      "provenance_tier": "A",
+      "limitations": [
+        "Historical frozen Git-recovered samples; no inference or regeneration was performed.",
+        "Checkpoint bytes, immutable model revision, and sampling environment provenance are not established by the historical source manifest."
+      ],
+      "historical_recovery": {
+        "samples_sha256": "175b003da43f365ecd78268a3c03c16e09f1ef2ec7334e16be6d7cc3a1ef2b26",
+        "canonical_source_manifest_sha256": "b88c40faff8b7fc594899d8d89233d073ec479cf65ee02d7d9110d39fb79b672",
+        "source_manifest_sha256": "d2e17be6569788989da85dfdcd3e7d2ae6b4a709e9a3871bc0a698bbd2f888e6",
+        "manifest_blob_id": "99df2413278953eec04b2c8dd83cb10309330cc8",
+        "sample_blob_id": "e99afe2156c64d44b85c9f233601b73d617a0e79",
+        "legacy_id_prefix": "owt-owt_v2_cobit_m_128_nfe-",
+        "label": "CoBit-M 128-NFE",
+        "nfe": 128,
+        "legacy_algo": "cobit",
+        "legacy_backend": "cobit",
+        "source_commit": "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415",
+        "source_bundle_digest": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65",
+        "bundle_id": "audit-20260826-candi-plaid-cobit-recovery-r3",
+        "source_slurm_job_id": "190610",
+        "legacy_schema_version": "lm-bench-samples-v1",
+        "suite_id": "owt_L1024_diffusion_v2",
+        "manifest_git_path": "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/manifest.json",
+        "sample_git_path": "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/samples.jsonl",
+        "extraction_command": [
+          "git",
+          "-C",
+          "/mnt/storage01/home/afranca/dLMbench",
+          "archive",
+          "--format=tar",
+          "--prefix=historical/",
+          "--output",
+          "/scratch/afranca_dlmbench-historical-recovery-190610/historical.tar",
+          "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/manifest.json"
+        ],
+        "frozen_checksum": {
+          "dataset": "owt",
+          "generator_id": "owt_v2_cobit_m_128_nfe",
+          "n_samples": "1024",
+          "relative_path": "samples/owt/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/samples.jsonl",
+          "samples_sha256": "175b003da43f365ecd78268a3c03c16e09f1ef2ec7334e16be6d7cc3a1ef2b26",
+          "suite_id": "owt_L1024_diffusion_v2"
+        },
+        "immutable_bundle": {
+          "bundle_id": "audit-20260826-candi-plaid-cobit-recovery-r3",
+          "root": "/netscratch/afranca/dlmbench-historical-recovery-20260826-r3",
+          "source_archive": "source.tar",
+          "source_bundle_sha256": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65"
+        }
+      },
+      "exclusion_reason": "Recovered CoBit 128-NFE arm is present for inventory completeness but remains deployment-excluded by the approved r6 scope."
+    },
+    "owt_v2_cobit_s_128_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "cobit_s",
+      "checkpoint": "owt_cobit_s",
+      "configuration": "configs/generation.yaml:owt_v2_cobit_s_128_nfe",
+      "provenance_tier": "A",
+      "limitations": [
+        "Historical frozen Git-recovered samples; no inference or regeneration was performed.",
+        "Checkpoint bytes, immutable model revision, and sampling environment provenance are not established by the historical source manifest."
+      ],
+      "historical_recovery": {
+        "samples_sha256": "d39b2d34abf33783c4860a523be3d94c8f816ece710811677fffdfc38c5a768e",
+        "canonical_source_manifest_sha256": "d53bc626e342d86f8b70908129ccad9adc26a0ca4b6a83288199b8e34d3e53ad",
+        "source_manifest_sha256": "411b766a9d30f25b26788b9c4159e4916e58bb8f830210cac763ae615056d1df",
+        "manifest_blob_id": "f10b0b56d954a50877b28e5641776fdc861a0446",
+        "sample_blob_id": "94eb07460d40640b8337591e33f85c1a887ef67c",
+        "legacy_id_prefix": "owt-owt_v2_cobit_s_128_nfe-",
+        "label": "CoBit-S 128-NFE",
+        "nfe": 128,
+        "legacy_algo": "cobit",
+        "legacy_backend": "cobit",
+        "source_commit": "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415",
+        "source_bundle_digest": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65",
+        "bundle_id": "audit-20260826-candi-plaid-cobit-recovery-r3",
+        "source_slurm_job_id": "190610",
+        "legacy_schema_version": "lm-bench-samples-v1",
+        "suite_id": "owt_L1024_diffusion_v2",
+        "manifest_git_path": "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/manifest.json",
+        "sample_git_path": "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/samples.jsonl",
+        "extraction_command": [
+          "git",
+          "-C",
+          "/mnt/storage01/home/afranca/dLMbench",
+          "archive",
+          "--format=tar",
+          "--prefix=historical/",
+          "--output",
+          "/scratch/afranca_dlmbench-historical-recovery-190610/historical.tar",
+          "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/manifest.json"
+        ],
+        "frozen_checksum": {
+          "dataset": "owt",
+          "generator_id": "owt_v2_cobit_s_128_nfe",
+          "n_samples": "1024",
+          "relative_path": "samples/owt/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/samples.jsonl",
+          "samples_sha256": "d39b2d34abf33783c4860a523be3d94c8f816ece710811677fffdfc38c5a768e",
+          "suite_id": "owt_L1024_diffusion_v2"
+        },
+        "immutable_bundle": {
+          "bundle_id": "audit-20260826-candi-plaid-cobit-recovery-r3",
+          "root": "/netscratch/afranca/dlmbench-historical-recovery-20260826-r3",
+          "source_archive": "source.tar",
+          "source_bundle_sha256": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65"
+        }
+      },
+      "exclusion_reason": "Recovered CoBit 128-NFE arm is present for inventory completeness but remains deployment-excluded by the approved r6 scope."
+    },
+    "owt_v2_cobit_s_512_nfe": {
+      "dataset": "owt",
+      "status": "excluded",
+      "cohorts": [],
+      "evidence": "cobit_s",
+      "checkpoint": "owt_cobit_s",
+      "configuration": "configs/generation.yaml:owt_v2_cobit_s_512_nfe",
+      "provenance_tier": "A",
+      "limitations": [
+        "Historical frozen Git-recovered samples; no inference or regeneration was performed.",
+        "Checkpoint bytes, immutable model revision, and sampling environment provenance are not established by the historical source manifest."
+      ],
+      "historical_recovery": {
+        "samples_sha256": "80761eff4bb11f328d97f6a69211ddbf2b88062863c9344aa2de151a991622d2",
+        "canonical_source_manifest_sha256": "deb39bdf228be2b64b4b9b1024b8d4020b94ab953abe37b44e709632c184e6e7",
+        "source_manifest_sha256": "4912399d95be210682c23893e2f6c4a2055796203221919407cd5168e6ce3578",
+        "manifest_blob_id": "a7595cd15bdab6211cb2f1317e66e7d91925599b",
+        "sample_blob_id": "d2b3d2ea51e53649f0ccc6afdd3aef14cf432664",
+        "legacy_id_prefix": "owt-owt_v2_cobit_s_512_nfe-",
+        "label": "CoBit-S 512-NFE",
+        "nfe": 512,
+        "legacy_algo": "cobit",
+        "legacy_backend": "cobit",
+        "source_commit": "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415",
+        "source_bundle_digest": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65",
+        "bundle_id": "audit-20260826-candi-plaid-cobit-recovery-r3",
+        "source_slurm_job_id": "190610",
+        "legacy_schema_version": "lm-bench-samples-v1",
+        "suite_id": "owt_L1024_diffusion_v2",
+        "manifest_git_path": "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/manifest.json",
+        "sample_git_path": "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/samples.jsonl",
+        "extraction_command": [
+          "git",
+          "-C",
+          "/mnt/storage01/home/afranca/dLMbench",
+          "archive",
+          "--format=tar",
+          "--prefix=historical/",
+          "--output",
+          "/scratch/afranca_dlmbench-historical-recovery-190610/historical.tar",
+          "90d5b419b4fa0381b4952fed0df2f9c4f7bc0415",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_256_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_1024_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_plaid_4096_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_m_128_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_128_nfe/manifest.json",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/samples.jsonl",
+          "data/samples/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/manifest.json"
+        ],
+        "frozen_checksum": {
+          "dataset": "owt",
+          "generator_id": "owt_v2_cobit_s_512_nfe",
+          "n_samples": "1024",
+          "relative_path": "samples/owt/owt_L1024_diffusion_v2/owt_v2_cobit_s_512_nfe/samples.jsonl",
+          "samples_sha256": "80761eff4bb11f328d97f6a69211ddbf2b88062863c9344aa2de151a991622d2",
+          "suite_id": "owt_L1024_diffusion_v2"
+        },
+        "immutable_bundle": {
+          "bundle_id": "audit-20260826-candi-plaid-cobit-recovery-r3",
+          "root": "/netscratch/afranca/dlmbench-historical-recovery-20260826-r3",
+          "source_archive": "source.tar",
+          "source_bundle_sha256": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65"
+        }
+      },
+      "exclusion_reason": "Recovered CoBit 512-NFE arm is present for inventory completeness but remains deployment-excluded by the approved r6 scope."
+    }
+  },
+  "inventory": {
+    "inspected_source_counts": {
+      "lm1b": 9,
+      "owt": 63
+    },
+    "deployment_counts": {
+      "lm1b": 7,
+      "owt": 21
+    },
+    "non_canonical_exclusions": [
+      "lm1b_phrase_bank_1000",
+      "lm1b_mirror_5000",
+      "lm1b_periodic_k_64",
+      "lm1b_topk_iid_k32",
+      "owt_phrase_bank_5000",
+      "owt_mirror_5000",
+      "owt_periodic_k_400",
+      "owt_topk_iid_k64"
+    ]
+  }
+}

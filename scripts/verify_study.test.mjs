@@ -7,7 +7,7 @@ const dataModule = await import('../src/data.js');
 const { models, studyVersion } = dataModule;
 const { samples, availableDatasets } = await import('../src/data-public.js');
 const release = JSON.parse(fs.readFileSync(new URL('../src/data-release.json', import.meta.url), 'utf8'));
-const evidenceBytes = fs.readFileSync(new URL('./arm-evidence-r5.json', import.meta.url));
+const evidenceBytes = fs.readFileSync(new URL('./arm-evidence-r6.json', import.meta.url));
 const {
   CATALOG,
   ACTIVE_CATALOG_VERSION,
@@ -16,21 +16,36 @@ const {
 } = await import('../server/catalog.js');
 
 test('reviewed release is balanced, safe-screened, opaque, and server-bound', () => {
+  const expectedNewModels = new Map([
+    ['owt_v2_plaid_256_nfe', '07278858384ee5656b6573a772ba7e338b66fdaae8bb927cad528e2a58a73196'],
+    ['owt_v2_plaid_1024_nfe', '1058c429d4fa62f716c3cf08e01976e03e907ab6cb37e2361814ab434d303ecd'],
+    ['owt_v2_plaid_4096_nfe', 'bfcc2512c4757d9702a2bf889d77839a27502042811e7afcc50bc8a1a6f9342f'],
+    ['owt_v2_replaid_nosc_ddpm_1024_nfe', '518d2d10ce436833160df99bb88e859fee5f2682a79fed3d7431625e5d4424ad'],
+  ]);
   assert.equal(studyVersion, ACTIVE_CATALOG_VERSION);
+  assert.equal(studyVersion, 'dlmbench-canonical-20260826-r6');
   assert.equal(release.release_id, ACTIVE_CATALOG_VERSION);
   assert.deepEqual(availableDatasets, ['lm1b', 'owt']);
   assert.equal('availableCohorts' in dataModule, false);
   assert.equal('cohortLabels' in dataModule, false);
-  assert.equal(models.length, 24);
-  assert.equal(samples.length, 960);
-  assert.equal(models.reduce((total, model) => total + model.samples.length, 0), 960);
+  assert.equal(models.length, 28);
+  assert.equal(samples.length, 1120);
+  assert.equal(models.reduce((total, model) => total + model.samples.length, 0), 1120);
   assert.equal(CATALOG.size, models.length);
-  assert.deepEqual(release.dataset_counts, { lm1b: 7, owt: 17 });
-  assert.deepEqual(release.source_dataset_counts, { lm1b: 9, owt: 57 });
-  assert.deepEqual(release.cohort_model_counts, { primary: 24 });
+  assert.deepEqual(release.dataset_counts, { lm1b: 7, owt: 21 });
+  assert.deepEqual(release.source_dataset_counts, { lm1b: 9, owt: 63 });
+  assert.deepEqual(release.cohort_model_counts, { primary: 28 });
   assert.deepEqual(Object.keys(release.cohorts), ['primary']);
-  assert.equal(release.source_corpus_count, 66);
-  assert.equal(release.corpora.filter((corpus) => corpus.deployment_excluded === true).length, 42);
+  assert.equal(release.source_corpus_count, 72);
+  assert.equal(release.corpora.filter((corpus) => corpus.deployment_excluded === true).length, 44);
+  assert.deepEqual(release.inventory, {
+    inspected_source_counts: { lm1b: 9, owt: 63 },
+    deployment_counts: { lm1b: 7, owt: 21 },
+    non_canonical_exclusions: [
+      'lm1b_phrase_bank_1000', 'lm1b_mirror_5000', 'lm1b_periodic_k_64', 'lm1b_topk_iid_k32',
+      'owt_phrase_bank_5000', 'owt_mirror_5000', 'owt_periodic_k_400', 'owt_topk_iid_k64',
+    ],
+  });
   assert.equal(release.selection.safety_policy, 'samplebench-public-safety-v1');
   assert.equal(
     release.arm_evidence_sha256,
@@ -81,7 +96,7 @@ test('reviewed release is balanced, safe-screened, opaque, and server-bound', ()
   }
 
   const releaseById = new Map(release.corpora.map((corpus) => [corpus.generator_id, corpus]));
-  assert.equal(releaseById.size, 66);
+  assert.equal(releaseById.size, 72);
   for (const model of models) {
     const corpus = releaseById.get(model.id);
     assert.equal(corpus.selected_sample_count, 40);
@@ -91,10 +106,47 @@ test('reviewed release is balanced, safe-screened, opaque, and server-bound', ()
     assert.deepEqual(corpus.arm_evidence.cohorts, model.cohorts);
     assert.ok(corpus.arm_evidence.paper.url.startsWith('https://'));
     assert.ok(corpus.arm_evidence.checkpoint_record);
-    assert.ok(
-      Object.values(corpus.manifest_identity_matches_arm).every((matches) => matches === true),
-      `included manifest identity mismatch for ${model.id}`,
-    );
+    assert.equal(corpus.manifest_identity_matches_arm.generator, true);
+    assert.equal(corpus.manifest_identity_matches_arm.nfe, true);
+    if (corpus.arm_evidence.provenance_tier === 'A' || corpus.arm_evidence.provenance_tier === 'B') {
+      assert.equal(corpus.manifest_identity_matches_arm.checkpoint, true);
+      assert.equal(corpus.manifest_identity_matches_arm.checkpoint_revision, true);
+      assert.equal(corpus.manifest_identity_matches_arm.checkpoint_digest, true);
+    } else {
+      assert.equal(corpus.manifest_identity_matches_arm.checkpoint, null);
+      assert.equal(corpus.manifest_identity_matches_arm.checkpoint_revision, null);
+      assert.equal(corpus.manifest_identity_matches_arm.checkpoint_digest, null);
+    }
+  }
+
+  for (const [modelId, digest] of expectedNewModels) {
+    const model = models.find(({ id }) => id === modelId);
+    assert.ok(model, `missing newly public model ${modelId}`);
+    assert.equal(model.dataset, 'owt');
+    assert.equal(model.family, modelId.includes('replaid') ? 'replaid' : 'plaid');
+    assert.deepEqual(model.cohorts, ['primary']);
+    assert.equal(model.corpusSha256, digest);
+    assert.equal(model.samples.length, 40);
+    const corpus = releaseById.get(modelId);
+    assert.equal(corpus.arm_evidence.status, 'included');
+  }
+  for (const modelId of ['owt_v2_cobit_m_128_nfe', 'owt_v2_cobit_s_128_nfe', 'owt_v2_cobit_s_512_nfe']) {
+    const corpus = release.corpora.find(({ generator_id }) => generator_id === modelId);
+    assert.ok(corpus, `missing inventory-only CoBit arm ${modelId}`);
+    assert.equal(corpus.deployment_excluded, true);
+    assert.equal(corpus.arm_evidence.status, 'excluded');
+    assert.deepEqual(corpus.arm_evidence.cohorts, []);
+  }
+  const replaidCorpus = releaseById.get('owt_v2_replaid_nosc_ddpm_1024_nfe');
+  assert.equal(replaidCorpus.source_type, 'dlmbench_author_provided');
+  assert.equal(replaidCorpus.arm_evidence.provenance_tier, 'C');
+  assert.match(replaidCorpus.arm_evidence.limitations.join(' '), /not recomputed/i);
+  for (const modelId of ['owt_v2_plaid_256_nfe', 'owt_v2_plaid_1024_nfe', 'owt_v2_plaid_4096_nfe']) {
+    const plaidCorpus = releaseById.get(modelId);
+    assert.equal(plaidCorpus.source_type, 'dlmbench_historical_git_recovery');
+    assert.equal(plaidCorpus.arm_evidence.provenance_tier, 'historical-recovery');
+    assert.match(plaidCorpus.arm_evidence.limitations.join(' '), /Git-recovered/i);
+    assert.match(plaidCorpus.arm_evidence.limitations.join(' '), /no inference or regeneration/i);
   }
 
   assert.equal(new Set(models.map((model) => model.corpusSha256)).size, models.length);
@@ -110,7 +162,7 @@ test('vote API derives model metadata, canonicalizes pairs, and rejects forged i
   process.env.SUPABASE_URL = 'https://db.example.test';
   process.env.SUPABASE_SECRET_KEY = 'test-secret';
   const { default: voteHandler } = await import('../api/vote.js');
-  const left = samples.find((sample) => sample.dataset === 'owt');
+  const left = samples.find((sample) => getCatalogSample(sample.id)?.modelId === 'owt_v2_plaid_256_nfe');
   const leftMapped = getCatalogSample(left.id);
   const right = samples.find((sample) => {
     if (sample.dataset !== 'owt' || sample.group === left.group) return false;
@@ -277,7 +329,7 @@ test('leaderboard isolates the active Primary release and rejects unknown cohort
     assert.equal(result.payload.total_votes, 1);
     assert.equal(result.payload.cohort, 'primary');
     assert.equal(result.payload.models.length, 2);
-    assert.match(requestedUrl, /app_version=eq\.samplebench-web%2Fdlmbench-canonical-20260824-r5/);
+    assert.match(requestedUrl, /app_version=eq\.samplebench-web%2Fdlmbench-canonical-20260826-r6/);
 
     requestedUrl = '';
     result = await call('/api/leaderboard?dataset=owt&cohort=unknown');
