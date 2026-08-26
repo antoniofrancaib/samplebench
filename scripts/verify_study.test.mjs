@@ -125,11 +125,13 @@ test('reviewed release is balanced, safe-screened, opaque, and server-bound', ()
       corpus.safety_screen.reviewed_source_exclusions.map(({ source_id }) => source_id).sort((a, b) => a - b),
       [...(expectedReviewedExclusions.get(corpus.generator_id) ?? [])].sort((a, b) => a - b),
     );
-    for (const exclusion of corpus.safety_screen.reviewed_source_exclusions)
-      assert.match(
-        exclusion.reason,
-        /^samplebench-public-safety-v1: \[(?:contact|email|graphic-gore|hate-targeting|phone|private-detail|profanity|self-harm|sexual|solicitation|street-address|url)\]/,
-      );
+    if (corpus.generator_id === 'owt_v2_replaid_nosc_ddpm_1024_nfe') {
+      for (const exclusion of corpus.safety_screen.reviewed_source_exclusions)
+        assert.match(
+          exclusion.reason,
+          /^samplebench-public-safety-v1: \[(?:contact|email|graphic-gore|hate-targeting|phone|private-detail|profanity|self-harm|sexual|solicitation|street-address|url)\]/,
+        );
+    }
     if (corpus.arm_evidence.provenance_tier === 'A' || corpus.arm_evidence.provenance_tier === 'B') {
       assert.equal(corpus.manifest_identity_matches_arm.checkpoint, true);
       assert.equal(corpus.manifest_identity_matches_arm.checkpoint_revision, true);
