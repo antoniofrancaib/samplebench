@@ -1585,6 +1585,61 @@
           "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
           "source_id": 962,
           "reason": "Manual review found malformed environmental/promotional text with deaths, location/contact solicitation, and incomplete text."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 21,
+          "reason": "Manual review found malformed game/roster text with child-related performer listings and fighting content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 119,
+          "reason": "Manual review found malformed historical text with bombers, weapons, military aircraft, and wartime violence."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 256,
+          "reason": "Manual review found malformed pseudo-historical text with killing, kidnapping, smuggling, and racialized content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 281,
+          "reason": "Manual review found malformed promotional/sports text with solicitation and cancer-related content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 412,
+          "reason": "Manual review found malformed mixed text with a firearm incident, political conflict, and Palestinian/Gaza war references."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 696,
+          "reason": "Manual review found malformed entertainment/political text with marijuana/alcohol references, an attack/shot passage, and social-media artifacts."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 721,
+          "reason": "Manual review found malformed sports/political text with personal/location-like details, phone/call references, and promotional artifacts."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 789,
+          "reason": "Manual review found malformed commercial/political text with petition/social-media artifacts, anti-LGBT violence, hateful conspiracy, and murder references."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 822,
+          "reason": "Manual review found malformed festival/editorial text with profanity, gory/violent language, and marketing/subscription artifacts."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 834,
+          "reason": "Manual review found malformed environmental pseudo-science text with animal-death/disease content and non-readable fragments."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 994,
+          "reason": "Manual review found malformed mixed technical/political/sports text with a nuclear-accident passage, social-media/editorial artifacts, and migration-related content."
         }
       ],
       "manifest_requirements": {
