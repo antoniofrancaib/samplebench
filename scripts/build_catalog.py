@@ -33,6 +33,20 @@ REVIEWED_EXCLUSION_ARMS = {
     "owt_v2_plaid_4096_nfe",
     "owt_v2_replaid_nosc_ddpm_1024_nfe",
 }
+REVIEWED_EXCLUSION_REASON_TAGS = {
+    "[contact]",
+    "[email]",
+    "[graphic-gore]",
+    "[hate-targeting]",
+    "[phone]",
+    "[private-detail]",
+    "[profanity]",
+    "[self-harm]",
+    "[sexual]",
+    "[solicitation]",
+    "[street-address]",
+    "[url]",
+}
 
 NON_CANONICAL_CORPORA = {
     "lm1b_phrase_bank_1000",
@@ -159,6 +173,14 @@ def validate_reviewed_source_exclusions(arm: dict, generator_id: str) -> list[di
         reason = exclusion.get("reason")
         if not isinstance(reason, str) or not reason.strip():
             raise ValueError(f"{generator_id}: reviewed exclusion {index} needs a reason")
+        if not reason.startswith(f"{SAFETY_POLICY}: "):
+            raise ValueError(
+                f"{generator_id}: reviewed exclusion {index} must name the {SAFETY_POLICY} policy"
+            )
+        if not any(tag in reason for tag in REVIEWED_EXCLUSION_REASON_TAGS):
+            raise ValueError(
+                f"{generator_id}: reviewed exclusion {index} lacks a concrete policy tag"
+            )
         seen.add(source_id)
         validated.append(exclusion)
     return validated

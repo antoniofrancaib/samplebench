@@ -26,7 +26,7 @@ test('reviewed release is balanced, safe-screened, opaque, and server-bound', ()
     ['owt_v2_plaid_256_nfe', [6, 42, 429, 688, 798, 956, 1013]],
     ['owt_v2_plaid_1024_nfe', [22, 192, 224, 243, 266, 276, 394, 417, 459, 522, 557, 565, 577, 620, 625, 766, 793, 847, 883, 973]],
     ['owt_v2_plaid_4096_nfe', [10, 40, 48, 200, 231, 247, 250, 268, 273, 344, 419, 429, 464, 536, 539, 568, 571, 575, 586, 617, 640, 703, 712, 744, 811, 826, 836, 848, 853, 902, 927, 936, 993, 1005, 1007, 1011]],
-    ['owt_v2_replaid_nosc_ddpm_1024_nfe', [17, 21, 25, 47, 48, 57, 61, 73, 100, 101, 111, 119, 121, 136, 150, 163, 164, 166, 174, 176, 186, 200, 203, 205, 212, 219, 223, 235, 256, 260, 274, 279, 281, 299, 331, 334, 338, 341, 356, 367, 369, 372, 391, 392, 404, 412, 418, 425, 429, 455, 473, 481, 510, 514, 530, 535, 548, 551, 554, 561, 568, 592, 598, 609, 620, 632, 636, 639, 647, 663, 675, 696, 700, 707, 716, 721, 727, 730, 734, 736, 737, 747, 755, 756, 763, 778, 783, 787, 789, 793, 827, 834, 835, 868, 876, 890, 892, 895, 907, 908, 910, 913, 915, 921, 925, 926, 930, 942, 956, 962, 968, 993, 994, 999, 1000, 1008, 1010, 1022]],
+    ['owt_v2_replaid_nosc_ddpm_1024_nfe', [48, 57, 100, 121, 136, 150, 163, 164, 166, 186, 200, 203, 219, 223, 235, 274, 281, 331, 341, 356, 369, 455, 473, 548, 632, 700, 707, 727, 736, 756, 789, 822, 827, 876, 890, 907, 925, 956, 962, 999, 1008]],
   ]);
   assert.equal(studyVersion, ACTIVE_CATALOG_VERSION);
   assert.equal(studyVersion, 'dlmbench-canonical-20260826-r6');
@@ -125,6 +125,11 @@ test('reviewed release is balanced, safe-screened, opaque, and server-bound', ()
       corpus.safety_screen.reviewed_source_exclusions.map(({ source_id }) => source_id).sort((a, b) => a - b),
       [...(expectedReviewedExclusions.get(corpus.generator_id) ?? [])].sort((a, b) => a - b),
     );
+    for (const exclusion of corpus.safety_screen.reviewed_source_exclusions)
+      assert.match(
+        exclusion.reason,
+        /^samplebench-public-safety-v1: \[(?:contact|email|graphic-gore|hate-targeting|phone|private-detail|profanity|self-harm|sexual|solicitation|street-address|url)\]/,
+      );
     if (corpus.arm_evidence.provenance_tier === 'A' || corpus.arm_evidence.provenance_tier === 'B') {
       assert.equal(corpus.manifest_identity_matches_arm.checkpoint, true);
       assert.equal(corpus.manifest_identity_matches_arm.checkpoint_revision, true);
