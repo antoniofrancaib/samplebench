@@ -1250,6 +1250,21 @@
           "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
           "source_id": 822,
           "reason": "samplebench-public-safety-v1: [profanity] strong profanity; [graphic-gore] graphic gore."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 610,
+          "reason": "samplebench-public-safety-v1: [solicitation] direct signup/contact solicitation."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 663,
+          "reason": "samplebench-public-safety-v1: [url] actual domain reference; [contact] social-media contact identifier."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 913,
+          "reason": "samplebench-public-safety-v1: [contact] actual social-media handle; [solicitation] social-media follow/contact solicitation."
         }
       ],
       "manifest_requirements": {
