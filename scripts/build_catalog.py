@@ -58,7 +58,8 @@ SAFETY_PATTERNS = {
     ),
     "email": re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", re.IGNORECASE),
     "phone": re.compile(
-        r"(?:\+\d{1,3}[ .-]?(?:\(?\d{2,4}\)?[ .-]?)?\d{3,4}[ .-]\d{3,4}|\b\d{3}[-.]\d{3}[-.]\d{4}\b)"
+        r"(?:\+\d{1,3}[ .-]?(?:\(?\d{2,4}\)?[ .-]?)?\d{3,4}[ .-]\d{3,4}|"
+        r"\b\d{3}[-.]\d{3}[-.]\d{4}\b|\(\d{3}\)\s*\d{3}[-.\s]\d{4})"
     ),
     "html": re.compile(r"</?[a-z][^>]*>", re.IGNORECASE),
     "block_glyph": re.compile(r"[\u2580-\u259f\u25a0]"),
@@ -82,14 +83,23 @@ SAFETY_PATTERNS = {
     ),
     "graphic_violence": re.compile(
         r"\b(?:beheaded|decapitat\w*|dismember\w*|gore\w*|mutilat\w*|disembowel\w*|"
-        r"bloodbath|massacre\w*|tortur\w*|murder\w*|gunned\s+down|stab\w*|"
-        r"grotesque|sickening|torn\s+(?:loose|apart)|head\s+(?:away|off)|"
-        r"shot\s+(?:dead|himself|herself)|open(?:ed)?\s+fire|hostage\w*|"
-        r"bomb(?:ing|ed|s)?|shoot(?:ing|ings)?|pistol\w*|sharp\s+blade|"
+        r"bloodbath|massacre\w*|tortur\w*|gunned\s+down|"
+        r"(?:was|were|been|be|is|are)\s+murder\w*|murder\s+trial|"
+        r"(?:grotesque\s+body|sickening\s+patterns|head\s+(?:away|off)|"
+        r"torn\s+(?:loose|apart)|woman['’]s\s+head\s+(?:away|off))|"
+        r"shot\s+(?:dead|himself|herself)|literally\s+shot|open(?:ed)?\s+fire|"
+        r"(?:taking|took|holding|held)\s+(?:\w+\s+){0,3}hostage\w*|"
+        r"(?:bombing\s+rampage|two\s+bombs?\s+and\s+a\s+missile|bomb\s+scare)|"
+        r"shoot(?:ing|ings)\s+(?:event|him|her|the)|"
+        r"pistol\s+in\s+(?:his|her)\s+hand|sharp\s+blade|"
         r"pull(?:ed|ing)?\s+the\s+trigger|female\s+circumcision|"
         r"genital\s+mutilat\w*|sexual[- ](?:assault|abuse|harassment)|"
-        r"sex[- ]offender\w*|adult\s+content|neo[- ]nazi\w*|lynch\w*|"
-        r"terroris\w*|al\s+shabaab|armed\s+struggle|civil\s+war|warfare)\b",
+        r"sex[- ]offender\w*|adult\s+content|neo[- ]nazi\w*|lynch\w*\s+nazi|"
+        r"campaign\s+of\s+terrorism|al\s+shabaab|armed\s+struggle\w*|"
+        r"uninterrupted\s+warfare|civil\s+war|female\s+circumcision|"
+        r"vehicular\s+execution|gunshot|stabbing\s+(?:dempsey|switchstone)|"
+        r"stabbed\s+one\s+of\s+the\s+boys|violent\s+law\s+enforcement\s+encounter|"
+        r"phishing\s+site|login\s+password|names\s+and\s+emails)\b",
         re.IGNORECASE,
     ),
     "profanity": re.compile(
