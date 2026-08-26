@@ -58,10 +58,30 @@ test('arena keeps four choices, Primary-only selection, whitespace, and model re
 
 test('sample and leaderboard routes expose only dataset selectors', async ({ page }) => {
   await page.goto('/samples');
-  await expect(page.getByText('Sample browser — 17 models')).toBeVisible();
+  await expect(page.getByText('Sample browser — 21 models')).toBeVisible();
+  for (const label of [
+    'Plaid 1B 256-NFE',
+    'Plaid 1B 1024-NFE',
+    'Plaid 1B 4096-NFE',
+    'RePlaid OWT no-SC DDPM 1024-step',
+  ]) {
+    await expect(page.getByText(label, { exact: true })).toBeVisible();
+  }
   await expect(page.locator('[aria-label="Cohort"]')).toHaveCount(0);
   await page.locator('a[href^="/samples/"]').first().click();
   await expect(page.locator('.sample-raw').first()).toBeVisible();
+
+  for (const [modelId, label] of [
+    ['owt_v2_plaid_256_nfe', 'Plaid 1B 256-NFE'],
+    ['owt_v2_plaid_1024_nfe', 'Plaid 1B 1024-NFE'],
+    ['owt_v2_plaid_4096_nfe', 'Plaid 1B 4096-NFE'],
+    ['owt_v2_replaid_nosc_ddpm_1024_nfe', 'RePlaid OWT no-SC DDPM 1024-step'],
+  ]) {
+    await page.goto(`/samples/${modelId}`);
+    await expect(page.getByText(label, { exact: true })).toBeVisible();
+    await expect(page.getByText('40 samples', { exact: true })).toBeVisible();
+    await expect(page.locator('.sample-raw')).toHaveCount(40);
+  }
 
   await page.goto('/samples/owt_v2_flm_8_nfe');
   await expect(page.getByText('Model not found: owt_v2_flm_8_nfe')).toBeVisible();
