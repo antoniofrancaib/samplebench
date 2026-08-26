@@ -1365,6 +1365,61 @@
           "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
           "source_id": 968,
           "reason": "Manual review found malformed personal medical/criminal reporting with blood, body-harm, and social-media content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 47,
+          "reason": "Manual review found Jack-the-Ripper/criminal and concealed-weapons content with malformed encoding."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 212,
+          "reason": "Manual review found malformed privacy/political and commercial text with social-media artifacts."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 369,
+          "reason": "Manual review found explicit self-harm, threats, hateful/sexual, and social-media content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 554,
+          "reason": "Manual review found malformed combat-sports text with violent and gendered content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 592,
+          "reason": "Manual review found malformed sports-injury text with replacement-character rendering."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 755,
+          "reason": "Manual review found war, bombing, military, smuggling, and rebel-attack content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 787,
+          "reason": "Manual review found guns, aggravated assault, homicide, illegal firearms, and criminal-violence content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 915,
+          "reason": "Manual review found violence, burns, drug/homicide, social-media, and malformed editorial content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 930,
+          "reason": "Manual review found malformed commercial/technical listing text with editorial artifacts."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 942,
+          "reason": "Manual review found nuclear/radiation and military content with replacement-character rendering."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 1022,
+          "reason": "Manual review found death, handgun, bombs, injury, military, and malformed content."
         }
       ],
       "manifest_requirements": {
@@ -1697,6 +1752,11 @@
           "generator_id": "owt_v2_plaid_1024_nfe",
           "source_id": 766,
           "reason": "Manual review found armed-conflict, death, shooting, murder, and bombing content."
+        },
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 847,
+          "reason": "Manual review found replacement-character and malformed sports/editorial content."
         }
       ],
       "historical_recovery": {
@@ -1942,6 +2002,16 @@
           "generator_id": "owt_v2_plaid_4096_nfe",
           "source_id": 1007,
           "reason": "Manual review found zero-width and replacement-character encoding corruption."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 231,
+          "reason": "Manual review found repetitive commercial solar-panel listing and sign-up/shipping solicitation."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 936,
+          "reason": "Manual review found malformed news text with animal-killing content and encoding artifacts."
         }
       ],
       "historical_recovery": {
