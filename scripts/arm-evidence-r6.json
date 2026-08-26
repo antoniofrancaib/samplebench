@@ -1310,6 +1310,61 @@
           "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
           "source_id": 876,
           "reason": "Manual review found malformed cryptocurrency/investment promotion and a request to register in comments."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 164,
+          "reason": "Manual review found malformed social-media/blog solicitation and political editorial content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 260,
+          "reason": "Manual review found malformed political/editorial text with social-media and replacement-character artifacts."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 372,
+          "reason": "Manual review found drug, opioid, addiction, injection, and death content in malformed text."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 425,
+          "reason": "Manual review found malformed personal/business employment and compensation text."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 481,
+          "reason": "Manual review found malformed commercial/product-promotional text."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 510,
+          "reason": "Manual review found severe-injury, death, fire, weapons, and shooting content in malformed text."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 647,
+          "reason": "Manual review found malformed political/financial text with killing and solicitation-like content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 763,
+          "reason": "Manual review found machinegun, bomb, gunship, shooting, and explosive military content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 778,
+          "reason": "Manual review found kidnapping, military, war-crimes, grenade, and bombing content."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 783,
+          "reason": "Manual review found malformed commercial/advertorial text with editorial artifacts."
+        },
+        {
+          "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+          "source_id": 968,
+          "reason": "Manual review found malformed personal medical/criminal reporting with blood, body-harm, and social-media content."
         }
       ],
       "manifest_requirements": {
@@ -1632,6 +1687,16 @@
           "generator_id": "owt_v2_plaid_1024_nfe",
           "source_id": 557,
           "reason": "Manual review found a malformed, repetitive pony/carriage listing unsuitable for public display."
+        },
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 266,
+          "reason": "Manual review found malformed political-conflict text with replacement-character rendering."
+        },
+        {
+          "generator_id": "owt_v2_plaid_1024_nfe",
+          "source_id": 766,
+          "reason": "Manual review found armed-conflict, death, shooting, murder, and bombing content."
         }
       ],
       "historical_recovery": {
@@ -1857,6 +1922,26 @@
           "generator_id": "owt_v2_plaid_4096_nfe",
           "source_id": 1005,
           "reason": "Manual review found malformed criminal/legal text with replacement-character rendering."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 344,
+          "reason": "Manual review found surveillance/privacy text with police-shooting content and encoding artifacts."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 464,
+          "reason": "Manual review found malformed political/editorial text with encoding artifacts."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 853,
+          "reason": "Manual review found profanity and promotional/fundraising editorial content."
+        },
+        {
+          "generator_id": "owt_v2_plaid_4096_nfe",
+          "source_id": 1007,
+          "reason": "Manual review found zero-width and replacement-character encoding corruption."
         }
       ],
       "historical_recovery": {
