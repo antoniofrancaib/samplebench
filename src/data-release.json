@@ -1,6 +1,6 @@
 {
   "arm_evidence_schema": "samplebench-arm-evidence-v1",
-  "arm_evidence_sha256": "27a14297a37d72d8a09a88857d359b10d214b59a153361a77462f4fd47d80cdd",
+  "arm_evidence_sha256": "635ca272511d8dcad180303fc2a6cd1aa6c9aea4dd78a170fec9b8ab01040ae9",
   "cohort_model_counts": {
     "primary": 28
   },
@@ -56,7 +56,8 @@
           "profanity": 1,
           "self_harm": 11,
           "sexual": 12
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "7e104b093dd42bd9c8584dc083290fb359691ccb192361bc25a3b3aa2d56abee",
       "selected_sample_count": 40,
@@ -151,7 +152,8 @@
           "graphic_violence": 2,
           "self_harm": 6,
           "sexual": 2
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "a60278722293876b31ccd5e3f5db2d4b07a7adae5f144609beb85c46991e1649",
       "selected_sample_count": 40,
@@ -245,7 +247,8 @@
         "rejected_reason_counts": {
           "graphic_violence": 2,
           "self_harm": 1
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "fe851292fdb01a34e7025db2fa440789b0f6760a6b3093c4b395337aa06ea355",
       "selected_sample_count": 40,
@@ -338,7 +341,8 @@
         "rejected_count": 5,
         "rejected_reason_counts": {
           "graphic_violence": 5
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "b2d0217629df8f5b9aaca838b2d2c312ababd9e98ae6188614965a788f5c9f87",
       "selected_sample_count": 40,
@@ -434,7 +438,8 @@
           "graphic_violence": 2,
           "profanity": 2,
           "sexual": 1
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "95fe064644c8a5cef01f3505e69a2f9165bbdc9e73969ec779f194f617c79769",
       "selected_sample_count": 40,
@@ -531,7 +536,8 @@
           "profanity": 3,
           "self_harm": 7,
           "sexual": 12
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "9bf2d512b772a4ea7d5a4366332d272a4d2272f77246386bdb403da5e6670e80",
       "selected_sample_count": 40,
@@ -627,7 +633,8 @@
           "profanity": 6,
           "self_harm": 7,
           "sexual": 11
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "ba315f5ee324e74402d614897b63f3fbe44cc019cfaffb58e24afb11d3524516",
       "selected_sample_count": 40,
@@ -723,7 +730,8 @@
           "profanity": 1,
           "self_harm": 6,
           "sexual": 14
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "3b5b278cbcf4fa7cf803502112c1cb2e5355902ae6dca750f8d0240661236a7a",
       "selected_sample_count": 40,
@@ -820,7 +828,8 @@
           "self_harm": 9,
           "sexual": 11,
           "url": 1
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "cf760a62da314639072d51570d23a897e4f5a2bed48ce0c5b3f4e484e60225ae",
       "selected_sample_count": 40,
@@ -922,7 +931,8 @@
           "self_harm": 31,
           "sexual": 70,
           "url": 97
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "7a533df5bd765f86e040cf8b62f219d06e69e6316bbd310d8300eea68dc0a58b",
       "selected_sample_count": 40,
@@ -1024,7 +1034,8 @@
           "self_harm": 30,
           "sexual": 56,
           "url": 48
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "1c83ed74f40d3afe8697b8700ad058facee18c9df29e60fcb7bfeff326b7a498",
       "selected_sample_count": 40,
@@ -1124,7 +1135,8 @@
           "self_harm": 26,
           "sexual": 41,
           "url": 35
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "9dde3de08a5beffb36cd7c3d96b3f9dce4d1e0754e7d6464cdb099a842adc22b",
       "selected_sample_count": 40,
@@ -1225,7 +1237,8 @@
           "self_harm": 29,
           "sexual": 49,
           "url": 40
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "581f702bae92041ea7eaa746eefba893e199f31a276a0104e4ab990f14817f24",
       "selected_sample_count": 40,
@@ -1326,7 +1339,8 @@
           "self_harm": 7,
           "sexual": 32,
           "url": 44
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "34b405717a098608ec51c675137622e43b0f6b492028dd5a30fa195b9fc40a95",
       "selected_sample_count": 40,
@@ -1423,7 +1437,8 @@
           "replacement_character": 951,
           "sexual": 5,
           "url": 4
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "2f2e3cc5059e589fb7186d5c98daf5766237f784183cb2681b2021502bcd606d",
       "selected_sample_count": 40,
@@ -1521,7 +1536,8 @@
           "self_harm": 12,
           "sexual": 20,
           "url": 12
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "eae0e16c5579c0285320091c941ad8d5140dad68c04f6b678f9995bc8fe143ce",
       "selected_sample_count": 40,
@@ -1620,7 +1636,8 @@
           "self_harm": 2,
           "sexual": 22,
           "url": 15
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "17508b201f080170389f56660a3e2304c549861cee61f3a388724cf43da996a4",
       "selected_sample_count": 40,
@@ -1721,7 +1738,8 @@
           "self_harm": 22,
           "sexual": 55,
           "url": 110
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "d907c2d665174f0ef2145edc03bce4527541396e9828b052fd37c104ffe6a698",
       "selected_sample_count": 40,
@@ -1822,7 +1840,8 @@
           "self_harm": 39,
           "sexual": 74,
           "url": 87
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "1b79aca4bd23115f4504c022380106ced37244bc9982761ad16b089f836f4131",
       "selected_sample_count": 40,
@@ -1935,7 +1954,8 @@
           "self_harm": 19,
           "sexual": 65,
           "url": 17
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "087139d14a5d349205e8fcc2e3ce5cb2e2437008fb4049e5b0c1c064b565490b",
       "selected_sample_count": 40,
@@ -2048,7 +2068,8 @@
           "self_harm": 22,
           "sexual": 31,
           "url": 41
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "f4557c25d6e9174fc9d5f33f35ff84ec8f6bcc1435a5bf0eb1a5c03a67c4ad52",
       "selected_sample_count": 40,
@@ -2149,7 +2170,8 @@
           "self_harm": 30,
           "sexual": 73,
           "url": 87
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "b8c55ee56ca2e01261f7adf0cd45fad85445ff2bc74e9825064670527a46ea41",
       "selected_sample_count": 40,
@@ -2310,7 +2332,8 @@
           "self_harm": 21,
           "sexual": 43,
           "url": 161
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "175b003da43f365ecd78268a3c03c16e09f1ef2ec7334e16be6d7cc3a1ef2b26",
       "selected_sample_count": 40,
@@ -2425,7 +2448,8 @@
           "self_harm": 25,
           "sexual": 28,
           "url": 88
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "0482d3b8b886f29f17ab9141b2302a635b54b2f3523fb2d523be18d36e89c2ee",
       "selected_sample_count": 40,
@@ -2540,7 +2564,8 @@
           "self_harm": 22,
           "sexual": 22,
           "url": 80
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "af81d01bef3c03554afa370330e12067b900c45d2b2f583525accecd670d37fe",
       "selected_sample_count": 40,
@@ -2701,7 +2726,8 @@
           "self_harm": 23,
           "sexual": 38,
           "url": 117
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "d39b2d34abf33783c4860a523be3d94c8f816ece710811677fffdfc38c5a768e",
       "selected_sample_count": 40,
@@ -2815,7 +2841,8 @@
           "self_harm": 30,
           "sexual": 26,
           "url": 179
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "20ef8de1067e9cd9a8fe27e0c19c12d8e1cf0836d9cab6929d8a49a51ff5fbbd",
       "selected_sample_count": 40,
@@ -2976,7 +3003,8 @@
           "self_harm": 18,
           "sexual": 32,
           "url": 117
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "80761eff4bb11f328d97f6a69211ddbf2b88062863c9344aa2de151a991622d2",
       "selected_sample_count": 40,
@@ -3078,7 +3106,8 @@
           "self_harm": 29,
           "sexual": 49,
           "url": 40
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "581f702bae92041ea7eaa746eefba893e199f31a276a0104e4ab990f14817f24",
       "selected_sample_count": 40,
@@ -3180,7 +3209,8 @@
           "self_harm": 18,
           "sexual": 50,
           "url": 41
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "a28f4050c65c09e64b595d6959435d15e00322cb0490646eded96e6b62845691",
       "selected_sample_count": 40,
@@ -3282,7 +3312,8 @@
           "self_harm": 17,
           "sexual": 49,
           "url": 38
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "b70f9fa7da98ac94196d1a1584828a20ee62ffb1751f8a1a8bfaebf9b6af043a",
       "selected_sample_count": 40,
@@ -3385,7 +3416,8 @@
           "self_harm": 18,
           "sexual": 49,
           "url": 41
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "f446670e86d1ce2e5d97a3747e243f229d6ccca655915d89464658e66f5c9414",
       "selected_sample_count": 40,
@@ -3488,7 +3520,8 @@
           "self_harm": 24,
           "sexual": 64,
           "url": 30
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "627c0f0939e36d7ba937a00b9dc67e7e170a891d9db3b770224da74cf4a1be22",
       "selected_sample_count": 40,
@@ -3591,7 +3624,8 @@
           "self_harm": 21,
           "sexual": 41,
           "url": 70
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "e2c60095f98b4138093d596afc29e2e444614ae299e70249757bafc0e345044f",
       "selected_sample_count": 40,
@@ -3694,7 +3728,8 @@
           "self_harm": 26,
           "sexual": 59,
           "url": 82
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "21d6b6f40e1fd4dfe734368fea0f51a23170f1692dce005a0202b38f056d98d7",
       "selected_sample_count": 40,
@@ -3796,7 +3831,8 @@
           "self_harm": 25,
           "sexual": 56,
           "url": 78
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "39f1b77e726be785a8d4f13ce9e4769a5bda7eeccd7b5b6485d0765ed91967d1",
       "selected_sample_count": 40,
@@ -3896,7 +3932,8 @@
           "self_harm": 26,
           "sexual": 48,
           "url": 152
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "beec89c849828c1e489c6aff8ef0ce53b60f31831c2f8d54eb43a8510c562986",
       "selected_sample_count": 40,
@@ -3995,7 +4032,8 @@
           "self_harm": 15,
           "sexual": 29,
           "url": 91
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "155dd4b33bc8b270a9b13964beedfc8e840d4604397bf4052b0301a59a5654ca",
       "selected_sample_count": 40,
@@ -4094,7 +4132,8 @@
           "self_harm": 28,
           "sexual": 47,
           "url": 121
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "fa6173e5b9c28e3eec32f62e81a133dfaa47b456d1f5ad632146c458faf2d337",
       "selected_sample_count": 40,
@@ -4194,7 +4233,8 @@
           "self_harm": 2,
           "sexual": 7,
           "url": 18
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "db2a238660d1607d839fe7c15dd133ab21c4815ad0ad6ec4b5d840b88ae0a80f",
       "selected_sample_count": 40,
@@ -4294,7 +4334,8 @@
           "self_harm": 66,
           "sexual": 27,
           "url": 83
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "5c96eee660c82a0b8038a3970de93a8909052abb41b8a9f27c51b39f5fea2e87",
       "selected_sample_count": 40,
@@ -4392,7 +4433,8 @@
           "self_harm": 27,
           "sexual": 18,
           "url": 52
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "f504867cdffc377552ad236e813a3b831e6728e1d6c3f54c8c01022f1795391d",
       "selected_sample_count": 40,
@@ -4491,7 +4533,8 @@
           "self_harm": 54,
           "sexual": 28,
           "url": 66
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "1fe61aa34fa6d4c2800490d0a347658ce6bc7a4385b4f743d19e091aeeb47325",
       "selected_sample_count": 40,
@@ -4591,7 +4634,8 @@
           "self_harm": 4,
           "sexual": 25,
           "url": 13
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "0d5c54c8b96ed75348e2842524d3dbffe6e03ba5c2c42f408ba1cfc1dc2ac55e",
       "selected_sample_count": 40,
@@ -4691,7 +4735,8 @@
           "self_harm": 30,
           "sexual": 43,
           "url": 98
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "16ea6daeb24fc3613828cc5076979e371f9365519fdc3577db162eb308ee7180",
       "selected_sample_count": 40,
@@ -4789,7 +4834,8 @@
           "self_harm": 13,
           "sexual": 30,
           "url": 54
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "3fc2041f8ad3dfe36713c7b4d86cc407032b4d1de760e49a9eaf6fdce8e1cec3",
       "selected_sample_count": 40,
@@ -4888,7 +4934,8 @@
           "self_harm": 20,
           "sexual": 30,
           "url": 99
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "5663500f2d51c7b3673dc80aeec1509c87a734bfd40dc1c6c08bb174976f148c",
       "selected_sample_count": 40,
@@ -4988,7 +5035,8 @@
           "self_harm": 1,
           "sexual": 58,
           "url": 22
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "e85143e9831c124109f486caec7f5dff1aec12dfefec8c8ea9f3db1aafb0d3f1",
       "selected_sample_count": 40,
@@ -5090,7 +5138,8 @@
           "self_harm": 7,
           "sexual": 32,
           "url": 44
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "34b405717a098608ec51c675137622e43b0f6b492028dd5a30fa195b9fc40a95",
       "selected_sample_count": 40,
@@ -5193,7 +5242,8 @@
           "self_harm": 12,
           "sexual": 39,
           "url": 101
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "7bed33430ea92906c36083f16a864a8deca323fba3a80e1cb757e494257b52a7",
       "selected_sample_count": 40,
@@ -5296,7 +5346,8 @@
           "self_harm": 11,
           "sexual": 33,
           "url": 115
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "dc586e84dbc97ca339fd96e51fc61f94ff14112b0b577e8479526094a9272ac4",
       "selected_sample_count": 40,
@@ -5399,7 +5450,8 @@
           "self_harm": 16,
           "sexual": 31,
           "url": 58
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "d76aabf70d5d42cf9b9fb3672c524ff99df18b8d7fcfbba77d07a387c9f8a97d",
       "selected_sample_count": 40,
@@ -5502,7 +5554,8 @@
           "self_harm": 5,
           "sexual": 24,
           "url": 63
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "f9649eded07bec5a28286762cfcd1719078ae6a672b0071c3d4052d64cdee767",
       "selected_sample_count": 40,
@@ -5603,7 +5656,8 @@
           "self_harm": 12,
           "sexual": 17,
           "url": 15
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "bf347650a2616531075035547c200e359b7b7b24f0580e146881d7ce7f16706c",
       "selected_sample_count": 40,
@@ -5701,7 +5755,8 @@
           "replacement_character": 951,
           "sexual": 5,
           "url": 4
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "2f2e3cc5059e589fb7186d5c98daf5766237f784183cb2681b2021502bcd606d",
       "selected_sample_count": 40,
@@ -5800,7 +5855,8 @@
           "self_harm": 12,
           "sexual": 20,
           "url": 12
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "eae0e16c5579c0285320091c941ad8d5140dad68c04f6b678f9995bc8fe143ce",
       "selected_sample_count": 40,
@@ -5901,7 +5957,8 @@
           "self_harm": 2,
           "sexual": 22,
           "url": 15
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "17508b201f080170389f56660a3e2304c549861cee61f3a388724cf43da996a4",
       "selected_sample_count": 40,
@@ -6002,7 +6059,8 @@
           "self_harm": 11,
           "sexual": 18,
           "url": 8
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "0caee3fa0cf6e48ebfdcf3a9472b5620a4e84b05c25e75cbec42920e40c93877",
       "selected_sample_count": 40,
@@ -6104,7 +6162,8 @@
           "self_harm": 39,
           "sexual": 74,
           "url": 87
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "1b79aca4bd23115f4504c022380106ced37244bc9982761ad16b089f836f4131",
       "selected_sample_count": 40,
@@ -6207,7 +6266,8 @@
           "self_harm": 32,
           "sexual": 85,
           "url": 124
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "81f83d95d67d5cea93b8a17aac534ae0beecd796331299c778d9de7d234279fa",
       "selected_sample_count": 40,
@@ -6310,7 +6370,8 @@
           "self_harm": 34,
           "sexual": 100,
           "url": 100
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "d09221aee642b65b043d2cd92aa0b95cbd5e134943bb6104dbb8431e1c436624",
       "selected_sample_count": 40,
@@ -6413,7 +6474,8 @@
           "self_harm": 33,
           "sexual": 86,
           "url": 99
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "863daa4d1a584c8970e21831362b624fc4ac12cee5646e850e8a0defe85a224f",
       "selected_sample_count": 40,
@@ -6515,7 +6577,8 @@
           "self_harm": 37,
           "sexual": 101,
           "url": 65
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "3e09ffa3a56ea80e406c6ec3364f4178e81d7b063b60a2da8c3afe6d36f01a47",
       "selected_sample_count": 40,
@@ -6649,6 +6712,108 @@
           "url": "https://github.com/igul222/plaid"
         },
         "provenance_tier": "historical-recovery",
+        "reviewed_source_exclusions": [
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 192
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 224
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 243
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 417
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 459
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 522
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 565
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 620
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 625
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 973
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found direct instructions to contact external programs and provide personal information.",
+            "source_id": 276
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found disturbing self-harm and bodily-harm content.",
+            "source_id": 577
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found phishing, scam, and private-details content.",
+            "source_id": 883
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found a terror-attack, mass-shooting, firearm, and criminal-violence news passage.",
+            "source_id": 22
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found a campus violence alert, explosion report, malformed rendering, and social-media handles/URL.",
+            "source_id": 793
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found military/UAS material, a social-media handle/URL, and promotional/editorial text.",
+            "source_id": 394
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found a malformed, repetitive pony/carriage listing unsuitable for public display.",
+            "source_id": 557
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found malformed political-conflict text with replacement-character rendering.",
+            "source_id": 266
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found armed-conflict, death, shooting, murder, and bombing content.",
+            "source_id": 766
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found replacement-character and malformed sports/editorial content.",
+            "source_id": 847
+          }
+        ],
         "status": "included"
       },
       "dataset": "owt",
@@ -6666,7 +6831,7 @@
       "provider": null,
       "safety_screen": {
         "policy": "samplebench-public-safety-v1",
-        "rejected_count": 310,
+        "rejected_count": 330,
         "rejected_reason_counts": {
           "email": 28,
           "graphic_violence": 19,
@@ -6675,10 +6840,113 @@
           "phone": 9,
           "profanity": 18,
           "replacement_character": 11,
+          "reviewed_source_exclusion": 20,
           "self_harm": 15,
           "sexual": 32,
           "url": 154
-        }
+        },
+        "reviewed_source_exclusions": [
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 192
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 224
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 243
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 417
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 459
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 522
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 565
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 620
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 625
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 973
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found direct instructions to contact external programs and provide personal information.",
+            "source_id": 276
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found disturbing self-harm and bodily-harm content.",
+            "source_id": 577
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found phishing, scam, and private-details content.",
+            "source_id": 883
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found a terror-attack, mass-shooting, firearm, and criminal-violence news passage.",
+            "source_id": 22
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found a campus violence alert, explosion report, malformed rendering, and social-media handles/URL.",
+            "source_id": 793
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found military/UAS material, a social-media handle/URL, and promotional/editorial text.",
+            "source_id": 394
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found a malformed, repetitive pony/carriage listing unsuitable for public display.",
+            "source_id": 557
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found malformed political-conflict text with replacement-character rendering.",
+            "source_id": 266
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found armed-conflict, death, shooting, murder, and bombing content.",
+            "source_id": 766
+          },
+          {
+            "generator_id": "owt_v2_plaid_1024_nfe",
+            "reason": "Manual review found replacement-character and malformed sports/editorial content.",
+            "source_id": 847
+          }
+        ]
       },
       "samples_sha256": "1058c429d4fa62f716c3cf08e01976e03e907ab6cb37e2361814ab434d303ecd",
       "selected_sample_count": 40,
@@ -6689,29 +6957,27 @@
         103,
         121,
         132,
-        192,
-        224,
-        243,
         269,
         313,
+        335,
+        342,
         378,
         400,
-        417,
-        459,
+        433,
+        464,
         493,
         521,
-        522,
         537,
         541,
-        565,
         590,
         597,
-        620,
-        625,
+        624,
         631,
         652,
+        661,
         668,
         677,
+        699,
         719,
         772,
         777,
@@ -6720,9 +6986,11 @@
         881,
         895,
         906,
+        930,
         957,
-        973,
-        986
+        984,
+        986,
+        1018
       ],
       "source_bundle_digest": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65",
       "source_manifest_sha256": "e6a5101b40fbe3cec89d91a7dc70120e55f97af8e08be8bc0e56bcf030fa6f30",
@@ -6812,6 +7080,43 @@
           "url": "https://github.com/igul222/plaid"
         },
         "provenance_tier": "historical-recovery",
+        "reviewed_source_exclusions": [
+          {
+            "generator_id": "owt_v2_plaid_256_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 42
+          },
+          {
+            "generator_id": "owt_v2_plaid_256_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 429
+          },
+          {
+            "generator_id": "owt_v2_plaid_256_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 688
+          },
+          {
+            "generator_id": "owt_v2_plaid_256_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 798
+          },
+          {
+            "generator_id": "owt_v2_plaid_256_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 956
+          },
+          {
+            "generator_id": "owt_v2_plaid_256_nfe",
+            "reason": "Manual review found direct contact solicitation and sexual-content text.",
+            "source_id": 6
+          },
+          {
+            "generator_id": "owt_v2_plaid_256_nfe",
+            "reason": "Manual review found bomb, TNT, and military-weapons content unsuitable for public display.",
+            "source_id": 1013
+          }
+        ],
         "status": "included"
       },
       "dataset": "owt",
@@ -6829,7 +7134,7 @@
       "provider": null,
       "safety_screen": {
         "policy": "samplebench-public-safety-v1",
-        "rejected_count": 322,
+        "rejected_count": 329,
         "rejected_reason_counts": {
           "email": 30,
           "graphic_violence": 19,
@@ -6838,17 +7143,54 @@
           "phone": 8,
           "profanity": 19,
           "replacement_character": 4,
+          "reviewed_source_exclusion": 7,
           "self_harm": 15,
           "sexual": 44,
           "url": 150
-        }
+        },
+        "reviewed_source_exclusions": [
+          {
+            "generator_id": "owt_v2_plaid_256_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 42
+          },
+          {
+            "generator_id": "owt_v2_plaid_256_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 429
+          },
+          {
+            "generator_id": "owt_v2_plaid_256_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 688
+          },
+          {
+            "generator_id": "owt_v2_plaid_256_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 798
+          },
+          {
+            "generator_id": "owt_v2_plaid_256_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 956
+          },
+          {
+            "generator_id": "owt_v2_plaid_256_nfe",
+            "reason": "Manual review found direct contact solicitation and sexual-content text.",
+            "source_id": 6
+          },
+          {
+            "generator_id": "owt_v2_plaid_256_nfe",
+            "reason": "Manual review found bomb, TNT, and military-weapons content unsuitable for public display.",
+            "source_id": 1013
+          }
+        ]
       },
       "samples_sha256": "07278858384ee5656b6573a772ba7e338b66fdaae8bb927cad528e2a58a73196",
       "selected_sample_count": 40,
       "selected_source_ids": [
         14,
         39,
-        42,
         67,
         68,
         75,
@@ -6857,11 +7199,11 @@
         195,
         205,
         239,
+        248,
         282,
         302,
         352,
         377,
-        429,
         478,
         484,
         512,
@@ -6869,15 +7211,16 @@
         536,
         552,
         582,
+        585,
         599,
+        605,
         621,
         666,
-        688,
         701,
         710,
         722,
         791,
-        798,
+        808,
         813,
         827,
         832,
@@ -6885,7 +7228,7 @@
         885,
         906,
         916,
-        956
+        984
       ],
       "source_bundle_digest": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65",
       "source_manifest_sha256": "1ddfec5200e77e29356fd8165f93c0b1c3f7d7e0cbbb6e490c01b86fcf2b533f",
@@ -6975,6 +7318,193 @@
           "url": "https://github.com/igul222/plaid"
         },
         "provenance_tier": "historical-recovery",
+        "reviewed_source_exclusions": [
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 48
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 200
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 247
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 419
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 536
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found conflict, open-fire, and social-media content unsuitable for public display.",
+            "source_id": 568
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 571
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 617
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 811
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 836
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 848
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 902
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 993
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 1011
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found malformed, non-readable text with encoding artifacts.",
+            "source_id": 250
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found explicit gruesome-deaths content.",
+            "source_id": 429
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found a social-media URL and handle in conflict/news text.",
+            "source_id": 539
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found repeated murder, shooting, and criminal-violence content.",
+            "source_id": 575
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found explicitly anti-Semitic and hate-related content.",
+            "source_id": 640
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found malformed, largely non-readable text.",
+            "source_id": 703
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found domestic stabbing, firearm, and assault/criminal-violence reporting.",
+            "source_id": 10
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found armed-conflict reporting with strikes, deaths, attacks, and militant violence.",
+            "source_id": 273
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found murder, stabbing, and fundraising solicitation.",
+            "source_id": 586
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found direct PayPal payment solicitation.",
+            "source_id": 712
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found graphic violence against children and contact/lobbying solicitation.",
+            "source_id": 744
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found promotional/editorial artifacts and a criminal-penalty news passage.",
+            "source_id": 40
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found repetitive sports/editorial content with promotional site and social-media artifacts.",
+            "source_id": 268
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found a repeated fatal-fire passage with a specific street address and malformed text.",
+            "source_id": 826
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found social-media handles and a social-media URL in editorial text.",
+            "source_id": 927
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found malformed criminal/legal text with replacement-character rendering.",
+            "source_id": 1005
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found surveillance/privacy text with police-shooting content and encoding artifacts.",
+            "source_id": 344
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found malformed political/editorial text with encoding artifacts.",
+            "source_id": 464
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found profanity and promotional/fundraising editorial content.",
+            "source_id": 853
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found zero-width and replacement-character encoding corruption.",
+            "source_id": 1007
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found repetitive commercial solar-panel listing and sign-up/shipping solicitation.",
+            "source_id": 231
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found malformed news text with animal-killing content and encoding artifacts.",
+            "source_id": 936
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found replacement-character corruption in a reproductive-health passage.",
+            "source_id": 582
+          }
+        ],
         "status": "included"
       },
       "dataset": "owt",
@@ -6992,7 +7522,7 @@
       "provider": null,
       "safety_screen": {
         "policy": "samplebench-public-safety-v1",
-        "rejected_count": 321,
+        "rejected_count": 358,
         "rejected_reason_counts": {
           "email": 29,
           "graphic_violence": 30,
@@ -7001,54 +7531,242 @@
           "phone": 10,
           "profanity": 19,
           "replacement_character": 6,
+          "reviewed_source_exclusion": 37,
           "self_harm": 19,
           "sexual": 45,
           "url": 139
-        }
+        },
+        "reviewed_source_exclusions": [
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 48
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 200
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 247
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 419
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 536
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found conflict, open-fire, and social-media content unsuitable for public display.",
+            "source_id": 568
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 571
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 617
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 811
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 836
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 848
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 902
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 993
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 1011
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found malformed, non-readable text with encoding artifacts.",
+            "source_id": 250
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found explicit gruesome-deaths content.",
+            "source_id": 429
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found a social-media URL and handle in conflict/news text.",
+            "source_id": 539
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found repeated murder, shooting, and criminal-violence content.",
+            "source_id": 575
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found explicitly anti-Semitic and hate-related content.",
+            "source_id": 640
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found malformed, largely non-readable text.",
+            "source_id": 703
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found domestic stabbing, firearm, and assault/criminal-violence reporting.",
+            "source_id": 10
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found armed-conflict reporting with strikes, deaths, attacks, and militant violence.",
+            "source_id": 273
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found murder, stabbing, and fundraising solicitation.",
+            "source_id": 586
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found direct PayPal payment solicitation.",
+            "source_id": 712
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found graphic violence against children and contact/lobbying solicitation.",
+            "source_id": 744
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found promotional/editorial artifacts and a criminal-penalty news passage.",
+            "source_id": 40
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found repetitive sports/editorial content with promotional site and social-media artifacts.",
+            "source_id": 268
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found a repeated fatal-fire passage with a specific street address and malformed text.",
+            "source_id": 826
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found social-media handles and a social-media URL in editorial text.",
+            "source_id": 927
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found malformed criminal/legal text with replacement-character rendering.",
+            "source_id": 1005
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found surveillance/privacy text with police-shooting content and encoding artifacts.",
+            "source_id": 344
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found malformed political/editorial text with encoding artifacts.",
+            "source_id": 464
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found profanity and promotional/fundraising editorial content.",
+            "source_id": 853
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found zero-width and replacement-character encoding corruption.",
+            "source_id": 1007
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found repetitive commercial solar-panel listing and sign-up/shipping solicitation.",
+            "source_id": 231
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found malformed news text with animal-killing content and encoding artifacts.",
+            "source_id": 936
+          },
+          {
+            "generator_id": "owt_v2_plaid_4096_nfe",
+            "reason": "Manual review found replacement-character corruption in a reproductive-health passage.",
+            "source_id": 582
+          }
+        ]
       },
       "samples_sha256": "bfcc2512c4757d9702a2bf889d77839a27502042811e7afcc50bc8a1a6f9342f",
       "selected_sample_count": 40,
       "selected_source_ids": [
+        20,
         35,
-        48,
         51,
         55,
         80,
         136,
         139,
-        200,
-        247,
+        150,
+        284,
         297,
+        331,
         397,
         414,
-        419,
         439,
-        536,
-        568,
-        571,
+        507,
         581,
         590,
+        595,
         613,
-        617,
+        622,
         630,
         653,
+        661,
+        679,
+        680,
         698,
         728,
         753,
+        765,
         806,
         810,
-        811,
         816,
-        836,
-        848,
         859,
-        902,
+        872,
         903,
         919,
         959,
         986,
-        993,
-        1011
+        999,
+        1023
       ],
       "source_bundle_digest": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65",
       "source_manifest_sha256": "1c91e8c8c2c2bcc003d2736f1672ff3140d067a9f2caf1ce6af00cdba5679317",
@@ -7124,6 +7842,438 @@
           "url": "https://arxiv.org/abs/2605.18530"
         },
         "provenance_tier": "C",
+        "reviewed_source_exclusions": [
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 17
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 25
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 101
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 111
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 299
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 338
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 392
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 418
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 429
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 514
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 530
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 609
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 620
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 639
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 663
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 734
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 747
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 835
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 913
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 993
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found nuclear-weapons, military, and genocide content unsuitable for public display.",
+            "source_id": 61
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found profanity and malformed editorial text unsuitable for public display.",
+            "source_id": 150
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found a social-media handle in conflict and security text.",
+            "source_id": 166
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found exhibitionism, shooting, and physical-assault content unsuitable for public display.",
+            "source_id": 223
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found profanity in a malformed game-text passage.",
+            "source_id": 331
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found terrorism, detention, and criminal-violence content unsuitable for public display.",
+            "source_id": 404
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found fatal-crash, death, and synthetic-drug content involving a minor.",
+            "source_id": 561
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found military content and a specific street address.",
+            "source_id": 727
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found HTML/editorial artifacts and a social-media handle.",
+            "source_id": 827
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found sexual-perversion language and malformed text.",
+            "source_id": 890
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found a specific street address and editorial/video solicitation.",
+            "source_id": 999
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found direct Gmail/contact-code, GitHub login, advertisement, and social-media solicitation.",
+            "source_id": 57
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found social-media handles/tweets, email references, and malformed replacement-character rendering.",
+            "source_id": 136
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found hacking-operation and social-media content in an incoherent passage.",
+            "source_id": 163
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found guns/firearms reporting and Facebook/Twitter contact solicitation.",
+            "source_id": 186
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found sexual-assault/sexual-abuse reporting, criminal allegations, and fundraising solicitation.",
+            "source_id": 455
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found a malformed game-text passage with repeated death/destruction language.",
+            "source_id": 535
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found largely non-readable Cyrillic-like text with replacement-character rendering.",
+            "source_id": 675
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found military/defense and weapons-related reporting unsuitable for public display.",
+            "source_id": 793
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found sexual-content/police-misconduct reporting and malformed text.",
+            "source_id": 868
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed escaped/encoded text with replacement-character rendering.",
+            "source_id": 921
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed promotional/social-media content and source/editorial artifacts.",
+            "source_id": 1000
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found a malformed roster/listing passage with school and personal-name content.",
+            "source_id": 73
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed political/editorial text with profanity and promotional artifacts.",
+            "source_id": 100
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed advertorial climate/economic text unsuitable for public display.",
+            "source_id": 176
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found anti-Muslim/extremist, armed-conflict, explosion, and death content.",
+            "source_id": 200
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found firearms/weapons, intelligence, and military/security content.",
+            "source_id": 279
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed pseudo-medical text with sexual, military, and disease-related content.",
+            "source_id": 334
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed political/racial text, explosion content, and social-media/contact artifacts.",
+            "source_id": 391
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed text with violent/threatening content, replacement-character rendering, and advertisements.",
+            "source_id": 568
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed promotional/archive listing text with horror and editorial artifacts.",
+            "source_id": 716
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed pseudo-historical text with killing, sexual, and racialized content.",
+            "source_id": 730
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed cryptocurrency/investment promotion and a request to register in comments.",
+            "source_id": 876
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed social-media/blog solicitation and political editorial content.",
+            "source_id": 164
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed political/editorial text with social-media and replacement-character artifacts.",
+            "source_id": 260
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found drug, opioid, addiction, injection, and death content in malformed text.",
+            "source_id": 372
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed personal/business employment and compensation text.",
+            "source_id": 425
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed commercial/product-promotional text.",
+            "source_id": 481
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found severe-injury, death, fire, weapons, and shooting content in malformed text.",
+            "source_id": 510
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed political/financial text with killing and solicitation-like content.",
+            "source_id": 647
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found machinegun, bomb, gunship, shooting, and explosive military content.",
+            "source_id": 763
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found kidnapping, military, war-crimes, grenade, and bombing content.",
+            "source_id": 778
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed commercial/advertorial text with editorial artifacts.",
+            "source_id": 783
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed personal medical/criminal reporting with blood, body-harm, and social-media content.",
+            "source_id": 968
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found Jack-the-Ripper/criminal and concealed-weapons content with malformed encoding.",
+            "source_id": 47
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed privacy/political and commercial text with social-media artifacts.",
+            "source_id": 212
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found explicit self-harm, threats, hateful/sexual, and social-media content.",
+            "source_id": 369
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed combat-sports text with violent and gendered content.",
+            "source_id": 554
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed sports-injury text with replacement-character rendering.",
+            "source_id": 592
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found war, bombing, military, smuggling, and rebel-attack content.",
+            "source_id": 755
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found guns, aggravated assault, homicide, illegal firearms, and criminal-violence content.",
+            "source_id": 787
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found violence, burns, drug/homicide, social-media, and malformed editorial content.",
+            "source_id": 915
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed commercial/technical listing text with editorial artifacts.",
+            "source_id": 930
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found nuclear/radiation and military content with replacement-character rendering.",
+            "source_id": 942
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found death, handgun, bombs, injury, military, and malformed content.",
+            "source_id": 1022
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found largely unreadable malformed text with replacement-character rendering.",
+            "source_id": 174
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed political/conflict text with social-media handles.",
+            "source_id": 203
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed personal/editorial text with social-media sharing artifacts.",
+            "source_id": 205
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed sports/editorial text with promotional URLs and social-media handles.",
+            "source_id": 341
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed sports/commercial text with promotional site references and incomplete editorial text.",
+            "source_id": 473
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed security/political text with social-media artifacts and promotional content.",
+            "source_id": 700
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed education/fundraising text with payment solicitation and personal-information references.",
+            "source_id": 736
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed personal text involving parental abuse, depression, and children’s trauma.",
+            "source_id": 892
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed hacking/security text involving sensitive data, child-abuse references, and social-media handles.",
+            "source_id": 907
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed commercial/promotional text with street addresses, payment amounts, and social-media attribution.",
+            "source_id": 1008
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed medical/political/criminal text with child-related content and fatal-shooting references.",
+            "source_id": 1010
+          }
+        ],
         "status": "included"
       },
       "dataset": "owt",
@@ -7141,7 +8291,7 @@
       "provider": "Zhihan Yang",
       "safety_screen": {
         "policy": "samplebench-public-safety-v1",
-        "rejected_count": 410,
+        "rejected_count": 496,
         "rejected_reason_counts": {
           "email": 34,
           "graphic_violence": 47,
@@ -7150,54 +8300,487 @@
           "phone": 10,
           "profanity": 54,
           "replacement_character": 47,
+          "reviewed_source_exclusion": 86,
           "self_harm": 21,
           "sexual": 55,
           "url": 114
-        }
+        },
+        "reviewed_source_exclusions": [
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 17
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 25
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 101
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 111
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 299
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 338
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 392
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 418
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 429
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 514
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 530
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 609
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 620
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 639
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 663
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 734
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 747
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 835
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 913
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found unsuitable public-facing content in this source row.",
+            "source_id": 993
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found nuclear-weapons, military, and genocide content unsuitable for public display.",
+            "source_id": 61
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found profanity and malformed editorial text unsuitable for public display.",
+            "source_id": 150
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found a social-media handle in conflict and security text.",
+            "source_id": 166
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found exhibitionism, shooting, and physical-assault content unsuitable for public display.",
+            "source_id": 223
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found profanity in a malformed game-text passage.",
+            "source_id": 331
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found terrorism, detention, and criminal-violence content unsuitable for public display.",
+            "source_id": 404
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found fatal-crash, death, and synthetic-drug content involving a minor.",
+            "source_id": 561
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found military content and a specific street address.",
+            "source_id": 727
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found HTML/editorial artifacts and a social-media handle.",
+            "source_id": 827
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found sexual-perversion language and malformed text.",
+            "source_id": 890
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found a specific street address and editorial/video solicitation.",
+            "source_id": 999
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found direct Gmail/contact-code, GitHub login, advertisement, and social-media solicitation.",
+            "source_id": 57
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found social-media handles/tweets, email references, and malformed replacement-character rendering.",
+            "source_id": 136
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found hacking-operation and social-media content in an incoherent passage.",
+            "source_id": 163
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found guns/firearms reporting and Facebook/Twitter contact solicitation.",
+            "source_id": 186
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found sexual-assault/sexual-abuse reporting, criminal allegations, and fundraising solicitation.",
+            "source_id": 455
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found a malformed game-text passage with repeated death/destruction language.",
+            "source_id": 535
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found largely non-readable Cyrillic-like text with replacement-character rendering.",
+            "source_id": 675
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found military/defense and weapons-related reporting unsuitable for public display.",
+            "source_id": 793
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found sexual-content/police-misconduct reporting and malformed text.",
+            "source_id": 868
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed escaped/encoded text with replacement-character rendering.",
+            "source_id": 921
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed promotional/social-media content and source/editorial artifacts.",
+            "source_id": 1000
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found a malformed roster/listing passage with school and personal-name content.",
+            "source_id": 73
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed political/editorial text with profanity and promotional artifacts.",
+            "source_id": 100
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed advertorial climate/economic text unsuitable for public display.",
+            "source_id": 176
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found anti-Muslim/extremist, armed-conflict, explosion, and death content.",
+            "source_id": 200
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found firearms/weapons, intelligence, and military/security content.",
+            "source_id": 279
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed pseudo-medical text with sexual, military, and disease-related content.",
+            "source_id": 334
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed political/racial text, explosion content, and social-media/contact artifacts.",
+            "source_id": 391
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed text with violent/threatening content, replacement-character rendering, and advertisements.",
+            "source_id": 568
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed promotional/archive listing text with horror and editorial artifacts.",
+            "source_id": 716
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed pseudo-historical text with killing, sexual, and racialized content.",
+            "source_id": 730
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed cryptocurrency/investment promotion and a request to register in comments.",
+            "source_id": 876
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed social-media/blog solicitation and political editorial content.",
+            "source_id": 164
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed political/editorial text with social-media and replacement-character artifacts.",
+            "source_id": 260
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found drug, opioid, addiction, injection, and death content in malformed text.",
+            "source_id": 372
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed personal/business employment and compensation text.",
+            "source_id": 425
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed commercial/product-promotional text.",
+            "source_id": 481
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found severe-injury, death, fire, weapons, and shooting content in malformed text.",
+            "source_id": 510
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed political/financial text with killing and solicitation-like content.",
+            "source_id": 647
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found machinegun, bomb, gunship, shooting, and explosive military content.",
+            "source_id": 763
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found kidnapping, military, war-crimes, grenade, and bombing content.",
+            "source_id": 778
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed commercial/advertorial text with editorial artifacts.",
+            "source_id": 783
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed personal medical/criminal reporting with blood, body-harm, and social-media content.",
+            "source_id": 968
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found Jack-the-Ripper/criminal and concealed-weapons content with malformed encoding.",
+            "source_id": 47
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed privacy/political and commercial text with social-media artifacts.",
+            "source_id": 212
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found explicit self-harm, threats, hateful/sexual, and social-media content.",
+            "source_id": 369
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed combat-sports text with violent and gendered content.",
+            "source_id": 554
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed sports-injury text with replacement-character rendering.",
+            "source_id": 592
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found war, bombing, military, smuggling, and rebel-attack content.",
+            "source_id": 755
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found guns, aggravated assault, homicide, illegal firearms, and criminal-violence content.",
+            "source_id": 787
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found violence, burns, drug/homicide, social-media, and malformed editorial content.",
+            "source_id": 915
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed commercial/technical listing text with editorial artifacts.",
+            "source_id": 930
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found nuclear/radiation and military content with replacement-character rendering.",
+            "source_id": 942
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found death, handgun, bombs, injury, military, and malformed content.",
+            "source_id": 1022
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found largely unreadable malformed text with replacement-character rendering.",
+            "source_id": 174
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed political/conflict text with social-media handles.",
+            "source_id": 203
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed personal/editorial text with social-media sharing artifacts.",
+            "source_id": 205
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed sports/editorial text with promotional URLs and social-media handles.",
+            "source_id": 341
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed sports/commercial text with promotional site references and incomplete editorial text.",
+            "source_id": 473
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed security/political text with social-media artifacts and promotional content.",
+            "source_id": 700
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed education/fundraising text with payment solicitation and personal-information references.",
+            "source_id": 736
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed personal text involving parental abuse, depression, and children’s trauma.",
+            "source_id": 892
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed hacking/security text involving sensitive data, child-abuse references, and social-media handles.",
+            "source_id": 907
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed commercial/promotional text with street addresses, payment amounts, and social-media attribution.",
+            "source_id": 1008
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "Manual review found malformed medical/political/criminal text with child-related content and fatal-shooting references.",
+            "source_id": 1010
+          }
+        ]
       },
       "samples_sha256": "518d2d10ce436833160df99bb88e859fee5f2682a79fed3d7431625e5d4424ad",
       "selected_sample_count": 40,
       "selected_source_ids": [
-        17,
-        25,
-        101,
-        111,
+        48,
+        121,
         124,
         144,
         151,
+        195,
         199,
+        202,
         210,
         213,
-        299,
+        219,
+        234,
+        248,
+        274,
         330,
-        338,
+        357,
         387,
-        392,
-        418,
-        429,
+        424,
+        444,
+        447,
         465,
         501,
-        514,
-        530,
+        548,
+        551,
         566,
         589,
-        609,
         610,
-        620,
-        639,
+        632,
         641,
         655,
-        663,
         665,
-        734,
-        747,
+        707,
+        729,
+        737,
         791,
         811,
-        835,
         840,
-        913,
-        933,
-        993
+        908,
+        925,
+        933
       ],
       "source_bundle_digest": "ab84a1f24d1aaa5c5897bdec7a5d4ed81ff69376cfabb251dabe6c2c8397639d",
       "source_manifest_sha256": "be2193a70346af2c2780da68955d34f4db455b579deaee0d333923a41fe6cb47",
@@ -7255,7 +8838,8 @@
           "self_harm": 30,
           "sexual": 73,
           "url": 87
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "b8c55ee56ca2e01261f7adf0cd45fad85445ff2bc74e9825064670527a46ea41",
       "selected_sample_count": 40,
@@ -7358,7 +8942,8 @@
           "self_harm": 31,
           "sexual": 95,
           "url": 100
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "63ee598bea5bc3b0072fee3306a62a83094253d54062807aa20161c86a7a9441",
       "selected_sample_count": 40,
@@ -7461,7 +9046,8 @@
           "self_harm": 34,
           "sexual": 116,
           "url": 110
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "39ca9e3b248c2176992ec403c52fe03dd51e9601334917b9a050428245ba88ac",
       "selected_sample_count": 40,
@@ -7563,7 +9149,8 @@
           "self_harm": 27,
           "sexual": 84,
           "url": 85
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "f5579fd451d41f6ebe86b0974096ff5e6fda779c439915dde99e86a72d982c8a",
       "selected_sample_count": 40,
@@ -7665,7 +9252,8 @@
           "self_harm": 33,
           "sexual": 100,
           "url": 84
-        }
+        },
+        "reviewed_source_exclusions": []
       },
       "samples_sha256": "0f59d5f7a5116efbaf8ecbaba818dc271c254c6b6b310b3d0b2cbb2a4a91d437",
       "selected_sample_count": 40,
