@@ -1,6 +1,6 @@
 {
   "arm_evidence_schema": "samplebench-arm-evidence-v1",
-  "arm_evidence_sha256": "635ca272511d8dcad180303fc2a6cd1aa6c9aea4dd78a170fec9b8ab01040ae9",
+  "arm_evidence_sha256": "5c1b719e8974fd38a7509aa335a38e505073f20340f124ac7b7bb225337de25a",
   "cohort_model_counts": {
     "primary": 28
   },
@@ -7498,11 +7498,6 @@
             "generator_id": "owt_v2_plaid_4096_nfe",
             "reason": "Manual review found malformed news text with animal-killing content and encoding artifacts.",
             "source_id": 936
-          },
-          {
-            "generator_id": "owt_v2_plaid_4096_nfe",
-            "reason": "Manual review found replacement-character corruption in a reproductive-health passage.",
-            "source_id": 582
           }
         ],
         "status": "included"
@@ -7522,7 +7517,7 @@
       "provider": null,
       "safety_screen": {
         "policy": "samplebench-public-safety-v1",
-        "rejected_count": 358,
+        "rejected_count": 357,
         "rejected_reason_counts": {
           "email": 29,
           "graphic_violence": 30,
@@ -7531,7 +7526,7 @@
           "phone": 10,
           "profanity": 19,
           "replacement_character": 6,
-          "reviewed_source_exclusion": 37,
+          "reviewed_source_exclusion": 36,
           "self_harm": 19,
           "sexual": 45,
           "url": 139
@@ -7716,11 +7711,6 @@
             "generator_id": "owt_v2_plaid_4096_nfe",
             "reason": "Manual review found malformed news text with animal-killing content and encoding artifacts.",
             "source_id": 936
-          },
-          {
-            "generator_id": "owt_v2_plaid_4096_nfe",
-            "reason": "Manual review found replacement-character corruption in a reproductive-health passage.",
-            "source_id": 582
           }
         ]
       },
@@ -7743,6 +7733,7 @@
         439,
         507,
         581,
+        582,
         590,
         595,
         613,
@@ -7765,7 +7756,6 @@
         919,
         959,
         986,
-        999,
         1023
       ],
       "source_bundle_digest": "ec12cdb8d277e275860318914f76367f13198dee1a9181f24fb69017656a3b65",
@@ -7845,433 +7835,223 @@
         "reviewed_source_exclusions": [
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 17
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 25
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 101
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 111
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 299
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 338
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 392
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 418
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 429
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 514
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 530
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 609
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 620
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 639
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 663
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 734
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 747
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 835
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 913
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 993
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found nuclear-weapons, military, and genocide content unsuitable for public display.",
-            "source_id": 61
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found profanity and malformed editorial text unsuitable for public display.",
+            "reason": "samplebench-public-safety-v1: [profanity] strong profanity.",
             "source_id": 150
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found a social-media handle in conflict and security text.",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handle/contact identifier.",
             "source_id": 166
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found exhibitionism, shooting, and physical-assault content unsuitable for public display.",
+            "reason": "samplebench-public-safety-v1: [sexual] explicit sexual content involving exhibitionism.",
             "source_id": 223
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found profanity in a malformed game-text passage.",
+            "reason": "samplebench-public-safety-v1: [profanity] strong profanity.",
             "source_id": 331
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found terrorism, detention, and criminal-violence content unsuitable for public display.",
-            "source_id": 404
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found fatal-crash, death, and synthetic-drug content involving a minor.",
-            "source_id": 561
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found military content and a specific street address.",
+            "reason": "samplebench-public-safety-v1: [street-address] actual street address.",
             "source_id": 727
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found HTML/editorial artifacts and a social-media handle.",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handle/contact identifier.",
             "source_id": 827
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found sexual-perversion language and malformed text.",
+            "reason": "samplebench-public-safety-v1: [sexual] explicit sexual content.",
             "source_id": 890
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found a specific street address and editorial/video solicitation.",
+            "reason": "samplebench-public-safety-v1: [street-address] actual street address; [solicitation] video/contact solicitation.",
             "source_id": 999
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found direct Gmail/contact-code, GitHub login, advertisement, and social-media solicitation.",
+            "reason": "samplebench-public-safety-v1: [contact] direct contact/credential reference; [solicitation] social-media solicitation.",
             "source_id": 57
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found social-media handles/tweets, email references, and malformed replacement-character rendering.",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handles/contact identifiers.",
             "source_id": 136
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found hacking-operation and social-media content in an incoherent passage.",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handles/contact identifiers.",
             "source_id": 163
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found guns/firearms reporting and Facebook/Twitter contact solicitation.",
+            "reason": "samplebench-public-safety-v1: [solicitation] direct contact solicitation via Facebook/Twitter.",
             "source_id": 186
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found sexual-assault/sexual-abuse reporting, criminal allegations, and fundraising solicitation.",
+            "reason": "samplebench-public-safety-v1: [sexual] sexual-assault/sexual-abuse content; [solicitation] fundraising solicitation.",
             "source_id": 455
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found a malformed game-text passage with repeated death/destruction language.",
-            "source_id": 535
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found largely non-readable Cyrillic-like text with replacement-character rendering.",
-            "source_id": 675
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found military/defense and weapons-related reporting unsuitable for public display.",
-            "source_id": 793
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found sexual-content/police-misconduct reporting and malformed text.",
-            "source_id": 868
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed escaped/encoded text with replacement-character rendering.",
-            "source_id": 921
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed promotional/social-media content and source/editorial artifacts.",
-            "source_id": 1000
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found a malformed roster/listing passage with school and personal-name content.",
-            "source_id": 73
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed political/editorial text with profanity and promotional artifacts.",
+            "reason": "samplebench-public-safety-v1: [profanity] strong profanity.",
             "source_id": 100
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed advertorial climate/economic text unsuitable for public display.",
-            "source_id": 176
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found anti-Muslim/extremist, armed-conflict, explosion, and death content.",
+            "reason": "samplebench-public-safety-v1: [hate-targeting] anti-Muslim hate-targeting content.",
             "source_id": 200
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found firearms/weapons, intelligence, and military/security content.",
-            "source_id": 279
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed pseudo-medical text with sexual, military, and disease-related content.",
-            "source_id": 334
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed political/racial text, explosion content, and social-media/contact artifacts.",
-            "source_id": 391
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed text with violent/threatening content, replacement-character rendering, and advertisements.",
-            "source_id": 568
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed promotional/archive listing text with horror and editorial artifacts.",
-            "source_id": 716
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed pseudo-historical text with killing, sexual, and racialized content.",
-            "source_id": 730
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed cryptocurrency/investment promotion and a request to register in comments.",
+            "reason": "samplebench-public-safety-v1: [solicitation] investment/registration solicitation.",
             "source_id": 876
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed social-media/blog solicitation and political editorial content.",
+            "reason": "samplebench-public-safety-v1: [solicitation] social-media/blog contact solicitation.",
             "source_id": 164
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed political/editorial text with social-media and replacement-character artifacts.",
-            "source_id": 260
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found drug, opioid, addiction, injection, and death content in malformed text.",
-            "source_id": 372
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed personal/business employment and compensation text.",
-            "source_id": 425
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed commercial/product-promotional text.",
-            "source_id": 481
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found severe-injury, death, fire, weapons, and shooting content in malformed text.",
-            "source_id": 510
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed political/financial text with killing and solicitation-like content.",
-            "source_id": 647
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found machinegun, bomb, gunship, shooting, and explosive military content.",
-            "source_id": 763
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found kidnapping, military, war-crimes, grenade, and bombing content.",
-            "source_id": 778
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed commercial/advertorial text with editorial artifacts.",
-            "source_id": 783
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed personal medical/criminal reporting with blood, body-harm, and social-media content.",
-            "source_id": 968
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found Jack-the-Ripper/criminal and concealed-weapons content with malformed encoding.",
-            "source_id": 47
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed privacy/political and commercial text with social-media artifacts.",
-            "source_id": 212
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found explicit self-harm, threats, hateful/sexual, and social-media content.",
+            "reason": "samplebench-public-safety-v1: [self-harm] explicit self-harm content.",
             "source_id": 369
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed combat-sports text with violent and gendered content.",
-            "source_id": 554
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed sports-injury text with replacement-character rendering.",
-            "source_id": 592
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found war, bombing, military, smuggling, and rebel-attack content.",
-            "source_id": 755
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found guns, aggravated assault, homicide, illegal firearms, and criminal-violence content.",
-            "source_id": 787
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found violence, burns, drug/homicide, social-media, and malformed editorial content.",
-            "source_id": 915
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed commercial/technical listing text with editorial artifacts.",
-            "source_id": 930
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found nuclear/radiation and military content with replacement-character rendering.",
-            "source_id": 942
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found death, handgun, bombs, injury, military, and malformed content.",
-            "source_id": 1022
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found largely unreadable malformed text with replacement-character rendering.",
-            "source_id": 174
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed political/conflict text with social-media handles.",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handles/contact identifiers.",
             "source_id": 203
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed personal/editorial text with social-media sharing artifacts.",
-            "source_id": 205
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed sports/editorial text with promotional URLs and social-media handles.",
+            "reason": "samplebench-public-safety-v1: [url] actual URLs/domains; [contact] actual social-media handles.",
             "source_id": 341
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed sports/commercial text with promotional site references and incomplete editorial text.",
+            "reason": "samplebench-public-safety-v1: [url] actual website/domain reference.",
             "source_id": 473
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed security/political text with social-media artifacts and promotional content.",
+            "reason": "samplebench-public-safety-v1: [solicitation] direct newsletter/contact solicitation.",
             "source_id": 700
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed education/fundraising text with payment solicitation and personal-information references.",
+            "reason": "samplebench-public-safety-v1: [solicitation] payment/fundraising solicitation.",
             "source_id": 736
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed personal text involving parental abuse, depression, and children’s trauma.",
-            "source_id": 892
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed hacking/security text involving sensitive data, child-abuse references, and social-media handles.",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handles; [private-detail] sensitive/private data.",
             "source_id": 907
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed commercial/promotional text with street addresses, payment amounts, and social-media attribution.",
+            "reason": "samplebench-public-safety-v1: [street-address] actual street addresses; [solicitation] payment/promotional solicitation.",
             "source_id": 1008
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed medical/political/criminal text with child-related content and fatal-shooting references.",
-            "source_id": 1010
+            "reason": "samplebench-public-safety-v1: [url] actual URL/domain reference; [contact] social-media contact identifier.",
+            "source_id": 48
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [hate-targeting] ethnic-targeting content.",
+            "source_id": 121
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [street-address] actual street addresses.",
+            "source_id": 219
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [sexual] explicit sexual content involving a child.",
+            "source_id": 274
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [url] actual URL/domain reference.",
+            "source_id": 548
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [profanity] strong profanity.",
+            "source_id": 632
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [solicitation] repeated donation/payment/newsletter solicitation.",
+            "source_id": 707
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handle/contact identifier; [private-detail] applicant/location data.",
+            "source_id": 925
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [sexual] sexualized/assault-adjacent content.",
+            "source_id": 235
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [private-detail] identifying private apartment/family details.",
+            "source_id": 356
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [solicitation] financial/investment offer solicitation.",
+            "source_id": 756
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [profanity] strong profanity.",
+            "source_id": 956
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [solicitation] location/contact solicitation.",
+            "source_id": 962
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [solicitation] promotional/contact solicitation.",
+            "source_id": 281
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [hate-targeting] anti-LGBT/hateful targeting content.",
+            "source_id": 789
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [profanity] strong profanity; [graphic-gore] graphic gore.",
+            "source_id": 822
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [solicitation] direct signup/contact solicitation.",
+            "source_id": 610
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [url] actual domain reference; [contact] social-media contact identifier.",
+            "source_id": 663
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handle; [solicitation] social-media follow/contact solicitation.",
+            "source_id": 913
           }
         ],
         "status": "included"
@@ -8291,7 +8071,7 @@
       "provider": "Zhihan Yang",
       "safety_screen": {
         "policy": "samplebench-public-safety-v1",
-        "rejected_count": 496,
+        "rejected_count": 454,
         "rejected_reason_counts": {
           "email": 34,
           "graphic_violence": 47,
@@ -8300,7 +8080,7 @@
           "phone": 10,
           "profanity": 54,
           "replacement_character": 47,
-          "reviewed_source_exclusion": 86,
+          "reviewed_source_exclusion": 44,
           "self_harm": 21,
           "sexual": 55,
           "url": 114
@@ -8308,479 +8088,269 @@
         "reviewed_source_exclusions": [
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 17
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 25
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 101
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 111
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 299
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 338
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 392
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 418
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 429
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 514
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 530
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 609
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 620
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 639
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 663
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 734
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 747
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 835
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 913
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found unsuitable public-facing content in this source row.",
-            "source_id": 993
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found nuclear-weapons, military, and genocide content unsuitable for public display.",
-            "source_id": 61
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found profanity and malformed editorial text unsuitable for public display.",
+            "reason": "samplebench-public-safety-v1: [profanity] strong profanity.",
             "source_id": 150
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found a social-media handle in conflict and security text.",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handle/contact identifier.",
             "source_id": 166
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found exhibitionism, shooting, and physical-assault content unsuitable for public display.",
+            "reason": "samplebench-public-safety-v1: [sexual] explicit sexual content involving exhibitionism.",
             "source_id": 223
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found profanity in a malformed game-text passage.",
+            "reason": "samplebench-public-safety-v1: [profanity] strong profanity.",
             "source_id": 331
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found terrorism, detention, and criminal-violence content unsuitable for public display.",
-            "source_id": 404
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found fatal-crash, death, and synthetic-drug content involving a minor.",
-            "source_id": 561
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found military content and a specific street address.",
+            "reason": "samplebench-public-safety-v1: [street-address] actual street address.",
             "source_id": 727
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found HTML/editorial artifacts and a social-media handle.",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handle/contact identifier.",
             "source_id": 827
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found sexual-perversion language and malformed text.",
+            "reason": "samplebench-public-safety-v1: [sexual] explicit sexual content.",
             "source_id": 890
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found a specific street address and editorial/video solicitation.",
+            "reason": "samplebench-public-safety-v1: [street-address] actual street address; [solicitation] video/contact solicitation.",
             "source_id": 999
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found direct Gmail/contact-code, GitHub login, advertisement, and social-media solicitation.",
+            "reason": "samplebench-public-safety-v1: [contact] direct contact/credential reference; [solicitation] social-media solicitation.",
             "source_id": 57
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found social-media handles/tweets, email references, and malformed replacement-character rendering.",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handles/contact identifiers.",
             "source_id": 136
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found hacking-operation and social-media content in an incoherent passage.",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handles/contact identifiers.",
             "source_id": 163
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found guns/firearms reporting and Facebook/Twitter contact solicitation.",
+            "reason": "samplebench-public-safety-v1: [solicitation] direct contact solicitation via Facebook/Twitter.",
             "source_id": 186
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found sexual-assault/sexual-abuse reporting, criminal allegations, and fundraising solicitation.",
+            "reason": "samplebench-public-safety-v1: [sexual] sexual-assault/sexual-abuse content; [solicitation] fundraising solicitation.",
             "source_id": 455
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found a malformed game-text passage with repeated death/destruction language.",
-            "source_id": 535
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found largely non-readable Cyrillic-like text with replacement-character rendering.",
-            "source_id": 675
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found military/defense and weapons-related reporting unsuitable for public display.",
-            "source_id": 793
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found sexual-content/police-misconduct reporting and malformed text.",
-            "source_id": 868
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed escaped/encoded text with replacement-character rendering.",
-            "source_id": 921
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed promotional/social-media content and source/editorial artifacts.",
-            "source_id": 1000
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found a malformed roster/listing passage with school and personal-name content.",
-            "source_id": 73
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed political/editorial text with profanity and promotional artifacts.",
+            "reason": "samplebench-public-safety-v1: [profanity] strong profanity.",
             "source_id": 100
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed advertorial climate/economic text unsuitable for public display.",
-            "source_id": 176
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found anti-Muslim/extremist, armed-conflict, explosion, and death content.",
+            "reason": "samplebench-public-safety-v1: [hate-targeting] anti-Muslim hate-targeting content.",
             "source_id": 200
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found firearms/weapons, intelligence, and military/security content.",
-            "source_id": 279
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed pseudo-medical text with sexual, military, and disease-related content.",
-            "source_id": 334
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed political/racial text, explosion content, and social-media/contact artifacts.",
-            "source_id": 391
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed text with violent/threatening content, replacement-character rendering, and advertisements.",
-            "source_id": 568
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed promotional/archive listing text with horror and editorial artifacts.",
-            "source_id": 716
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed pseudo-historical text with killing, sexual, and racialized content.",
-            "source_id": 730
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed cryptocurrency/investment promotion and a request to register in comments.",
+            "reason": "samplebench-public-safety-v1: [solicitation] investment/registration solicitation.",
             "source_id": 876
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed social-media/blog solicitation and political editorial content.",
+            "reason": "samplebench-public-safety-v1: [solicitation] social-media/blog contact solicitation.",
             "source_id": 164
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed political/editorial text with social-media and replacement-character artifacts.",
-            "source_id": 260
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found drug, opioid, addiction, injection, and death content in malformed text.",
-            "source_id": 372
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed personal/business employment and compensation text.",
-            "source_id": 425
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed commercial/product-promotional text.",
-            "source_id": 481
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found severe-injury, death, fire, weapons, and shooting content in malformed text.",
-            "source_id": 510
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed political/financial text with killing and solicitation-like content.",
-            "source_id": 647
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found machinegun, bomb, gunship, shooting, and explosive military content.",
-            "source_id": 763
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found kidnapping, military, war-crimes, grenade, and bombing content.",
-            "source_id": 778
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed commercial/advertorial text with editorial artifacts.",
-            "source_id": 783
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed personal medical/criminal reporting with blood, body-harm, and social-media content.",
-            "source_id": 968
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found Jack-the-Ripper/criminal and concealed-weapons content with malformed encoding.",
-            "source_id": 47
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed privacy/political and commercial text with social-media artifacts.",
-            "source_id": 212
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found explicit self-harm, threats, hateful/sexual, and social-media content.",
+            "reason": "samplebench-public-safety-v1: [self-harm] explicit self-harm content.",
             "source_id": 369
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed combat-sports text with violent and gendered content.",
-            "source_id": 554
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed sports-injury text with replacement-character rendering.",
-            "source_id": 592
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found war, bombing, military, smuggling, and rebel-attack content.",
-            "source_id": 755
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found guns, aggravated assault, homicide, illegal firearms, and criminal-violence content.",
-            "source_id": 787
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found violence, burns, drug/homicide, social-media, and malformed editorial content.",
-            "source_id": 915
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed commercial/technical listing text with editorial artifacts.",
-            "source_id": 930
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found nuclear/radiation and military content with replacement-character rendering.",
-            "source_id": 942
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found death, handgun, bombs, injury, military, and malformed content.",
-            "source_id": 1022
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found largely unreadable malformed text with replacement-character rendering.",
-            "source_id": 174
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed political/conflict text with social-media handles.",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handles/contact identifiers.",
             "source_id": 203
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed personal/editorial text with social-media sharing artifacts.",
-            "source_id": 205
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed sports/editorial text with promotional URLs and social-media handles.",
+            "reason": "samplebench-public-safety-v1: [url] actual URLs/domains; [contact] actual social-media handles.",
             "source_id": 341
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed sports/commercial text with promotional site references and incomplete editorial text.",
+            "reason": "samplebench-public-safety-v1: [url] actual website/domain reference.",
             "source_id": 473
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed security/political text with social-media artifacts and promotional content.",
+            "reason": "samplebench-public-safety-v1: [solicitation] direct newsletter/contact solicitation.",
             "source_id": 700
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed education/fundraising text with payment solicitation and personal-information references.",
+            "reason": "samplebench-public-safety-v1: [solicitation] payment/fundraising solicitation.",
             "source_id": 736
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed personal text involving parental abuse, depression, and children’s trauma.",
-            "source_id": 892
-          },
-          {
-            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed hacking/security text involving sensitive data, child-abuse references, and social-media handles.",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handles; [private-detail] sensitive/private data.",
             "source_id": 907
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed commercial/promotional text with street addresses, payment amounts, and social-media attribution.",
+            "reason": "samplebench-public-safety-v1: [street-address] actual street addresses; [solicitation] payment/promotional solicitation.",
             "source_id": 1008
           },
           {
             "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
-            "reason": "Manual review found malformed medical/political/criminal text with child-related content and fatal-shooting references.",
-            "source_id": 1010
+            "reason": "samplebench-public-safety-v1: [url] actual URL/domain reference; [contact] social-media contact identifier.",
+            "source_id": 48
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [hate-targeting] ethnic-targeting content.",
+            "source_id": 121
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [street-address] actual street addresses.",
+            "source_id": 219
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [sexual] explicit sexual content involving a child.",
+            "source_id": 274
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [url] actual URL/domain reference.",
+            "source_id": 548
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [profanity] strong profanity.",
+            "source_id": 632
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [solicitation] repeated donation/payment/newsletter solicitation.",
+            "source_id": 707
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handle/contact identifier; [private-detail] applicant/location data.",
+            "source_id": 925
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [sexual] sexualized/assault-adjacent content.",
+            "source_id": 235
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [private-detail] identifying private apartment/family details.",
+            "source_id": 356
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [solicitation] financial/investment offer solicitation.",
+            "source_id": 756
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [profanity] strong profanity.",
+            "source_id": 956
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [solicitation] location/contact solicitation.",
+            "source_id": 962
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [solicitation] promotional/contact solicitation.",
+            "source_id": 281
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [hate-targeting] anti-LGBT/hateful targeting content.",
+            "source_id": 789
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [profanity] strong profanity; [graphic-gore] graphic gore.",
+            "source_id": 822
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [solicitation] direct signup/contact solicitation.",
+            "source_id": 610
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [url] actual domain reference; [contact] social-media contact identifier.",
+            "source_id": 663
+          },
+          {
+            "generator_id": "owt_v2_replaid_nosc_ddpm_1024_nfe",
+            "reason": "samplebench-public-safety-v1: [contact] actual social-media handle; [solicitation] social-media follow/contact solicitation.",
+            "source_id": 913
           }
         ]
       },
       "samples_sha256": "518d2d10ce436833160df99bb88e859fee5f2682a79fed3d7431625e5d4424ad",
       "selected_sample_count": 40,
       "selected_source_ids": [
-        48,
-        121,
+        17,
+        25,
+        61,
+        101,
+        111,
         124,
         144,
         151,
         195,
         199,
-        202,
         210,
         213,
-        219,
-        234,
-        248,
-        274,
+        299,
         330,
-        357,
+        338,
         387,
-        424,
-        444,
-        447,
+        392,
+        404,
+        418,
+        429,
         465,
         501,
-        548,
-        551,
+        514,
+        530,
         566,
         589,
-        610,
-        632,
+        609,
+        620,
+        639,
         641,
         655,
         665,
-        707,
-        729,
-        737,
+        734,
+        747,
         791,
         811,
+        835,
         840,
-        908,
-        925,
-        933
+        933,
+        993
       ],
       "source_bundle_digest": "ab84a1f24d1aaa5c5897bdec7a5d4ed81ff69376cfabb251dabe6c2c8397639d",
       "source_manifest_sha256": "be2193a70346af2c2780da68955d34f4db455b579deaee0d333923a41fe6cb47",
